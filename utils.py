@@ -199,7 +199,7 @@ def df_to_styled_html(
 
     for col in df.columns:
         # ستون‌های ثابت → فقط متن
-        if col.lower() in ["model", "precision", "#params (b)", "license", "organization"]:
+        if col.lower() in ["model", "precision", "license", "organization"]:
             html += f"<th>{col}</th>"
         else:
             up_color = "color:#999;"
