@@ -203,8 +203,23 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard", active_co
     #         # html += f"<th data-sortable data-table='{table_id}'>{col}<span class='sort-icon'>⇅</span></th>"
     #         html += f"<th><button name='{col}'>{col} ⇅</button></th>"
     for col in df.columns:
-     if col.lower() in FIXED_COLUMNS:
-        html += f"<th>{col}</th>"
+     # if col.lower() in FIXED_COLUMNS:
+     #    html += f"<th>{col}</th>"
+        for col in df.columns:
+    if col.lower() not in ["model", "precision", "#params (b)", "license", "organization"]:
+        btn_asc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_asc")
+        btn_desc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_desc")
+
+        btn_asc.click(
+            make_sort_func(col, df, table_id, True),
+            inputs=None,
+            outputs=output_html,
+        )
+        btn_desc.click(
+            make_sort_func(col, df, table_id, False),
+            inputs=None,
+            outputs=output_html,
+        )
      else:
        
         up_color = "color:#999;"  # پیش‌فرض خاکستری
@@ -235,13 +250,20 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard", active_co
     for _, row in df.iterrows():
         html += "<tr>"
         for col in df.columns:
-            value = row[col]
-            if isinstance(value, (int, float)):
+                value = row[col]
+                # 🟢 اگر خالی/NaN → نمایش "--"
+            if pd.isna(value) or str(value).lower() in ["nan", "none", "--"]:
+                html += "<td>--</td>"
+    
+            # 🟢 اگر عددی → رنگی کن
+            elif isinstance(value, (int, float)):
                 if col == "#Params (B)":
                     html += f"<td>{int(value)}</td>"
                 else:
                     bg = value_to_gradient_range(value)
                     html += f"<td style='background:{bg};'>{value:.1f}</td>"
+    
+            # 🟢 در غیر این صورت → متن عادی
             else:
                 if col == "Model":
                     html += f"<td class='model-col'>{value}</td>"
