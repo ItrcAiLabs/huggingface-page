@@ -69,10 +69,10 @@ CUSTOM_CSS = """
     </style>
     """
 
-def sort_table(col, df, table_id, ascending):
-    sorted_df = df.sort_values(by=col, ascending=ascending)
-    return df_to_styled_html(sorted_df, table_id=table_id, active_col=col, ascending=ascending)
-
+def make_sort_func(col, df, table_id, ascending):
+    def _sort():
+        return sort_table(col, df, table_id, ascending)
+    return _sort
 # ---------------- Gradio App ----------------
 with gr.Blocks(css=CUSTOM_CSS) as demo:
     # # inject JS globally
@@ -183,21 +183,21 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                 output_html = gr.HTML(value=df_to_styled_html(df, table_id=table_id))
 
                 for col in df.columns:
-                    btn_asc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_asc")
-                    btn_desc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_desc")
+                    if col.lower() not in ["model", "precision", "#params (b)"]:  # ستون‌های ثابت حذف
+                        btn_asc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_asc")
+                        btn_desc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_desc")
                 
-                    btn_asc.click(
-                        lambda c=col, d=df, t=table_id: sort_table(c, d, t, True),
-                        inputs=None,
-                        outputs=output_html,
-                    )
-                    btn_desc.click(
-                        lambda c=col, d=df, t=table_id: sort_table(c, d, t, False),
-                        inputs=None,
-                        outputs=output_html,
-                    )
-
-        
+                        btn_asc.click(
+                            make_sort_func(col, df, table_id, True),
+                            inputs=None,
+                            outputs=output_html,
+                        )
+                        btn_desc.click(
+                            make_sort_func(col, df, table_id, False),
+                            inputs=None,
+                            outputs=output_html,
+                        )
+                        
                 search_input.change(
                     fn=make_filter_func(df, table_id),
                     inputs=[search_input, task_selector],
