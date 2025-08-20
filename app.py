@@ -1,6 +1,8 @@
 import gradio as gr
 from utils import submit_request, load_all_data, df_to_styled_html, TASK_GROUPS, filter_table
 
+def sort_table(col, df, table_id, ascending):
+    return df_to_styled_html(df.sort_values(by=col, ascending=ascending), table_id)
 
 # ---------------- Load leaderboard data ----------------
 dfs = load_all_data("data/")
@@ -71,50 +73,7 @@ CUSTOM_CSS = """
 
 # ---------------- Gradio App ----------------
 with gr.Blocks(css=CUSTOM_CSS) as demo:
-    # inject JS globally
-    gr.HTML("""
-    <script>
-    function sortTable(tableId, th) {
-        const table = document.getElementById(tableId);
-        const tbody = table.querySelector("tbody");
-        const rows = Array.from(tbody.querySelectorAll("tr"));
-        const colIndex = Array.from(th.parentNode.children).indexOf(th);
-        const isAsc = th.classList.contains("asc");
-
-        const clean = (val) => val.replace(/[^0-9.\\-]/g, "");
-
-        rows.sort((a, b) => {
-            const A = a.children[colIndex].innerText.trim();
-            const B = b.children[colIndex].innerText.trim();
-            const numA = parseFloat(clean(A));
-            const numB = parseFloat(clean(B));
-            if (!isNaN(numA) && !isNaN(numB)) {
-                return (isAsc ? -1 : 1) * (numA - numB);
-            }
-            return (isAsc ? -1 : 1) * A.localeCompare(B, 'en', {numeric:true});
-        });
-
-        rows.forEach(r => tbody.appendChild(r));
-
-        // reset arrows
-        table.querySelectorAll("th").forEach(t => {
-            t.classList.remove("asc", "desc");
-            const icon = t.querySelector(".sort-icon");
-            if (icon) icon.innerText = "⇅";
-        });
-
-        if (isAsc) {
-            th.classList.remove("asc");
-            th.classList.add("desc");
-            th.querySelector(".sort-icon").innerText = "↓";
-        } else {
-            th.classList.remove("desc");
-            th.classList.add("asc");
-            th.querySelector(".sort-icon").innerText = "↑";
-        }
-    }
-    </script>
-    """)
+   
     with gr.Tab("📊 Persian Leaderboard"):
          # main tabs
         tabs = [
@@ -164,6 +123,33 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         #     label="",
         #     elem_classes=["task-box"],
         # )
+        # for tab_name, df, table_id in tabs:
+        #     with gr.Tab(tab_name):
+        #         tab_tasks = [col for col in TASK_GROUPS[tab_name.split()[1]]]
+        
+        #         gr.Markdown("<div class='section-title'>📑 Select Task Columns</div>")
+        #         task_selector = gr.CheckboxGroup(
+        #             choices=tab_tasks,
+        #             value=tab_tasks,
+        #             label="",
+        #             elem_classes=["task-box"],
+        #         )
+        
+        #         output_html = gr.HTML(value=df_to_styled_html(df, table_id=table_id))
+        
+        #         search_input.change(
+        #             fn=make_filter_func(df, table_id),
+        #             inputs=[search_input, task_selector],
+        #             outputs=output_html,
+        #         )
+        #         task_selector.change(
+        #             fn=make_filter_func(df, table_id),
+        #             inputs=[search_input, task_selector],
+        #             outputs=output_html,
+        #         )
+
+        ascending = gr.State(True)   # وضعیت صعودی/نزولی رو نگه می‌داریم
+
         for tab_name, df, table_id in tabs:
             with gr.Tab(tab_name):
                 tab_tasks = [col for col in TASK_GROUPS[tab_name.split()[1]]]
@@ -178,6 +164,7 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         
                 output_html = gr.HTML(value=df_to_styled_html(df, table_id=table_id))
         
+                # 🔍 سرچ
                 search_input.change(
                     fn=make_filter_func(df, table_id),
                     inputs=[search_input, task_selector],
@@ -188,9 +175,21 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                     inputs=[search_input, task_selector],
                     outputs=output_html,
                 )
-
-
         
+                # 🔽 دکمه‌های سورت برای هر ستون
+                for col in df.columns:
+                    if col.lower() not in ["model", "precision", "#params (b)"]:  # ثابت‌ها حذف
+                        btn = gr.Button(f"Sort by {col}")
+                        btn.click(
+                            lambda asc, c=col: (
+                                df_to_styled_html(df.sort_values(by=c, ascending=asc), table_id),
+                                not asc,
+                            ),
+                            inputs=ascending,
+                            outputs=[output_html, ascending],
+                        )
+        
+                
        
 
         # for tab_name, df, table_id in tabs:
