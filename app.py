@@ -70,7 +70,14 @@ CUSTOM_CSS = """
 
 
 # ---------------- Gradio App ----------------
+# ---------------- Gradio App ----------------
 with gr.Blocks(css=CUSTOM_CSS) as demo:
+    # inject sort.js globally 
+    with open("static/sort.js", "r", encoding="utf-8") as f:
+        sort_js = f.read()
+    gr.HTML(f"<script>{sort_js}</script>")
+
+    
     
     with gr.Tab("📊 Persian Leaderboard"):
          # main tabs
