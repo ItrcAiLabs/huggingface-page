@@ -12,13 +12,14 @@ df_aut = dfs["AUT"]
 CUSTOM_CSS = """
 <style>
     .main-title {
-        font-family: 'Poppins','Vazirmatn',sans-serif !important;
-        font-size: 34px !important;
-        font-weight: 500 !important;
-        color: #222 !important;
-        text-align: center;
-        margin: 5px 0 15px 0 !important;
-    }
+    font-family: 'Nunito','Vazirmatn',sans-serif !important;
+    font-size: 38px !important;   
+    font-weight: 300 !important;  
+    color: #333 !important;
+    text-align: center;
+    margin: 10px 0 20px 0 !important;
+    letter-spacing: 1px;          
+}
     .section-title {
         font-size: 18px !important;
         font-weight: 700 !important;
