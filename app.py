@@ -87,29 +87,29 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         #     elem_classes=["task-box"],
         # )
         for tab_name, df, table_id in tabs:
-        with gr.Tab(tab_name):
-            tab_tasks = [col for col in TASK_GROUPS[tab_name.split()[1]]]
-    
-            gr.Markdown("<div class='section-title'>📑 Select Task Columns</div>")
-            task_selector = gr.CheckboxGroup(
-                choices=tab_tasks,
-                value=tab_tasks,
-                label="",
-                elem_classes=["task-box"],
-            )
-    
-            output_html = gr.HTML(value=df_to_styled_html(df, table_id=table_id))
-    
-            search_input.change(
-                fn=make_filter_func(df, table_id),
-                inputs=[search_input, task_selector],
-                outputs=output_html,
-            )
-            task_selector.change(
-                fn=make_filter_func(df, table_id),
-                inputs=[search_input, task_selector],
-                outputs=output_html,
-            )
+            with gr.Tab(tab_name):
+                tab_tasks = [col for col in TASK_GROUPS[tab_name.split()[1]]]
+        
+                gr.Markdown("<div class='section-title'>📑 Select Task Columns</div>")
+                task_selector = gr.CheckboxGroup(
+                    choices=tab_tasks,
+                    value=tab_tasks,
+                    label="",
+                    elem_classes=["task-box"],
+                )
+        
+                output_html = gr.HTML(value=df_to_styled_html(df, table_id=table_id))
+        
+                search_input.change(
+                    fn=make_filter_func(df, table_id),
+                    inputs=[search_input, task_selector],
+                    outputs=output_html,
+                )
+                task_selector.change(
+                    fn=make_filter_func(df, table_id),
+                    inputs=[search_input, task_selector],
+                    outputs=output_html,
+                )
 
 
         # 🔄 Helper function for connecting correct dataframe
