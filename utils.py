@@ -7,6 +7,64 @@ import pytz
 from datasets import load_dataset, Dataset
 
 FIXED_COLUMNS = ["model", "params", "license", "precision", "type"]
+def test_sort_table(table_id="test_table"):
+    html = """
+    <table id='{0}' border='1'>
+        <thead>
+            <tr>
+                <th onclick="sortTable('{0}', this)">Name <span class='sort-icon'></span></th>
+                <th onclick="sortTable('{0}', this)">Score <span class='sort-icon'></span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Ali</td><td>45</td></tr>
+            <tr><td>Zahra</td><td>88</td></tr>
+            <tr><td>Reza</td><td>72</td></tr>
+        </tbody>
+    </table>
+
+    <script>
+    console.log("✅ sortTable loaded!");
+
+    function sortTable(tableId, th) {
+        console.log("🔄 clicked!");
+        const table = document.getElementById(tableId);
+        const tbody = table.querySelector("tbody");
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+        const colIndex = Array.from(th.parentNode.children).indexOf(th);
+        const isAsc = th.classList.contains("asc");
+
+        const clean = (val) => val.replace(/[^0-9.\\-]/g, "");
+
+        rows.sort((a, b) => {
+            const A = a.children[colIndex].innerText.trim();
+            const B = b.children[colIndex].innerText.trim();
+            const numA = parseFloat(clean(A));
+            const numB = parseFloat(clean(B));
+
+            if (!isNaN(numA) && !isNaN(numB)) {
+                return (isAsc ? -1 : 1) * (numA - numB);
+            }
+            return (isAsc ? -1 : 1) * A.localeCompare(B, 'en', {numeric:true});
+        });
+
+        rows.forEach(r => tbody.appendChild(r));
+
+        table.querySelectorAll("th").forEach(t => t.classList.remove("asc", "desc"));
+        if (isAsc) {
+            th.classList.remove("asc");
+            th.classList.add("desc");
+            th.querySelector(".sort-icon").innerText = "▼";
+        } else {
+            th.classList.remove("desc");
+            th.classList.add("asc");
+            th.querySelector(".sort-icon").innerText = "▲";
+        }
+    }
+    </script>
+    """.format(table_id)
+
+    return html
 
 # ---------------- Task Groups ----------------
 TASK_GROUPS = {
