@@ -261,7 +261,12 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
     # لینک مدل‌ها (فقط اگه HuggingFace public باشه)
     if "Model" in df.columns:
         def linkify(m):
-            if isinstance(m, str) and "/" in m and not m.lower().startswith("openai/"):
+            if isinstance(m, str) and "/" in m:
+                # مدل‌های close-source → فقط متن
+                if m.lower().startswith("openai/") or \
+                   m.lower().startswith("anthropic/") or \
+                   m.lower().startswith("google/"):
+                    return str(m)
                 return f"<a href='https://huggingface.co/{m}' target='_blank'>{m}</a>"
             return str(m)
         df["Model"] = df["Model"].apply(linkify)
