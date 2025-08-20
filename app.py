@@ -69,53 +69,56 @@ CUSTOM_CSS = """
     </style>
     """
 
+def sort_table(col, df, table_id, ascending):
+    sorted_df = df.sort_values(by=col, ascending=ascending)
+    return df_to_styled_html(sorted_df, table_id=table_id, active_col=col, ascending=ascending)
 
 # ---------------- Gradio App ----------------
 with gr.Blocks(css=CUSTOM_CSS) as demo:
-    # inject JS globally
-    gr.HTML("""
-    <script>
-    function sortTable(tableId, th) {
-        const table = document.getElementById(tableId);
-        const tbody = table.querySelector("tbody");
-        const rows = Array.from(tbody.querySelectorAll("tr"));
-        const colIndex = Array.from(th.parentNode.children).indexOf(th);
-        const isAsc = th.classList.contains("asc");
+    # # inject JS globally
+    # gr.HTML("""
+    # <script>
+    # function sortTable(tableId, th) {
+    #     const table = document.getElementById(tableId);
+    #     const tbody = table.querySelector("tbody");
+    #     const rows = Array.from(tbody.querySelectorAll("tr"));
+    #     const colIndex = Array.from(th.parentNode.children).indexOf(th);
+    #     const isAsc = th.classList.contains("asc");
 
-        const clean = (val) => val.replace(/[^0-9.\\-]/g, "");
+    #     const clean = (val) => val.replace(/[^0-9.\\-]/g, "");
 
-        rows.sort((a, b) => {
-            const A = a.children[colIndex].innerText.trim();
-            const B = b.children[colIndex].innerText.trim();
-            const numA = parseFloat(clean(A));
-            const numB = parseFloat(clean(B));
-            if (!isNaN(numA) && !isNaN(numB)) {
-                return (isAsc ? -1 : 1) * (numA - numB);
-            }
-            return (isAsc ? -1 : 1) * A.localeCompare(B, 'en', {numeric:true});
-        });
+    #     rows.sort((a, b) => {
+    #         const A = a.children[colIndex].innerText.trim();
+    #         const B = b.children[colIndex].innerText.trim();
+    #         const numA = parseFloat(clean(A));
+    #         const numB = parseFloat(clean(B));
+    #         if (!isNaN(numA) && !isNaN(numB)) {
+    #             return (isAsc ? -1 : 1) * (numA - numB);
+    #         }
+    #         return (isAsc ? -1 : 1) * A.localeCompare(B, 'en', {numeric:true});
+    #     });
 
-        rows.forEach(r => tbody.appendChild(r));
+    #     rows.forEach(r => tbody.appendChild(r));
 
-        // reset arrows
-        table.querySelectorAll("th").forEach(t => {
-            t.classList.remove("asc", "desc");
-            const icon = t.querySelector(".sort-icon");
-            if (icon) icon.innerText = "⇅";
-        });
+    #     // reset arrows
+    #     table.querySelectorAll("th").forEach(t => {
+    #         t.classList.remove("asc", "desc");
+    #         const icon = t.querySelector(".sort-icon");
+    #         if (icon) icon.innerText = "⇅";
+    #     });
 
-        if (isAsc) {
-            th.classList.remove("asc");
-            th.classList.add("desc");
-            th.querySelector(".sort-icon").innerText = "↓";
-        } else {
-            th.classList.remove("desc");
-            th.classList.add("asc");
-            th.querySelector(".sort-icon").innerText = "↑";
-        }
-    }
-    </script>
-    """)
+    #     if (isAsc) {
+    #         th.classList.remove("asc");
+    #         th.classList.add("desc");
+    #         th.querySelector(".sort-icon").innerText = "↓";
+    #     } else {
+    #         th.classList.remove("desc");
+    #         th.classList.add("asc");
+    #         th.querySelector(".sort-icon").innerText = "↑";
+    #     }
+    # }
+    # </script>
+    # """)
     with gr.Tab("📊 Persian Leaderboard"):
          # main tabs
         tabs = [
@@ -178,6 +181,22 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                 )
         
                 output_html = gr.HTML(value=df_to_styled_html(df, table_id=table_id))
+
+                for col in df.columns:
+                    btn_asc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_asc")
+                    btn_desc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_desc")
+                
+                    btn_asc.click(
+                        lambda c=col, d=df, t=table_id: sort_table(c, d, t, True),
+                        inputs=None,
+                        outputs=output_html,
+                    )
+                    btn_desc.click(
+                        lambda c=col, d=df, t=table_id: sort_table(c, d, t, False),
+                        inputs=None,
+                        outputs=output_html,
+                    )
+
         
                 search_input.change(
                     fn=make_filter_func(df, table_id),
