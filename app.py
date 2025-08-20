@@ -11,23 +11,24 @@ df_aut = dfs["AUT"]
 # ---------------- Custom CSS ----------------
 CUSTOM_CSS = """
 <style>
-.main-title {
-    display: block;
-    text-align: center;
+    .main-title {
+        display: block !important;
+        text-align: center !important;
+    
+        font-family: 'Raleway','Vazirmatn',sans-serif !important;
+        font-size: 42px !important;
+        font-weight: 600 !important;
+    
+        background: linear-gradient(90deg, #1e40af, #2563eb) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+    
+        text-shadow: 0px 3px 8px rgba(37, 99, 235, 0.25) !important;
+    
+        margin: 20px 0 30px 0 !important;
+        letter-spacing: 1.2px !important;
+    }
 
-    font-family: 'Raleway','Vazirmatn',sans-serif !important;
-    font-size: 42px !important;
-    font-weight: 600 !important;
-
-    background: linear-gradient(90deg, #1e40af, #2563eb);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-
-    text-shadow: 0px 3px 8px rgba(37, 99, 235, 0.25);
-
-    margin: 20px 0 30px 0 !important;
-    letter-spacing: 1.2px;
-}
 
 
     .section-title {
@@ -65,7 +66,8 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
     with gr.Tab("📊 Persian Leaderboard"):
 
         # 🏆 Title
-        gr.HTML("<span class='main-title'>Tarazban Leaderboard</span>")
+        gr.HTML("<div class='main-title'>Tarazban Leaderboard</div>")
+
 
 
         # 🔍 Search bar at top
@@ -76,16 +78,41 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         )
 
         # ✅ Task selector below search
-        gr.Markdown("<div class='section-title'>📑 Select Task Columns</div>")
-        all_tasks = [col for group in TASK_GROUPS.values() for col in group]
-        task_selector = gr.CheckboxGroup(
-            choices=all_tasks,
-            value=all_tasks,
-            label="",
-            elem_classes=["task-box"],
-        )
+        # gr.Markdown("<div class='section-title'>📑 Select Task Columns</div>")
+        # all_tasks = [col for group in TASK_GROUPS.values() for col in group]
+        # task_selector = gr.CheckboxGroup(
+        #     choices=all_tasks,
+        #     value=all_tasks,
+        #     label="",
+        #     elem_classes=["task-box"],
+        # )
+        for tab_name, df, table_id in tabs:
+        with gr.Tab(tab_name):
+            tab_tasks = [col for col in TASK_GROUPS[tab_name.split()[1]]]
+    
+            gr.Markdown("<div class='section-title'>📑 Select Task Columns</div>")
+            task_selector = gr.CheckboxGroup(
+                choices=tab_tasks,
+                value=tab_tasks,
+                label="",
+                elem_classes=["task-box"],
+            )
+    
+            output_html = gr.HTML(value=df_to_styled_html(df, table_id=table_id))
+    
+            search_input.change(
+                fn=make_filter_func(df, table_id),
+                inputs=[search_input, task_selector],
+                outputs=output_html,
+            )
+            task_selector.change(
+                fn=make_filter_func(df, table_id),
+                inputs=[search_input, task_selector],
+                outputs=output_html,
+            )
 
-        # 🔄 Helper function برای اتصال دیتافریم درست
+
+        # 🔄 Helper function for connecting correct dataframe
         def make_filter_func(current_df, table_id):
             return lambda s, tasks: filter_table(s, tasks, current_df, table_id=table_id)
 
