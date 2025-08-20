@@ -46,35 +46,90 @@ TASK_GROUPS = {
 }
 
 # ---------------- Style ----------------
+# HTML_STYLE = """
+# <style>
+#     @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600&family=Roboto:wght@400;500&display=swap');
+
+#     body, table {
+#         font-family: 'Vazirmatn', 'Roboto', sans-serif;
+#     }
+#     .styled-table {
+#         width: 100%;
+#         border-collapse: collapse;
+#         font-size: 13px;
+#         border: 1px solid #eee;
+#     }
+#     .styled-table th {
+#         background-color: #f9f9f9;
+#         font-weight: 600;
+#         padding: 6px 8px;
+#         border: 1px solid #eee;
+#         text-align: center;
+#         font-size: 12px;
+#     }
+#     .styled-table td {
+#         padding: 6px 8px;
+#         border: 1px solid #eee;
+#         font-size: 12px;
+#         color: #222;
+#         background-repeat: no-repeat;
+#         background-size: 100% 100%;
+#         text-align: center;
+#     }
+#     .styled-table tr:nth-child(even) {
+#         background-color: #fcfcfc;
+#     }
+#     .styled-table tr:hover {
+#         background-color: #f1f7ff;
+#     }
+#     .model-col a {
+#         color: #0077ff;
+#         text-decoration: none;
+#         font-weight: 500;
+#     }
+#     .model-col a:hover {
+#         text-decoration: underline;
+#     }
+# </style>
+# """
+# ---------------- Style ----------------
 HTML_STYLE = """
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600&family=Roboto:wght@400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600&family=Poppins:wght@500;700&display=swap');
 
     body, table {
-        font-family: 'Vazirmatn', 'Roboto', sans-serif;
+        font-family: 'Vazirmatn', 'Poppins', sans-serif;
+    }
+    .main-title {
+        font-family: 'Poppins', 'Vazirmatn', sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: #222;
+        text-align: center;
+        margin: 20px 0 30px 0;
     }
     .styled-table {
         width: 100%;
         border-collapse: collapse;
         font-size: 13px;
-        border: 1px solid #eee;
+        border: 1px solid #f5f5f5;
     }
     .styled-table th {
-        background-color: #f9f9f9;
+        background-color: #fafafa;
         font-weight: 600;
-        padding: 6px 8px;
-        border: 1px solid #eee;
+        padding: 8px 10px;
+        border: 1px solid #f3f3f3;
         text-align: center;
         font-size: 12px;
     }
     .styled-table td {
         padding: 6px 8px;
-        border: 1px solid #eee;
+        border: 1px solid #f3f3f3;
         font-size: 12px;
         color: #222;
+        text-align: center;
         background-repeat: no-repeat;
         background-size: 100% 100%;
-        text-align: center;
     }
     .styled-table tr:nth-child(even) {
         background-color: #fcfcfc;
@@ -83,7 +138,7 @@ HTML_STYLE = """
         background-color: #f1f7ff;
     }
     .model-col a {
-        color: #0077ff;
+        color: #0066cc;
         text-decoration: none;
         font-weight: 500;
     }
@@ -92,6 +147,7 @@ HTML_STYLE = """
     }
 </style>
 """
+
 
 # ---------------- Load Data ----------------
 def load_all_data(path: str):
@@ -148,6 +204,50 @@ def value_to_gradient_range(value: float, min_val: float = 0, max_val: float = 1
     return f"linear-gradient(90deg, rgba({r},{g},{b},0.4), rgba({r},{g},{b},0.9))"
 
 # ---------------- Table Renderer ----------------
+# def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
+#     """Convert DataFrame into styled HTML leaderboard table with gradients."""
+#     if df.empty:
+#         return "<p>No results found.</p>"
+
+#     # حذف ردیف‌های نامعتبر
+#     task_columns = [c for c in df.columns if c not in ["Model", "Precision", "#Params (B)"]]
+#     df = df.dropna(how="all", subset=task_columns)
+#     df = df[~df[task_columns].apply(lambda row: all(str(v) in ["--", "nan", "NaN"] for v in row), axis=1)]
+
+#     # لینک مدل‌ها
+#     if "Model" in df.columns:
+#         df["Model"] = df["Model"].apply(
+#             lambda m: f"<a href='https://huggingface.co/{m}' target='_blank'>{m}</a>"
+#             if isinstance(m, str) and "/" in m else str(m)
+#         )
+
+#     # HTML Table
+#     html = HTML_STYLE
+#     html += f"<table id='{table_id}' class='styled-table'>"
+#     html += "<thead><tr>"
+#     for col in df.columns:
+#         html += f"<th>{col}</th>"
+#     html += "</tr></thead><tbody>"
+
+#     for _, row in df.iterrows():
+#         html += "<tr>"
+#         for col in df.columns:
+#             value = row[col]
+#             if isinstance(value, (int, float)):
+#                 if col == "#Params (B)":
+#                     html += f"<td>{int(value)}</td>"
+#                 else:
+#                     bg = value_to_gradient_range(value)
+#                     html += f"<td style='background:{bg};'>{value:.1f}</td>"
+#             else:
+#                 if col == "Model":
+#                     html += f"<td class='model-col'>{value}</td>"
+#                 else:
+#                     html += f"<td>{value}</td>"
+#         html += "</tr>"
+#     html += "</tbody></table>"
+
+#     return html
 def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
     """Convert DataFrame into styled HTML leaderboard table with gradients."""
     if df.empty:
@@ -158,15 +258,17 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
     df = df.dropna(how="all", subset=task_columns)
     df = df[~df[task_columns].apply(lambda row: all(str(v) in ["--", "nan", "NaN"] for v in row), axis=1)]
 
-    # لینک مدل‌ها
+    # لینک مدل‌ها (فقط اگه HuggingFace public باشه)
     if "Model" in df.columns:
-        df["Model"] = df["Model"].apply(
-            lambda m: f"<a href='https://huggingface.co/{m}' target='_blank'>{m}</a>"
-            if isinstance(m, str) and "/" in m else str(m)
-        )
+        def linkify(m):
+            if isinstance(m, str) and "/" in m and not m.lower().startswith("openai/"):
+                return f"<a href='https://huggingface.co/{m}' target='_blank'>{m}</a>"
+            return str(m)
+        df["Model"] = df["Model"].apply(linkify)
 
     # HTML Table
     html = HTML_STYLE
+    html += "<h1 class='main-title'>Tarazban Leaderboard</h1>"
     html += f"<table id='{table_id}' class='styled-table'>"
     html += "<thead><tr>"
     for col in df.columns:
