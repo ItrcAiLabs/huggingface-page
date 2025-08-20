@@ -91,11 +91,12 @@ body, .gradio-container {
 
 /* قاب کلی جدول */
 .table-wrapper {
-    border: 1px solid #eee;
+    border: 1px solid #f3f4f6;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
     margin: 20px 0;
-    overflow-x: auto;   /* 🔥 اسکرول افقی */
+    overflow-x: auto;
+    background: #fff;
 }
 
 /* جدول مینیمال */
@@ -104,6 +105,45 @@ body, .gradio-container {
     border-collapse: collapse;
     font-family: 'Inter','Vazirmatn',sans-serif;
     font-size: 14px;
+    min-width: 800px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* هدر */
+.styled-table thead {
+    background: linear-gradient(90deg, #e0f2fe, #bfdbfe); /* 🔵 آبی ملایم */
+    border-bottom: 2px solid #e5e7eb;
+}
+.styled-table th {
+    padding: 14px 12px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #1e3a8a; /* آبی تیره برای متن */
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+/* بدنه */
+.styled-table td {
+    padding: 14px 12px;
+    font-size: 14px;
+    color: #333;
+    border-bottom: 1px solid #f3f4f6; /* 🔹 خطوط خیلی ملایم */
+    white-space: nowrap;
+}
+
+/* راه‌راه */
+.styled-table tbody tr:nth-child(even) {
+    background: #fafafa;
+}
+
+/* افکت هاور */
+.styled-table tbody tr:hover {
+    background:
+
 
 # .styled-table {
 #     width: 100%;
