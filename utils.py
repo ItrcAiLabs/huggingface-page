@@ -214,45 +214,48 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
 
     html += "</tbody></table>"
 
-    # جاوااسکریپت برای مرتب‌سازی
     html += """
     <script>
-    function sortTable(tableId, th) {
-        const table = document.getElementById(tableId);
-        const rows = Array.from(table.querySelectorAll("tbody tr"));
-        const colIndex = Array.from(th.parentNode.children).indexOf(th);
-        const isAsc = th.classList.contains("asc");
+function sortTable(tableId, th) {
+    const table = document.getElementById(tableId);
+    const tbody = table.querySelector("tbody");
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+    const colIndex = Array.from(th.parentNode.children).indexOf(th);
+    const isAsc = th.classList.contains("asc");
 
-        rows.sort((a, b) => {
-            const A = a.children[colIndex].innerText.trim();
-            const B = b.children[colIndex].innerText.trim();
+    const clean = (val) => val.replace(/[^0-9.\-]/g, "");
 
-            const numA = parseFloat(A.replace(/,/g, ""));
-            const numB = parseFloat(B.replace(/,/g, ""));
-            if (!isNaN(numA) && !isNaN(numB)) {
-                return (isAsc ? -1 : 1) * (numA - numB);
-            }
-            return (isAsc ? -1 : 1) * A.localeCompare(B, 'en', {numeric:true});
-        });
+    rows.sort((a, b) => {
+        const A = a.children[colIndex].innerText.trim();
+        const B = b.children[colIndex].innerText.trim();
 
-        rows.forEach(r => table.querySelector("tbody").appendChild(r));
+        const numA = parseFloat(clean(A));
+        const numB = parseFloat(clean(B));
 
-        // حذف کلاس از همه‌ی ستون‌ها
-        table.querySelectorAll("th").forEach(t => {
-            t.classList.remove("asc", "desc");
-        });
-
-        // افزودن کلاس جدید
-        if (isAsc) {
-            th.classList.remove("asc");
-            th.classList.add("desc");
-        } else {
-            th.classList.remove("desc");
-            th.classList.add("asc");
+        if (!isNaN(numA) && !isNaN(numB)) {
+            return (isAsc ? -1 : 1) * (numA - numB);
         }
+        return (isAsc ? -1 : 1) * A.localeCompare(B, 'en', {numeric:true});
+    });
+
+    rows.forEach(r => tbody.appendChild(r));
+
+    
+    table.querySelectorAll("th").forEach(t => t.classList.remove("asc", "desc"));
+
+    if (isAsc) {
+        th.classList.remove("asc");
+        th.classList.add("desc");
+    } else {
+        th.classList.remove("desc");
+        th.classList.add("asc");
     }
-    </script>
+}
+</script>
+
     """
+    html += "</tbody></table>"
+
     return html
 
 # ---------------- Filter ----------------
