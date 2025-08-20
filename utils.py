@@ -269,7 +269,6 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
                     html += f"<td>{value}</td>"
         html += "</tr>"
 
-    html += "</tbody></table>"
 
     html += "</tbody></table>"
 
