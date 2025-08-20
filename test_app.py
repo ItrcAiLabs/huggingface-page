@@ -76,9 +76,29 @@ CUSTOM_CSS = """
 }
 """
 
+# def make_sort_func(col, df, table_id, ascending):
+#     def _sort():
+#         sorted_df = df.sort_values(by=col, ascending=ascending)
+#         return df_to_styled_html(
+#             sorted_df,
+#             table_id=table_id,
+#             active_col=col,
+#             ascending=ascending,
+#         )
+#     return _sort
 def make_sort_func(col, df, table_id, ascending):
     def _sort():
-        sorted_df = df.sort_values(by=col, ascending=ascending)
+        temp_df = df.copy()
+
+        # 🟢 اگه ستون عددی باشه → همه چیز رو به عدد تبدیل کن (غیرعددی میشه NaN)
+        if col in temp_df.columns:
+            temp_df[col] = pd.to_numeric(temp_df[col], errors="coerce")
+
+        # 🟢 مرتب‌سازی (NaN ها میرن آخر جدول)
+        sorted_df = temp_df.sort_values(
+            by=col, ascending=ascending, na_position="last"
+        )
+
         return df_to_styled_html(
             sorted_df,
             table_id=table_id,
@@ -86,6 +106,7 @@ def make_sort_func(col, df, table_id, ascending):
             ascending=ascending,
         )
     return _sort
+
 
 
 # ---------------- Gradio App ----------------
