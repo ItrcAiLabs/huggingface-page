@@ -6,6 +6,8 @@ from datetime import datetime
 import pytz
 from datasets import load_dataset, Dataset
 
+FIXED_COLUMNS = ["model", "params", "license", "precision", "type"]
+
 # ---------------- Task Groups ----------------
 TASK_GROUPS = {
     "SBU": [
@@ -44,54 +46,6 @@ TASK_GROUPS = {
     ],
     "AUT": []
 }
-
-# ---------------- Style ----------------
-# HTML_STYLE = """
-# <style>
-#     @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600&family=Roboto:wght@400;500&display=swap');
-
-#     body, table {
-#         font-family: 'Vazirmatn', 'Roboto', sans-serif;
-#     }
-#     .styled-table {
-#         width: 100%;
-#         border-collapse: collapse;
-#         font-size: 13px;
-#         border: 1px solid #eee;
-#     }
-#     .styled-table th {
-#         background-color: #f9f9f9;
-#         font-weight: 600;
-#         padding: 6px 8px;
-#         border: 1px solid #eee;
-#         text-align: center;
-#         font-size: 12px;
-#     }
-#     .styled-table td {
-#         padding: 6px 8px;
-#         border: 1px solid #eee;
-#         font-size: 12px;
-#         color: #222;
-#         background-repeat: no-repeat;
-#         background-size: 100% 100%;
-#         text-align: center;
-#     }
-#     .styled-table tr:nth-child(even) {
-#         background-color: #fcfcfc;
-#     }
-#     .styled-table tr:hover {
-#         background-color: #f1f7ff;
-#     }
-#     .model-col a {
-#         color: #0077ff;
-#         text-decoration: none;
-#         font-weight: 500;
-#     }
-#     .model-col a:hover {
-#         text-decoration: underline;
-#     }
-# </style>
-# """
 # ---------------- Style ----------------
 HTML_STYLE = """
 <style>
@@ -205,50 +159,6 @@ def value_to_gradient_range(value: float, min_val: float = 0, max_val: float = 1
     return f"linear-gradient(90deg, rgba({r},{g},{b},0.4), rgba({r},{g},{b},0.9))"
 
 # ---------------- Table Renderer ----------------
-# def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
-#     """Convert DataFrame into styled HTML leaderboard table with gradients."""
-#     if df.empty:
-#         return "<p>No results found.</p>"
-
-#     # حذف ردیف‌های نامعتبر
-#     task_columns = [c for c in df.columns if c not in ["Model", "Precision", "#Params (B)"]]
-#     df = df.dropna(how="all", subset=task_columns)
-#     df = df[~df[task_columns].apply(lambda row: all(str(v) in ["--", "nan", "NaN"] for v in row), axis=1)]
-
-#     # لینک مدل‌ها
-#     if "Model" in df.columns:
-#         df["Model"] = df["Model"].apply(
-#             lambda m: f"<a href='https://huggingface.co/{m}' target='_blank'>{m}</a>"
-#             if isinstance(m, str) and "/" in m else str(m)
-#         )
-
-#     # HTML Table
-#     html = HTML_STYLE
-#     html += f"<table id='{table_id}' class='styled-table'>"
-#     html += "<thead><tr>"
-#     for col in df.columns:
-#         html += f"<th>{col}</th>"
-#     html += "</tr></thead><tbody>"
-
-#     for _, row in df.iterrows():
-#         html += "<tr>"
-#         for col in df.columns:
-#             value = row[col]
-#             if isinstance(value, (int, float)):
-#                 if col == "#Params (B)":
-#                     html += f"<td>{int(value)}</td>"
-#                 else:
-#                     bg = value_to_gradient_range(value)
-#                     html += f"<td style='background:{bg};'>{value:.1f}</td>"
-#             else:
-#                 if col == "Model":
-#                     html += f"<td class='model-col'>{value}</td>"
-#                 else:
-#                     html += f"<td>{value}</td>"
-#         html += "</tr>"
-#     html += "</tbody></table>"
-
-#     return html
 def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
     """Convert DataFrame into styled HTML leaderboard table with gradients."""
     if df.empty:
@@ -277,7 +187,11 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
     html += f"<table id='{table_id}' class='styled-table'>"
     html += "<thead><tr>"
     for col in df.columns:
-        html += f"<th>{col}</th>"
+        if col.lower() in FIXED_COLUMNS:
+            html += f"<th>{col}</th>"
+        else:
+            html += f"<th onclick=\"sortTable('{table_id}', this)\">{col} <span class='arrow'></span></th>"
+
     html += "</tr></thead><tbody>"
 
     for _, row in df.iterrows():
@@ -296,7 +210,50 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
                 else:
                     html += f"<td>{value}</td>"
         html += "</tr>"
-    html += "</tbody></table>"
+    # html += "</tbody></table>"
+    html += """
+        <script>
+        function sortTable(tableId, th) {
+            const table = document.getElementById(tableId);
+            const rows = Array.from(table.querySelectorAll("tbody tr"));
+            const colIndex = Array.from(th.parentNode.children).indexOf(th);
+            const isAsc = th.classList.contains("asc");
+        
+            // مرتب‌سازی
+            rows.sort((a, b) => {
+                const A = a.children[colIndex].innerText.trim();
+                const B = b.children[colIndex].innerText.trim();
+        
+                const numA = parseFloat(A.replace(/,/g, ""));
+                const numB = parseFloat(B.replace(/,/g, ""));
+                if (!isNaN(numA) && !isNaN(numB)) {
+                    return (isAsc ? -1 : 1) * (numA - numB);
+                }
+                return (isAsc ? -1 : 1) * A.localeCompare(B, 'en', {numeric:true});
+            });
+        
+            rows.forEach(r => table.querySelector("tbody").appendChild(r));
+        
+            // فلش‌ها
+            table.querySelectorAll("th").forEach(t => {
+                t.classList.remove("asc", "desc");
+                const arrow = t.querySelector(".arrow");
+                if (arrow) arrow.innerText = "";
+            });
+        
+            if (isAsc) {
+                th.classList.remove("asc");
+                th.classList.add("desc");
+                th.querySelector(".arrow").innerText = "▼"; // نزولی
+            } else {
+                th.classList.remove("desc");
+                th.classList.add("asc");
+                th.querySelector(".arrow").innerText = "▲"; // صعودی
+            }
+        }
+        </script>
+        """
+
 
     return html
 
