@@ -57,6 +57,19 @@ CUSTOM_CSS = """
         background: #f7f7f7 !important;
         border: 1px solid #ddd !important;
     }
+    th {
+        cursor: pointer;
+        position: relative;
+        padding-right: 18px;
+    }
+
+    th .arrow {
+        position: absolute;
+        right: 5px;
+        font-size: 12px;
+        opacity: 0.7;
+    }
+
 </style>
 """
 
