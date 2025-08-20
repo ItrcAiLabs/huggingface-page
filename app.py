@@ -12,14 +12,31 @@ df_aut = dfs["AUT"]
 CUSTOM_CSS = """
 <style>
     .main-title {
-    font-family: 'Nunito','Vazirmatn',sans-serif !important;
-    font-size: 38px !important;   
-    font-weight: 300 !important;  
-    color: #333 !important;
+    font-family: 'Raleway','Vazirmatn',sans-serif !important;
+    font-size: 42px !important;
+    font-weight: 600 !important;
     text-align: center;
-    margin: 10px 0 20px 0 !important;
-    letter-spacing: 1px;          
+    margin: 15px 0 25px 0 !important;
+
+    
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+
+   
+    letter-spacing: 1.5px;
+
+    
+    transition: transform 0.3s ease;
 }
+
+.main-title:hover {
+    transform: scale(1.03);
+}
+
     .section-title {
         font-size: 18px !important;
         font-weight: 700 !important;
