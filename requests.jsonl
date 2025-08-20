@@ -1,0 +1,1 @@
+{"id": "26a45ac9-2328-4518-b45e-f0d4dca314e3", "model": "mymodel", "revision": "main", "precision": "fp16", "weight_type": "Original", "model_type": "🔶 : fine-tuned", "params": 7.0, "license": "apache-2.0", "private": true, "status": "pending"}

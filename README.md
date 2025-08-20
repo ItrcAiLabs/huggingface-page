@@ -1,10 +1,10 @@
 ---
 title: Tarazban
-emoji: 🌖
-colorFrom: green
-colorTo: pink
+emoji: 🚀
+colorFrom: yellow
+colorTo: yellow
 sdk: gradio
-sdk_version: 5.43.1
+sdk_version: 5.35.0
 app_file: app.py
 pinned: false
 ---
