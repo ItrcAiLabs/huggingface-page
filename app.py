@@ -1,5 +1,5 @@
 import gradio as gr
-from utils import submit_request, load_all_data, df_to_styled_html, TASK_GROUPS, filter_table
+from utils import submit_request, load_all_data, df_to_styled_html, TASK_GROUPS, filter_table,sort_dataframe
 
 
 # ---------------- Load leaderboard data ----------------
@@ -252,4 +252,3 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
 
 if __name__ == "__main__":
     demo.launch()
-
