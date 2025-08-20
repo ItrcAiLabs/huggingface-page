@@ -88,10 +88,10 @@ body, .gradio-container {
     background: #e0e7ff !important;
     border-color: #3b82f6 !important;
 }
-
+/* ====== Table ====== */
 /* قاب کلی جدول */
 .table-wrapper {
-    border: 1px solid #dbeafe;       /* حاشیه بیرونی آبی ملایم */
+    border: 1px solid #dbeafe;       /* آبی خیلی ملایم */
     border-radius: 12px;
     overflow-x: auto;                
     box-shadow: 0 2px 6px rgba(59,130,246,0.05);
@@ -104,19 +104,54 @@ body, .gradio-container {
     border-collapse: collapse;
     font-family: 'Inter','Vazirmatn',sans-serif;
     font-size: 14px;
-    table-layout: fixed; /* ستون‌ها یکدست‌تر میشن */
+    table-layout: auto; /* ستون‌ها خودکار متناسب */
 }
 
 /* هدر */
 .styled-table thead {
-    background: linear-gradient(90deg, #f0f7ff, #e6f0ff); /* آبی خیلی روشن */
+    background: linear-gradient(90deg, #f9fbff, #eef6ff); /* آبی روشن */
 }
 .styled-table th {
-    padding: 14px 10px;
-    font-weight: 700;
-    f
+    padding: 12px 10px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #1e3a8a;                  /* آبی شیک */
+    text-align: left;
+    border-bottom: 2px solid #bfdbfe;
+    white-space: normal;             /* اجازه بشکنه */
+    word-wrap: break-word;
+    max-width: 180px;                /* هدر بیش از حد عریض نشه */
+    line-height: 1.4;
+}
 
+/* بدنه */
+.styled-table td {
+    padding: 12px 10px;
+    font-size: 14px;
+    color: #333;
+    border-bottom: 1px solid #dbeafe; /* خطوط داخلی آبی ملایم */
+    max-width: 180px;                 /* ستون‌ها نسبتا یک اندازه */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;              /* متن بدنه نشکنه */
+}
 
+/* راه‌راه */
+.styled-table tbody tr:nth-child(even) {
+    background: #fafcff;
+}
+
+/* افکت هاور */
+.styled-table tbody tr:hover {
+    background: #e0f2fe;
+    transition: background 0.2s ease-in-out;
+}
+
+/* ستون مدل خاص */
+.model-col {
+    font-weight: 600;
+    color: #2563eb;
+}
 
 
 
