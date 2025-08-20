@@ -91,10 +91,10 @@ body, .gradio-container {
 
 /* قاب کلی جدول */
 .table-wrapper {
-    border: 1px solid #e5e7eb;       /* حاشیه بیرونی ملایم */
+    border: 1px solid #dbeafe;       /* حاشیه بیرونی آبی ملایم */
     border-radius: 12px;
-    overflow-x: auto;                /* اسکرول افقی اگه جدول بزرگ شد */
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    overflow-x: auto;                
+    box-shadow: 0 2px 6px rgba(59,130,246,0.05);
     margin: 20px 0;
 }
 
@@ -104,44 +104,32 @@ body, .gradio-container {
     border-collapse: collapse;
     font-family: 'Inter','Vazirmatn',sans-serif;
     font-size: 14px;
+    table-layout: fixed; /* ستون‌ها یکدست‌تر میشن */
 }
 
 /* هدر */
 .styled-table thead {
-    background: linear-gradient(90deg,#f8fbff,#eef6ff); /* آبی ملایم */
+    background: linear-gradient(90deg, #f0f7ff, #e6f0ff); /* آبی خیلی روشن */
 }
 .styled-table th {
-    padding: 12px 10px;
-    font-weight: 600;
-    font-size: 13px;
-    color: #374151;
-    text-align: left;
-    border-bottom: 1px solid #dbeafe; /* خط ملایم زیر هدر */
-    white-space: nowrap;              /* جلوگیری از شکست عجیب متن */
-}
+    padding: 14px 10px;
+    font-weight: 700;
+    f
 
-/* بدنه */
-.styled-table td {
-    padding: 12px 10px;
-    font-size: 14px;
-    color: #333;
-    border-bottom: 1px solid #f0f0f0; /* خطوط داخلی ملایم */
-    white-space: nowrap;              /* متن نشکنه */
-    max-width: 200px;                 /* حداکثر عرض هر ستون */
-    overflow: hidden;
-    text-overflow: ellipsis;          /* ... اگه متن زیاد شد */
-}
 
-/* راه‌راه */
-.styled-table tbody tr:nth-child(even) {
-    background: #fafafa;
-}
 
-/* افکت هاور */
-.styled-table tbody tr:hover {
-    background: #f0f6ff;
-    transition: background 0.2s ease-in-out;
-}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # .styled-table {
