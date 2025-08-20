@@ -60,14 +60,28 @@ CUSTOM_CSS = """
     th {
         cursor: pointer;
         position: relative;
-        padding-right: 18px;
+        padding-right: 20px;
     }
-
-    th .arrow {
-        position: absolute;
-        right: 5px;
+    
+    th .sort-icon::after {
+        content: "⇅";
         font-size: 12px;
-        opacity: 0.7;
+        opacity: 0.4;
+        margin-left: 6px;
+    }
+    
+    th.asc .sort-icon::after {
+        content: "↑";
+        opacity: 0.9;
+        color: #2563eb; /* آبی شیک */
+        font-weight: bold;
+    }
+    
+    th.desc .sort-icon::after {
+        content: "↓";
+        opacity: 0.9;
+        color: #2563eb;
+        font-weight: bold;
     }
 
 </style>
