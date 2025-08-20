@@ -218,14 +218,16 @@ def value_to_gradient_range(value: float, min_val: float = 0, max_val: float = 1
 
 # ---------------- Table Renderer ----------------
 def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
-    """Convert DataFrame into styled HTML leaderboard table with gradients and sortable headers."""
+    """Convert DataFrame into styled HTML leaderboard table with gradients and sortable headers (JS)."""
     if df.empty:
         return "<p>No results found.</p>"
 
+    # حذف ردیف‌های نامعتبر
     task_columns = [c for c in df.columns if c not in ["Model", "Precision", "#Params (B)"]]
     df = df.dropna(how="all", subset=task_columns)
     df = df[~df[task_columns].apply(lambda row: all(str(v) in ["--", "nan", "NaN"] for v in row), axis=1)]
 
+    # لینک مدل‌ها (فقط اگه HuggingFace public باشه)
     if "Model" in df.columns:
         def linkify(m):
             if isinstance(m, str) and "/" in m:
@@ -237,16 +239,17 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
             return str(m)
         df["Model"] = df["Model"].apply(linkify)
 
+    # HTML Table
     html = HTML_STYLE
     html += f"<table id='{table_id}' class='styled-table'>"
     html += "<thead><tr>"
 
+    # 👇 اینجا تغییر کرد (دیگه onclick نداریم → data attributes)
     for col in df.columns:
         if col.lower() in FIXED_COLUMNS:
             html += f"<th>{col}</th>"
         else:
-            # ⇅ پیش‌فرض فلش
-            html += f"<th onclick=\"sortTable('{table_id}', this)\">{col}<span class='sort-icon'>⇅</span></th>"
+            html += f"<th data-sortable data-table='{table_id}'>{col}<span class='sort-icon'>⇅</span></th>"
 
     html += "</tr></thead><tbody>"
 
@@ -268,6 +271,9 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
         html += "</tr>"
 
     html += "</tbody></table>"
+
+    html += "<script src='static/sort.js'></script>"
+
     return html
 
 # ---------------- Filter ----------------
