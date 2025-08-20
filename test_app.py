@@ -93,9 +93,9 @@ body, .gradio-container {
 .table-wrapper {
     border: 1px solid #eee;
     border-radius: 12px;
-    overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     margin: 20px 0;
+    overflow-x: auto;   /* 🔥 اسکرول افقی */
 }
 
 /* جدول مینیمال */
@@ -104,46 +104,6 @@ body, .gradio-container {
     border-collapse: collapse;
     font-family: 'Inter','Vazirmatn',sans-serif;
     font-size: 14px;
-}
-
-/* هدر */
-.styled-table thead {
-    background: #fff;
-    border-bottom: 2px solid #f3f4f6;
-}
-.styled-table th {
-    padding: 14px 12px;
-    font-weight: 600;
-    font-size: 13px;
-    color: #555;
-    text-align: left;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-/* بدنه */
-.styled-table td {
-    padding: 14px 12px;
-    font-size: 14px;
-    color: #333;
-}
-
-/* راه‌راه */
-.styled-table tbody tr:nth-child(even) {
-    background: #fafafa;
-}
-
-/* افکت هاور */
-.styled-table tbody tr:hover {
-    background: #f0f6ff;
-    transition: background 0.2s ease-in-out;
-}
-
-/* ستون مدل خاص */
-.model-col {
-    font-weight: 600;
-    color: #1e40af;
-}
 
 # .styled-table {
 #     width: 100%;
