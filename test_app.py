@@ -1,5 +1,6 @@
 import gradio as gr
 from utils import submit_request, load_all_data, df_to_styled_html, TASK_GROUPS, filter_table
+import pandas as pd
 
 # ---------------- Load leaderboard data ----------------
 dfs = load_all_data("data/")
