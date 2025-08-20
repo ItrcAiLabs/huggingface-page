@@ -198,7 +198,9 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
         if col.lower() in FIXED_COLUMNS:
             html += f"<th>{col}</th>"
         else:
-            html += f"<th data-sortable data-table='{table_id}'>{col}<span class='sort-icon'>⇅</span></th>"
+            # html += f"<th data-sortable data-table='{table_id}'>{col}<span class='sort-icon'>⇅</span></th>"
+            html += f"<th><button name='{col}'>{col} ⇅</button></th>"
+
 
     html += "</tr></thead><tbody>"
 
@@ -221,6 +223,7 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
 
     html += "</tbody></table>"
 
+    # html += "<script src='static/sort.js'></script>"
     html += "<script src='static/sort.js'></script>"
 
     return html
