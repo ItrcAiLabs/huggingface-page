@@ -167,23 +167,63 @@ def value_to_gradient_range(value: float, min_val: float = 0, max_val: float = 1
 
 # ---------------- Table Renderer ----------------
 def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
+    """Convert DataFrame into styled HTML leaderboard table with gradients and sortable headers (JS)."""
     if df.empty:
         return "<p>No results found.</p>"
 
-    html = "<table class='styled-table'><thead><tr>"
+    # حذف ردیف‌های نامعتبر
+    task_columns = [c for c in df.columns if c not in ["Model", "Precision", "#Params (B)"]]
+    df = df.dropna(how="all", subset=task_columns)
+    df = df[~df[task_columns].apply(lambda row: all(str(v) in ["--", "nan", "NaN"] for v in row), axis=1)]
+
+    # لینک مدل‌ها (فقط اگه HuggingFace public باشه)
+    if "Model" in df.columns:
+        def linkify(m):
+            if isinstance(m, str) and "/" in m:
+                if m.lower().startswith("openai/") or \
+                   m.lower().startswith("anthropic/") or \
+                   m.lower().startswith("google/"):
+                    return str(m)
+                return f"<a href='https://huggingface.co/{m}' target='_blank'>{m}</a>"
+            return str(m)
+        df["Model"] = df["Model"].apply(linkify)
+
+    # HTML Table
+    html = HTML_STYLE
+    html += f"<table id='{table_id}' class='styled-table'>"
+    html += "<thead><tr>"
+
+    # 👇 اینجا تغییر کرد (دیگه onclick نداریم → data attributes)
     for col in df.columns:
-        html += f"<th>{col}</th>"
+        if col.lower() in FIXED_COLUMNS:
+            html += f"<th>{col}</th>"
+        else:
+            html += f"<th data-sortable data-table='{table_id}'>{col}<span class='sort-icon'>⇅</span></th>"
+
     html += "</tr></thead><tbody>"
 
     for _, row in df.iterrows():
         html += "<tr>"
         for col in df.columns:
-            html += f"<td>{row[col]}</td>"
+            value = row[col]
+            if isinstance(value, (int, float)):
+                if col == "#Params (B)":
+                    html += f"<td>{int(value)}</td>"
+                else:
+                    bg = value_to_gradient_range(value)
+                    html += f"<td style='background:{bg};'>{value:.1f}</td>"
+            else:
+                if col == "Model":
+                    html += f"<td class='model-col'>{value}</td>"
+                else:
+                    html += f"<td>{value}</td>"
         html += "</tr>"
+
     html += "</tbody></table>"
+
+    html += "<script src='static/sort.js'></script>"
+
     return html
-
-
 
 # ---------------- Filter ----------------
 def filter_table(search: str, tasks: list, df: pd.DataFrame, table_id: str = "leaderboard") -> str:
