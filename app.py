@@ -1,7 +1,6 @@
 import gradio as gr
-from utils import submit_request, load_all_data, df_to_styled_html, TASK_GROUPS, filter_table
-with gr.Tab("🧪 Test Sort"):
-    gr.HTML(test_sort_table())
+from utils import submit_request, load_all_data, df_to_styled_html, TASK_GROUPS, filter_table, test_sort_table
+
 
 # ---------------- Load leaderboard data ----------------
 dfs = load_all_data("data/")
@@ -183,7 +182,8 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         #             inputs=[search_input, task_selector],
         #             outputs=output_html,
         #         )
-
+    with gr.Tab("🧪 Test Sort"):
+        gr.HTML(test_sort_table())
     with gr.Tab("ℹ️ About"):
         gr.Markdown(
             """
