@@ -91,12 +91,11 @@ body, .gradio-container {
 
 /* قاب کلی جدول */
 .table-wrapper {
-    border: 1px solid #f3f4f6;
+    border: 1px solid #e5e7eb;       /* حاشیه بیرونی ملایم */
     border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04); /* سایه نرم */
     margin: 20px 0;
-    overflow-x: auto;
-    background: #fff;
 }
 
 /* جدول مینیمال */
@@ -106,33 +105,30 @@ body, .gradio-container {
     font-family: 'Inter','Vazirmatn',sans-serif;
     font-size: 14px;
     min-width: 800px;
-    border-radius: 12px;
-    overflow: hidden;
+    table-layout: fixed; 
 }
 
 /* هدر */
 .styled-table thead {
-    background: linear-gradient(90deg, #e0f2fe, #bfdbfe); /* 🔵 آبی ملایم */
-    border-bottom: 2px solid #e5e7eb;
+    background: linear-gradient(90deg,#f0f7ff,#eaf2ff); /* ملایم آبی */
+    border-bottom: 1px solid #dbeafe; /* خط ملایم آبی زیر هدر */
 }
 .styled-table th {
     padding: 14px 12px;
     font-weight: 600;
     font-size: 13px;
-    color: #1e3a8a; /* آبی تیره برای متن */
+    color: #374151;
     text-align: left;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    white-space: nowrap;
 }
 
-/* بدنه */
+/* سلول‌ها */
 .styled-table td {
-    padding: 14px 12px;
+    padding: 12px 10px;
     font-size: 14px;
     color: #333;
-    border-bottom: 1px solid #f3f4f6; /* 🔹 خطوط خیلی ملایم */
-    white-space: nowrap;
+    border-bottom: 1px solid #f0f0f0; /* خطوط داخلی ملایم */
 }
 
 /* راه‌راه */
@@ -142,7 +138,9 @@ body, .gradio-container {
 
 /* افکت هاور */
 .styled-table tbody tr:hover {
-    background:
+    background: #f0f6ff;
+    transition: background 0.2s ease-in-out;
+}
 
 
 # .styled-table {
