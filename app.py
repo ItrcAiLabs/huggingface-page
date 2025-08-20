@@ -11,28 +11,24 @@ df_aut = dfs["AUT"]
 # ---------------- Custom CSS ----------------
 CUSTOM_CSS = """
 <style>
-    .main-title {
+.main-title {
+    display: block;
     font-family: 'Raleway','Vazirmatn',sans-serif !important;
     font-size: 42px !important;
     font-weight: 600 !important;
     text-align: center;
     margin: 15px 0 25px 0 !important;
 
-    
     background: linear-gradient(90deg, #6a11cb, #2575fc);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
-    
     text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
 
-   
     letter-spacing: 1.5px;
 
-    
     transition: transform 0.3s ease;
 }
-
 .main-title:hover {
     transform: scale(1.03);
 }
@@ -72,7 +68,8 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
     with gr.Tab("📊 Persian Leaderboard"):
 
         # 🏆 Title
-        gr.HTML("<h1 class='main-title'>Tarazban Leaderboard</h1>")
+        gr.HTML("<span class='main-title'>Tarazban Leaderboard</span>")
+
 
         # 🔍 Search bar at top
         gr.Markdown("<div class='section-title'>🔍 Search Models</div>")
