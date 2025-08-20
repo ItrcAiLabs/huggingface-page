@@ -12,22 +12,21 @@ df_aut = dfs["AUT"]
 CUSTOM_CSS = """
 <style>
     .main-title {
-        display: block !important;
         text-align: center !important;
-    
         font-family: 'Raleway','Vazirmatn',sans-serif !important;
-        font-size: 42px !important;
-        font-weight: 600 !important;
+        font-size: 46px !important;
+        font-weight: 700 !important;
+        letter-spacing: 1.5px;
     
-        background: linear-gradient(90deg, #1e40af, #2563eb) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
+        background: linear-gradient(90deg, #1e40af, #2563eb);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     
-        text-shadow: 0px 3px 8px rgba(37, 99, 235, 0.25) !important;
+        text-shadow: 0px 3px 8px rgba(0,0,0,0.25);
     
-        margin: 20px 0 30px 0 !important;
-        letter-spacing: 1.2px !important;
+        margin: 25px 0 35px 0 !important;
     }
+
 
 
 
@@ -75,7 +74,12 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
             return lambda s, tasks: filter_table(s, tasks, current_df, table_id=table_id)
 
         # 🏆 Title
-        gr.HTML("<div class='main-title'>Tarazban Leaderboard</div>")
+        gr.HTML("""
+            <h1 class="main-title">
+                Tarazban Leaderboard
+            </h1>
+        """)
+
 
 
 
@@ -124,20 +128,20 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         
        
 
-        for tab_name, df, table_id in tabs:
-            with gr.Tab(tab_name):
-                output_html = gr.HTML(value=df_to_styled_html(df, table_id=table_id))
+        # for tab_name, df, table_id in tabs:
+        #     with gr.Tab(tab_name):
+        #         output_html = gr.HTML(value=df_to_styled_html(df, table_id=table_id))
 
-                search_input.change(
-                    fn=make_filter_func(df, table_id),
-                    inputs=[search_input, task_selector],
-                    outputs=output_html,
-                )
-                task_selector.change(
-                    fn=make_filter_func(df, table_id),
-                    inputs=[search_input, task_selector],
-                    outputs=output_html,
-                )
+        #         search_input.change(
+        #             fn=make_filter_func(df, table_id),
+        #             inputs=[search_input, task_selector],
+        #             outputs=output_html,
+        #         )
+        #         task_selector.change(
+        #             fn=make_filter_func(df, table_id),
+        #             inputs=[search_input, task_selector],
+        #             outputs=output_html,
+        #         )
 
     with gr.Tab("ℹ️ About"):
         gr.Markdown(
