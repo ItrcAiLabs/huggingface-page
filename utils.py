@@ -272,12 +272,12 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
 
     html += "</tbody></table>"
 
-    try:
-        with open("static/sort.js", "r", encoding="utf-8") as f:   # اگه فایل داخل پوشه static هست
-            js_code = f.read()
-        html += f"<script>{js_code}</script>"
-    except Exception as e:
-        html += f"<!-- JS load error: {e} -->"
+    # try:
+    #     with open("static/sort.js", "r", encoding="utf-8") as f:   # اگه فایل داخل پوشه static هست
+    #         js_code = f.read()
+    #     html += f"<script>{js_code}</script>"
+    # except Exception as e:
+    #     html += f"<!-- JS load error: {e} -->"
     
     return html
 
