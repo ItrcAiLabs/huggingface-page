@@ -75,10 +75,22 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
 
         # 🏆 Title
         gr.HTML("""
-            <h1 class="main-title">
+            <h1 style="
+                text-align:center;
+                font-family:'Raleway','Vazirmatn',sans-serif;
+                font-size:46px;
+                font-weight:700;
+                letter-spacing:1.5px;
+            
+                background: linear-gradient(90deg, #1e40af, #2563eb);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-shadow: 0px 3px 8px rgba(0,0,0,0.25);
+                margin: 25px 0 35px 0;
+            ">
                 Tarazban Leaderboard
             </h1>
-        """)
+            """)
 
 
 
