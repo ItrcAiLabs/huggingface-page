@@ -70,6 +70,9 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
             ("🎓 UQ", df_uq, "leaderboard_uq"),
             ("⚙️ AUT", df_aut, "leaderboard_aut"),
         ]
+        # 🔄 Helper function for connecting correct dataframe
+        def make_filter_func(current_df, table_id):
+            return lambda s, tasks: filter_table(s, tasks, current_df, table_id=table_id)
 
         # 🏆 Title
         gr.HTML("<div class='main-title'>Tarazban Leaderboard</div>")
@@ -118,10 +121,7 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                 )
 
 
-        # 🔄 Helper function for connecting correct dataframe
-        def make_filter_func(current_df, table_id):
-            return lambda s, tasks: filter_table(s, tasks, current_df, table_id=table_id)
-
+        
        
 
         for tab_name, df, table_id in tabs:
