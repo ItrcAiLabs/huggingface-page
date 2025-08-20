@@ -303,6 +303,25 @@ HTML_STYLE = """
 """
 
 # ---------------- Load Data ----------------
+# def load_all_data(path):
+#     rows = []
+#     with open(path + "results.jsonl", "r", encoding="utf-8") as f:
+#         for line in f:
+#             rows.append(json.loads(line))
+
+#     df = pd.DataFrame(rows)
+
+#     # ستون‌های مشترک
+#     base_cols = ["Model", "Precision", "#Params (B)"]
+
+#     # دیتافریم جدا برای هر گروه
+#     dfs = {}
+#     for group, tasks in TASK_GROUPS.items():
+#         cols = base_cols + [col for col in tasks if col in df.columns]
+#         dfs[group] = df[cols].copy()
+
+#     return dfs
+
 def load_all_data(path):
     rows = []
     with open(path + "results.jsonl", "r", encoding="utf-8") as f:
@@ -318,9 +337,17 @@ def load_all_data(path):
     dfs = {}
     for group, tasks in TASK_GROUPS.items():
         cols = base_cols + [col for col in tasks if col in df.columns]
-        dfs[group] = df[cols].copy()
+        sub_df = df[cols].copy()
+
+        # 🔹 تبدیل همه ستون‌های تسک به float
+        for col in tasks:
+            if col in sub_df.columns:
+                sub_df[col] = pd.to_numeric(sub_df[col], errors="coerce")
+
+        dfs[group] = sub_df
 
     return dfs
+
 
 # ---------------- Gradient ----------------
 # def value_to_gradient_range(value: float, min_val: float = 0, max_val: float = 100) -> str:
