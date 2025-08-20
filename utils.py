@@ -203,6 +203,10 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard", active_co
     #         # html += f"<th data-sortable data-table='{table_id}'>{col}<span class='sort-icon'>⇅</span></th>"
     #         html += f"<th><button name='{col}'>{col} ⇅</button></th>"
     for col in df.columns:
+     if col.lower() in FIXED_COLUMNS:
+        html += f"<th>{col}</th>"
+     else:
+       
         up_color = "color:#999;"  # پیش‌فرض خاکستری
         down_color = "color:#999;"
         if active_col == col:
