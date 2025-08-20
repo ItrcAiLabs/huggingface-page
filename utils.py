@@ -246,7 +246,9 @@ def df_to_styled_html(
         html += "</tr>"
 
     html += "</tbody></table>"
-    return html
+    # return html
+    return f"<div class='table-wrapper'>{html}</div>"
+
 
 
 # ---------------- Filter ----------------
