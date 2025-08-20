@@ -139,16 +139,16 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                     label="",
                     elem_classes=["task-box"],
                 )
-            sort_col = gr.Dropdown(
+                sort_col = gr.Dropdown(
                 choices=df.columns.tolist(),
                 value=df.columns[0],
                 label="Sort by column"
-            )
-            sort_order = gr.Radio(
+                )
+                sort_order = gr.Radio(
                 choices=["Ascending", "Descending"],
                 value="Descending",
                 label="Order"
-            )
+                )
             
             output_html = gr.HTML(value=df_to_styled_html(df, table_id=table_id))
             # ---------------- event connection ----------------
@@ -160,7 +160,7 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                 fn=update_table,
                 inputs=[search_input, task_selector, sort_col, sort_order],
                 outputs=output_html,
-            )
+                )
             task_selector.change(
                 fn=update_table,
                 inputs=[search_input, task_selector, sort_col, sort_order],
@@ -177,12 +177,12 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                 outputs=output_html,
             )
                 
-                search_input.change(
+            search_input.change(
                     fn=make_filter_func(df, table_id),
                     inputs=[search_input, task_selector],
                     outputs=output_html,
                 )
-                task_selector.change(
+            task_selector.change(
                     fn=make_filter_func(df, table_id),
                     inputs=[search_input, task_selector],
                     outputs=output_html,
