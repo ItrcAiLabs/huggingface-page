@@ -101,13 +101,14 @@ HTML_STYLE = """
         font-family: 'Vazirmatn', 'Poppins', sans-serif;
     }
     .main-title {
-        font-family: 'Poppins', 'Vazirmatn', sans-serif;
-        font-size: 28px;
-        font-weight: 700;
-        color: #222;
-        text-align: center;
-        margin: 20px 0 30px 0;
-    }
+    font-family: 'Poppins', 'Vazirmatn', sans-serif;
+    font-size: 34px;
+    font-weight: 500;
+    color: #222;
+    text-align: center;
+    margin: 10px 0 20px 0;
+}
+
     .styled-table {
         width: 100%;
         border-collapse: collapse;
