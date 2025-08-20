@@ -206,29 +206,29 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard", active_co
      # if col.lower() in FIXED_COLUMNS:
      #    html += f"<th>{col}</th>"
         for col in df.columns:
-    if col.lower() not in ["model", "precision", "#params (b)", "license", "organization"]:
-        btn_asc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_asc")
-        btn_desc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_desc")
-
-        btn_asc.click(
-            make_sort_func(col, df, table_id, True),
-            inputs=None,
-            outputs=output_html,
-        )
-        btn_desc.click(
-            make_sort_func(col, df, table_id, False),
-            inputs=None,
-            outputs=output_html,
-        )
-     else:
-       
-        up_color = "color:#999;"  # پیش‌فرض خاکستری
-        down_color = "color:#999;"
-        if active_col == col:
-            if ascending:
-                up_color = "color:#2563eb;font-weight:bold;"  # آبی برای صعودی
-            else:
-                down_color = "color:#2563eb;font-weight:bold;"  # آبی برای نزولی
+            if col.lower() not in ["model", "precision", "#params (b)", "license", "organization"]:
+                btn_asc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_asc")
+                btn_desc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_desc")
+        
+                btn_asc.click(
+                    make_sort_func(col, df, table_id, True),
+                    inputs=None,
+                    outputs=output_html,
+                )
+                btn_desc.click(
+                    make_sort_func(col, df, table_id, False),
+                    inputs=None,
+                    outputs=output_html,
+                )
+             else:
+               
+                up_color = "color:#999;"  # پیش‌فرض خاکستری
+                down_color = "color:#999;"
+                if active_col == col:
+                    if ascending:
+                        up_color = "color:#2563eb;font-weight:bold;"  # آبی برای صعودی
+                    else:
+                        down_color = "color:#2563eb;font-weight:bold;"  # آبی برای نزولی
     
         html += f"""
         <th>
