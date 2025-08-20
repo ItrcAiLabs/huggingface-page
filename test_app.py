@@ -27,4 +27,4 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard", active_co
             {col}
             <button style='all:unset;cursor:pointer;' 
                     onclick="document.getElementById('{table_id}_{col}_asc').click()">
-                <span style='{up_color}'>&uarr;</span>
+                <span style='{up_color}'>&uarr;</span> 
