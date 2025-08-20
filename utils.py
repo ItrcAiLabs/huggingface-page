@@ -7,64 +7,7 @@ import pytz
 from datasets import load_dataset, Dataset
 
 FIXED_COLUMNS = ["model", "params", "license", "precision", "type"]
-def test_sort_table(table_id="test_table"):
-    html = """
-    <table id='{0}' border='1'>
-        <thead>
-            <tr>
-                <th onclick="sortTable('{0}', this)">Name <span class='sort-icon'></span></th>
-                <th onclick="sortTable('{0}', this)">Score <span class='sort-icon'></span></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>Ali</td><td>45</td></tr>
-            <tr><td>Zahra</td><td>88</td></tr>
-            <tr><td>Reza</td><td>72</td></tr>
-        </tbody>
-    </table>
 
-    <script>
-    console.log("✅ sortTable loaded!");
-
-    function sortTable(tableId, th) {
-        console.log("🔄 clicked!");
-        const table = document.getElementById(tableId);
-        const tbody = table.querySelector("tbody");
-        const rows = Array.from(tbody.querySelectorAll("tr"));
-        const colIndex = Array.from(th.parentNode.children).indexOf(th);
-        const isAsc = th.classList.contains("asc");
-
-        const clean = (val) => val.replace(/[^0-9.\\-]/g, "");
-
-        rows.sort((a, b) => {
-            const A = a.children[colIndex].innerText.trim();
-            const B = b.children[colIndex].innerText.trim();
-            const numA = parseFloat(clean(A));
-            const numB = parseFloat(clean(B));
-
-            if (!isNaN(numA) && !isNaN(numB)) {
-                return (isAsc ? -1 : 1) * (numA - numB);
-            }
-            return (isAsc ? -1 : 1) * A.localeCompare(B, 'en', {numeric:true});
-        });
-
-        rows.forEach(r => tbody.appendChild(r));
-
-        table.querySelectorAll("th").forEach(t => t.classList.remove("asc", "desc"));
-        if (isAsc) {
-            th.classList.remove("asc");
-            th.classList.add("desc");
-            th.querySelector(".sort-icon").innerText = "▼";
-        } else {
-            th.classList.remove("desc");
-            th.classList.add("asc");
-            th.querySelector(".sort-icon").innerText = "▲";
-        }
-    }
-    </script>
-    """.format(table_id)
-
-    return html
 
 # ---------------- Task Groups ----------------
 TASK_GROUPS = {
@@ -187,6 +130,12 @@ def load_all_data(path: str):
         dfs[group] = sub_df
 
     return dfs
+    
+def sort_dataframe(df: pd.DataFrame, col: str, ascending: bool = True):
+    """بر اساس ستون داده‌ها رو مرتب می‌کنه"""
+    if col in df.columns:
+        return df.sort_values(by=col, ascending=ascending).reset_index(drop=True)
+    return df
 
 # ---------------- Gradient ----------------
 def value_to_gradient_range(value: float, min_val: float = 0, max_val: float = 100) -> str:
@@ -218,67 +167,20 @@ def value_to_gradient_range(value: float, min_val: float = 0, max_val: float = 1
 
 # ---------------- Table Renderer ----------------
 def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
-    """Convert DataFrame into styled HTML leaderboard table with gradients and sortable headers (JS)."""
     if df.empty:
         return "<p>No results found.</p>"
 
-    # حذف ردیف‌های نامعتبر
-    task_columns = [c for c in df.columns if c not in ["Model", "Precision", "#Params (B)"]]
-    df = df.dropna(how="all", subset=task_columns)
-    df = df[~df[task_columns].apply(lambda row: all(str(v) in ["--", "nan", "NaN"] for v in row), axis=1)]
-
-    # لینک مدل‌ها (فقط اگه HuggingFace public باشه)
-    if "Model" in df.columns:
-        def linkify(m):
-            if isinstance(m, str) and "/" in m:
-                if m.lower().startswith("openai/") or \
-                   m.lower().startswith("anthropic/") or \
-                   m.lower().startswith("google/"):
-                    return str(m)
-                return f"<a href='https://huggingface.co/{m}' target='_blank'>{m}</a>"
-            return str(m)
-        df["Model"] = df["Model"].apply(linkify)
-
-    # HTML Table
-    html = HTML_STYLE
-    html += f"<table id='{table_id}' class='styled-table'>"
-    html += "<thead><tr>"
-
+    html = "<table class='styled-table'><thead><tr>"
     for col in df.columns:
-        if col.lower() in FIXED_COLUMNS:
-            html += f"<th>{col}</th>"
-        else:
-            html += f"<th data-sortable data-table='{table_id}'>{col}<span class='sort-icon'>⇅</span></th>"
-
+        html += f"<th>{col}</th>"
     html += "</tr></thead><tbody>"
 
     for _, row in df.iterrows():
         html += "<tr>"
         for col in df.columns:
-            value = row[col]
-            if isinstance(value, (int, float)):
-                if col == "#Params (B)":
-                    html += f"<td>{int(value)}</td>"
-                else:
-                    bg = value_to_gradient_range(value)
-                    html += f"<td style='background:{bg};'>{value:.1f}</td>"
-            else:
-                if col == "Model":
-                    html += f"<td class='model-col'>{value}</td>"
-                else:
-                    html += f"<td>{value}</td>"
+            html += f"<td>{row[col]}</td>"
         html += "</tr>"
-
-
     html += "</tbody></table>"
-
-    # try:
-    #     with open("static/sort.js", "r", encoding="utf-8") as f:   # اگه فایل داخل پوشه static هست
-    #         js_code = f.read()
-    #     html += f"<script>{js_code}</script>"
-    # except Exception as e:
-    #     html += f"<!-- JS load error: {e} -->"
-    
     return html
 
 
