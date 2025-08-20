@@ -244,7 +244,6 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
     html += f"<table id='{table_id}' class='styled-table'>"
     html += "<thead><tr>"
 
-    # 👇 اینجا تغییر کرد (دیگه onclick نداریم → data attributes)
     for col in df.columns:
         if col.lower() in FIXED_COLUMNS:
             html += f"<th>{col}</th>"
@@ -272,9 +271,18 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
 
     html += "</tbody></table>"
 
-    html += "<script src='static/sort.js'></script>"
+    html += "</tbody></table>"
 
+    try:
+        with open("static/sort.js", "r", encoding="utf-8") as f:   # اگه فایل داخل پوشه static هست
+            js_code = f.read()
+        html += f"<script>{js_code}</script>"
+    except Exception as e:
+        html += f"<!-- JS load error: {e} -->"
+    
     return html
+
+
 
 # ---------------- Filter ----------------
 def filter_table(search: str, tasks: list, df: pd.DataFrame, table_id: str = "leaderboard") -> str:
