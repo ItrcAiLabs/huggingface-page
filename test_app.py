@@ -89,20 +89,27 @@ body, .gradio-container {
     border-color: #3b82f6 !important;
 }
 
-/* ====== Styled Table ====== */
+/* قاب کلی جدول */
+.table-wrapper {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin: 20px 0;
+}
+
+/* جدول مینیمال */
 .styled-table {
     width: 100%;
     border-collapse: collapse;
     font-family: 'Inter','Vazirmatn',sans-serif;
     font-size: 14px;
-    border-radius: 12px;
-    overflow: hidden;
 }
 
-/* هدر جدول */
+/* هدر */
 .styled-table thead {
     background: #fff;
-    border-bottom: 2px solid #f0f0f0;
+    border-bottom: 2px solid #f3f4f6;
 }
 .styled-table th {
     padding: 14px 12px;
@@ -114,14 +121,14 @@ body, .gradio-container {
     letter-spacing: 0.5px;
 }
 
-/* ردیف‌ها */
+/* بدنه */
 .styled-table td {
     padding: 14px 12px;
     font-size: 14px;
     color: #333;
 }
 
-/* راه‌راه شدن سطرها */
+/* راه‌راه */
 .styled-table tbody tr:nth-child(even) {
     background: #fafafa;
 }
@@ -132,13 +139,12 @@ body, .gradio-container {
     transition: background 0.2s ease-in-out;
 }
 
-/* سایه ملایم دور جدول */
-.table-wrapper {
-    border: 1px solid #eee;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+/* ستون مدل خاص */
+.model-col {
+    font-weight: 600;
+    color: #1e40af;
 }
+
 # .styled-table {
 #     width: 100%;
 #     border-collapse: separate;
