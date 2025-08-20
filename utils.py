@@ -166,7 +166,9 @@ def value_to_gradient_range(value: float, min_val: float = 0, max_val: float = 1
     return f"linear-gradient(90deg, rgba({r},{g},{b},0.4), rgba({r},{g},{b},0.9))"
 
 # ---------------- Table Renderer ----------------
-def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
+# def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
+def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard", active_col=None, ascending=None) -> str:
+
     """Convert DataFrame into styled HTML leaderboard table with gradients and sortable headers (JS)."""
     if df.empty:
         return "<p>No results found.</p>"
@@ -194,12 +196,34 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
     html += "<thead><tr>"
 
     # 👇 اینجا تغییر کرد (دیگه onclick نداریم → data attributes)
+    # for col in df.columns:
+    #     if col.lower() in FIXED_COLUMNS:
+    #         html += f"<th>{col}</th>"
+    #     else:
+    #         # html += f"<th data-sortable data-table='{table_id}'>{col}<span class='sort-icon'>⇅</span></th>"
+    #         html += f"<th><button name='{col}'>{col} ⇅</button></th>"
     for col in df.columns:
-        if col.lower() in FIXED_COLUMNS:
-            html += f"<th>{col}</th>"
-        else:
-            # html += f"<th data-sortable data-table='{table_id}'>{col}<span class='sort-icon'>⇅</span></th>"
-            html += f"<th><button name='{col}'>{col} ⇅</button></th>"
+        up_color = "color:#999;"  # پیش‌فرض خاکستری
+        down_color = "color:#999;"
+        if active_col == col:
+            if ascending:
+                up_color = "color:#2563eb;font-weight:bold;"  # آبی برای صعودی
+            else:
+                down_color = "color:#2563eb;font-weight:bold;"  # آبی برای نزولی
+    
+        html += f"""
+        <th>
+            {col}
+            <button style='all:unset;cursor:pointer;' 
+                    onclick="document.getElementById('{table_id}_{col}_asc').click()">
+                <span style='{up_color}'>&uarr;</span>
+            </button>
+            <button style='all:unset;cursor:pointer;' 
+                    onclick="document.getElementById('{table_id}_{col}_desc').click()">
+                <span style='{down_color}'>&darr;</span>
+            </button>
+        </th>
+        """
 
 
     html += "</tr></thead><tbody>"
@@ -224,7 +248,7 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
     html += "</tbody></table>"
 
     # html += "<script src='static/sort.js'></script>"
-    html += "<script src='static/sort.js'></script>"
+    # html += "<script src='static/sort.js'></script>"
 
     return html
 
