@@ -274,7 +274,6 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
 
     # HTML Table
     html = HTML_STYLE
-    html += "<h1 class='main-title'>Tarazban Leaderboard</h1>"
     html += f"<table id='{table_id}' class='styled-table'>"
     html += "<thead><tr>"
     for col in df.columns:
