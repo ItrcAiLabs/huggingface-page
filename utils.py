@@ -167,24 +167,26 @@ def value_to_gradient_range(value: float, min_val: float = 0, max_val: float = 1
 
 # ---------------- Table Renderer ----------------
 # def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
-def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard", active_col=None, ascending=None) -> str:
-
+def df_to_styled_html(
+    df: pd.DataFrame, 
+    table_id: str = "leaderboard", 
+    active_col=None, 
+    ascending=None
+) -> str:
     """Convert DataFrame into styled HTML leaderboard table with gradients and sortable headers (JS)."""
     if df.empty:
         return "<p>No results found.</p>"
 
     # حذف ردیف‌های نامعتبر
-    task_columns = [c for c in df.columns if c not in ["Model", "Precision", "#Params (B)"]]
+    task_columns = [c for c in df.columns if c not in ["Model", "Precision", "#Params (B)", "License", "Organization"]]
     df = df.dropna(how="all", subset=task_columns)
     df = df[~df[task_columns].apply(lambda row: all(str(v) in ["--", "nan", "NaN"] for v in row), axis=1)]
 
-    # لینک مدل‌ها (فقط اگه HuggingFace public باشه)
+    # لینک مدل‌ها
     if "Model" in df.columns:
         def linkify(m):
             if isinstance(m, str) and "/" in m:
-                if m.lower().startswith("openai/") or \
-                   m.lower().startswith("anthropic/") or \
-                   m.lower().startswith("google/"):
+                if m.lower().startswith(("openai/", "anthropic/", "google/")):
                     return str(m)
                 return f"<a href='https://huggingface.co/{m}' target='_blank'>{m}</a>"
             return str(m)
@@ -195,75 +197,47 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard", active_co
     html += f"<table id='{table_id}' class='styled-table'>"
     html += "<thead><tr>"
 
-    # 👇 اینجا تغییر کرد (دیگه onclick نداریم → data attributes)
-    # for col in df.columns:
-    #     if col.lower() in FIXED_COLUMNS:
-    #         html += f"<th>{col}</th>"
-    #     else:
-    #         # html += f"<th data-sortable data-table='{table_id}'>{col}<span class='sort-icon'>⇅</span></th>"
-    #         html += f"<th><button name='{col}'>{col} ⇅</button></th>"
     for col in df.columns:
-     # if col.lower() in FIXED_COLUMNS:
-     #    html += f"<th>{col}</th>"
-        for col in df.columns:
-            if col.lower() not in ["model", "precision", "#params (b)", "license", "organization"]:
-                btn_asc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_asc")
-                btn_desc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_desc")
-        
-                btn_asc.click(
-                    make_sort_func(col, df, table_id, True),
-                    inputs=None,
-                    outputs=output_html,
-                )
-                btn_desc.click(
-                    make_sort_func(col, df, table_id, False),
-                    inputs=None,
-                    outputs=output_html,
-                )
-             else:
-               
-                up_color = "color:#999;"  # پیش‌فرض خاکستری
-                down_color = "color:#999;"
-                if active_col == col:
-                    if ascending:
-                        up_color = "color:#2563eb;font-weight:bold;"  # آبی برای صعودی
-                    else:
-                        down_color = "color:#2563eb;font-weight:bold;"  # آبی برای نزولی
-    
-        html += f"""
-        <th>
-            {col}
-            <button style='all:unset;cursor:pointer;' 
-                    onclick="document.getElementById('{table_id}_{col}_asc').click()">
-                <span style='{up_color}'>&uarr;</span>
-            </button>
-            <button style='all:unset;cursor:pointer;' 
-                    onclick="document.getElementById('{table_id}_{col}_desc').click()">
-                <span style='{down_color}'>&darr;</span>
-            </button>
-        </th>
-        """
+        # ستون‌های ثابت → فقط متن
+        if col.lower() in ["model", "precision", "#params (b)", "license", "organization"]:
+            html += f"<th>{col}</th>"
+        else:
+            up_color = "color:#999;"
+            down_color = "color:#999;"
+            if active_col == col:
+                if ascending:
+                    up_color = "color:#2563eb;font-weight:bold;"
+                else:
+                    down_color = "color:#2563eb;font-weight:bold;"
 
+            html += f"""
+            <th>
+                {col}
+                <button style='all:unset;cursor:pointer;' 
+                        onclick="document.getElementById('{table_id}_{col}_asc').click()">
+                    <span style='{up_color}'>&uarr;</span>
+                </button>
+                <button style='all:unset;cursor:pointer;' 
+                        onclick="document.getElementById('{table_id}_{col}_desc').click()">
+                    <span style='{down_color}'>&darr;</span>
+                </button>
+            </th>
+            """
 
     html += "</tr></thead><tbody>"
 
     for _, row in df.iterrows():
         html += "<tr>"
         for col in df.columns:
-                value = row[col]
-                # 🟢 اگر خالی/NaN → نمایش "--"
+            value = row[col]
             if pd.isna(value) or str(value).lower() in ["nan", "none", "--"]:
                 html += "<td>--</td>"
-    
-            # 🟢 اگر عددی → رنگی کن
             elif isinstance(value, (int, float)):
                 if col == "#Params (B)":
                     html += f"<td>{int(value)}</td>"
                 else:
                     bg = value_to_gradient_range(value)
                     html += f"<td style='background:{bg};'>{value:.1f}</td>"
-    
-            # 🟢 در غیر این صورت → متن عادی
             else:
                 if col == "Model":
                     html += f"<td class='model-col'>{value}</td>"
@@ -272,11 +246,8 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard", active_co
         html += "</tr>"
 
     html += "</tbody></table>"
-
-    # html += "<script src='static/sort.js'></script>"
-    # html += "<script src='static/sort.js'></script>"
-
     return html
+
 
 # ---------------- Filter ----------------
 def filter_table(search: str, tasks: list, df: pd.DataFrame, table_id: str = "leaderboard") -> str:
