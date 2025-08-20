@@ -173,7 +173,6 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
     if "Model" in df.columns:
         def linkify(m):
             if isinstance(m, str) and "/" in m:
-                # مدل‌های close-source → فقط متن
                 if m.lower().startswith("openai/") or \
                    m.lower().startswith("anthropic/") or \
                    m.lower().startswith("google/"):
@@ -215,7 +214,7 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
     html += "</tbody></table>"
 
     html += """
-    <script>
+<script>
 function sortTable(tableId, th) {
     const table = document.getElementById(tableId);
     const tbody = table.querySelector("tbody");
@@ -223,12 +222,11 @@ function sortTable(tableId, th) {
     const colIndex = Array.from(th.parentNode.children).indexOf(th);
     const isAsc = th.classList.contains("asc");
 
-    const clean = (val) => val.replace(/[^0-9.\-]/g, "");
+    const clean = (val) => val.replace(/[^0-9.\\-]/g, "");
 
     rows.sort((a, b) => {
         const A = a.children[colIndex].innerText.trim();
         const B = b.children[colIndex].innerText.trim();
-
         const numA = parseFloat(clean(A));
         const numB = parseFloat(clean(B));
 
@@ -240,9 +238,7 @@ function sortTable(tableId, th) {
 
     rows.forEach(r => tbody.appendChild(r));
 
-    
     table.querySelectorAll("th").forEach(t => t.classList.remove("asc", "desc"));
-
     if (isAsc) {
         th.classList.remove("asc");
         th.classList.add("desc");
@@ -252,9 +248,7 @@ function sortTable(tableId, th) {
     }
 }
 </script>
-
     """
-    html += "</tbody></table>"
 
     return html
 
