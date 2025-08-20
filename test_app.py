@@ -24,4 +24,8 @@ with gr.Blocks() as demo:
 
     output_html = gr.HTML(value=render_table(None, "Descending"))
 
-    sort_col.change(fn=render_table, inp
+    sort_col.change(fn=render_table, inputs=[sort_col, sort_order], outputs=output_html)
+    sort_order.change(fn=render_table, inputs=[sort_col, sort_order], outputs=output_html)
+
+if __name__ == "__main__":
+    demo.launch()
