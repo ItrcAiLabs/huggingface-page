@@ -27,4 +27,50 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard", active_co
             {col}
             <button style='all:unset;cursor:pointer;' 
                     onclick="document.getElementById('{table_id}_{col}_asc').click()">
-                <span style='{up_color}'>&uarr;</span> 
+                <span style='{up_color}'>&uarr;</span>
+            </button>
+            <button style='all:unset;cursor:pointer;' 
+                    onclick="document.getElementById('{table_id}_{col}_desc').click()">
+                <span style='{down_color}'>&darr;</span>
+            </button>
+        </th>
+        """
+
+    html += "</tr></thead><tbody>"
+    for _, row in df.iterrows():
+        html += "<tr>"
+        for col in df.columns:
+            html += f"<td>{row[col]}</td>"
+        html += "</tr>"
+    html += "</tbody></table>"
+    return html
+
+
+# تابع سورت
+def sort_table(col, ascending):
+    sorted_df = df.sort_values(by=col, ascending=ascending)
+    return df_to_styled_html(sorted_df, active_col=col, ascending=ascending)
+
+
+# اپ تست
+with gr.Blocks() as demo:
+    output_html = gr.HTML(value=df_to_styled_html(df))
+
+    # دکمه‌های مخفی برای هر ستون (asc و desc جدا)
+    for col in df.columns:
+        btn_asc = gr.Button(visible=False, elem_id=f"leaderboard_{col}_asc")
+        btn_desc = gr.Button(visible=False, elem_id=f"leaderboard_{col}_desc")
+
+        btn_asc.click(
+            lambda c=col: sort_table(c, True),
+            inputs=None,
+            outputs=output_html,
+        )
+        btn_desc.click(
+            lambda c=col: sort_table(c, False),
+            inputs=None,
+            outputs=output_html,
+        )
+
+if __name__ == "__main__":
+    demo.launch()
