@@ -71,8 +71,15 @@ CUSTOM_CSS = """
 
 def make_sort_func(col, df, table_id, ascending):
     def _sort():
-        return sort_table(col, df, table_id, ascending)
+        sorted_df = df.sort_values(by=col, ascending=ascending)
+        return df_to_styled_html(
+            sorted_df,
+            table_id=table_id,
+            active_col=col,
+            ascending=ascending,
+        )
     return _sort
+
 # ---------------- Gradio App ----------------
 with gr.Blocks(css=CUSTOM_CSS) as demo:
     # # inject JS globally
