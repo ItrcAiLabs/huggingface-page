@@ -94,9 +94,31 @@ body {
 </style>
 """
 
+# def make_sort_func(col, df, table_id, ascending):
+#     def _sort():
+#         sorted_df = df.sort_values(by=col, ascending=ascending)
+#         return df_to_styled_html(
+#             sorted_df,
+#             table_id=table_id,
+#             active_col=col,
+#             ascending=ascending,
+#         )
+#     return _sort
+
 def make_sort_func(col, df, table_id, ascending):
     def _sort():
-        sorted_df = df.sort_values(by=col, ascending=ascending)
+        temp_df = df.copy()
+
+        # تلاش برای تبدیل به عددی (مثلاً ستون‌های امتیاز یا پارامترها)
+        if col not in ["Model", "License", "Organization"]:  
+            temp_df[col] = pd.to_numeric(temp_df[col], errors="coerce")
+
+        sorted_df = temp_df.sort_values(
+            by=col,
+            ascending=ascending,
+            na_position="last"  # NaN ها میرن آخر
+        )
+
         return df_to_styled_html(
             sorted_df,
             table_id=table_id,
@@ -104,6 +126,7 @@ def make_sort_func(col, df, table_id, ascending):
             ascending=ascending,
         )
     return _sort
+
 
 
 # ---------------- Gradio App ----------------
