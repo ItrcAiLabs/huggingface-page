@@ -171,7 +171,80 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
     html += "<thead><tr>"
     for col in df.columns:
         html += f"<th>{col}</th>"
-    html += "</tr><
+    html += "</tr></thead><tbody>"
+
+    for _, row in df.iterrows():
+        html += "<tr>"
+        for col in df.columns:
+            value = row[col]
+            if isinstance(value, (int, float)):
+                if col == "#Params (B)":
+                    html += f"<td>{int(value)}</td>"
+                else:
+                    bg = value_to_gradient_range(value)
+                    html += f"<td style='background:{bg};'>{value:.1f}</td>"
+            else:
+                if col == "Model":
+                    html += f"<td class='model-col'>{value}</td>"
+                else:
+                    html += f"<td>{value}</td>"
+        html += "</tr>"
+    html += "</tbody></table>"
+
+    return html
+
+# ---------------- Filter ----------------
+def filter_table(search: str, tasks: list, df: pd.DataFrame, table_id: str = "leaderboard") -> str:
+    """Filter DataFrame by search term and selected tasks."""
+    if search:
+        df = df[df["Model"].str.contains(search, case=False, na=False)]
+    if tasks:
+        base_cols = ["Model", "Precision", "#Params (B)"]
+        selected_cols = base_cols + [c for c in tasks if c in df.columns]
+        df = df[selected_cols]
+    return df_to_styled_html(df, table_id=table_id)
+
+# ---------------- Submit Request ----------------
+DATASET_NAME = "ailabs-itrc/requests"
+HF_TOKEN = os.environ.get("HF_TOKEN")
+
+def submit_request(model_name, revision, precision, weight_type,
+                   model_type, params, license_str, private_bool):
+    """Submit a model request to HuggingFace dataset."""
+    try:
+        try:
+            dataset = load_dataset(DATASET_NAME, split="train", token=HF_TOKEN)
+        except Exception:
+            dataset = Dataset.from_list([])
+
+        existing_models = [entry["model"] for entry in dataset if "model" in entry]
+        if model_name in existing_models:
+            return f"⚠️ Model '{model_name}' already exists."
+
+        tehran = pytz.timezone("Asia/Tehran")
+        now = datetime.now(tehran)
+        persian_time = now.strftime("%Y-%m-%dT%H:%M:%S")
+
+        new_entry = {
+            "id": str(uuid.uuid4()),
+            "model": model_name,
+            "revision": revision,
+            "precision": precision,
+            "weight_type": weight_type,
+            "submitted_time": persian_time,
+            "model_type": model_type,
+            "params": float(params) if params else None,
+            "license": license_str,
+            "private": bool(private_bool),
+            "status": "⏳ pending"
+        }
+
+        dataset = dataset.add_item(new_entry)
+        dataset.push_to_hub(DATASET_NAME, token=HF_TOKEN)
+
+        return f"✅ Submitted! ID: {new_entry['id']}"
+    except Exception as e:
+        return f"❌ Error: {str(e)}"
 
 # # import os
 # # import json
