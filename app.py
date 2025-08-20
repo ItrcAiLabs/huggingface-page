@@ -18,19 +18,12 @@ CUSTOM_CSS = """
         font-size: 46px !important;
         font-weight: 700 !important;
         letter-spacing: 1.5px;
-    
         background: linear-gradient(90deg, #1e40af, #2563eb);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-    
         text-shadow: 0px 3px 8px rgba(0,0,0,0.25);
-    
         margin: 25px 0 35px 0 !important;
     }
-
-
-
-
     .section-title {
         font-size: 18px !important;
         font-weight: 700 !important;
@@ -63,26 +56,23 @@ CUSTOM_CSS = """
         position: relative;
         padding-right: 20px;
     }
-    
     th .sort-icon {
         margin-left: 6px;
         font-size: 12px;
         opacity: 0.5;
         color: #666;
     }
-    
     th.asc .sort-icon {
         color: #2563eb;
         font-weight: bold;
     }
-    
     th.desc .sort-icon {
         color: #2563eb;
         font-weight: bold;
     }
-
 </style>
 """
+
 
 # ---------------- Gradio App ----------------
 with gr.Blocks(css=CUSTOM_CSS) as demo:
