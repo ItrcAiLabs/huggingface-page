@@ -92,39 +92,89 @@ body, .gradio-container {
 /* ====== Styled Table ====== */
 .styled-table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
+    border-collapse: collapse;
+    font-family: 'Inter','Vazirmatn',sans-serif;
     font-size: 14px;
-    border: 1px solid #e5e7eb;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-    background: white;
-    animation: fadeIn 0.5s ease;
 }
+
+/* هدر جدول */
 .styled-table thead {
-    background: #f1f5f9;
+    background: #fff;
+    border-bottom: 2px solid #f0f0f0;
 }
 .styled-table th {
-    padding: 12px 16px;
+    padding: 14px 12px;
     font-weight: 600;
-    text-align: left;
-    color: #1e3a8a;
-    border-bottom: 2px solid #e5e7eb;
     font-size: 13px;
+    color: #555;
+    text-align: left;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
+
+/* ردیف‌ها */
 .styled-table td {
-    padding: 12px 16px;
-    border-bottom: 1px solid #f1f1f1;
+    padding: 14px 12px;
+    font-size: 14px;
+    color: #333;
 }
+
+/* راه‌راه شدن سطرها */
 .styled-table tbody tr:nth-child(even) {
     background: #fafafa;
 }
+
+/* افکت هاور */
 .styled-table tbody tr:hover {
-    background: #e0e7ff !important;
-    transition: background 0.25s ease;
+    background: #f0f6ff;
+    transition: background 0.2s ease-in-out;
 }
+
+/* سایه ملایم دور جدول */
+.table-wrapper {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+# .styled-table {
+#     width: 100%;
+#     border-collapse: separate;
+#     border-spacing: 0;
+#     font-size: 14px;
+#     border: 1px solid #e5e7eb;
+#     border-radius: 12px;
+#     overflow: hidden;
+#     box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+#     background: white;
+#     animation: fadeIn 0.5s ease;
+# }
+# .styled-table thead {
+#     background: #f1f5f9;
+# }
+# .styled-table th {
+#     padding: 12px 16px;
+#     font-weight: 600;
+#     text-align: left;
+#     color: #1e3a8a;
+#     border-bottom: 2px solid #e5e7eb;
+#     font-size: 13px;
+#     text-transform: uppercase;
+# }
+# .styled-table td {
+#     padding: 12px 16px;
+#     border-bottom: 1px solid #f1f1f1;
+# }
+# .styled-table tbody tr:nth-child(even) {
+#     background: #fafafa;
+# }
+# .styled-table tbody tr:hover {
+#     background: #e0e7ff !important;
+#     transition: background 0.25s ease;
+# }
+
 
 /* ====== Animation ====== */
 @keyframes fadeIn {
