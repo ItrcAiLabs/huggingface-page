@@ -13,25 +13,22 @@ CUSTOM_CSS = """
 <style>
 .main-title {
     display: block;
+    text-align: center;
+
     font-family: 'Raleway','Vazirmatn',sans-serif !important;
     font-size: 42px !important;
     font-weight: 600 !important;
-    text-align: center;
-    margin: 15px 0 25px 0 !important;
 
-    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    background: linear-gradient(90deg, #1e40af, #2563eb);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    text-shadow: 0px 3px 8px rgba(37, 99, 235, 0.25);
 
-    letter-spacing: 1.5px;
+    margin: 20px 0 30px 0 !important;
+    letter-spacing: 1.2px;
+}
 
-    transition: transform 0.3s ease;
-}
-.main-title:hover {
-    transform: scale(1.03);
-}
 
     .section-title {
         font-size: 18px !important;
