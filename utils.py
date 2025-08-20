@@ -272,44 +272,12 @@ def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
     html += "</tbody></table>"
 
     html += """
-<script>
-function sortTable(tableId, th) {
-    const table = document.getElementById(tableId);
-    const tbody = table.querySelector("tbody");
-    const rows = Array.from(tbody.querySelectorAll("tr"));
-    const colIndex = Array.from(th.parentNode.children).indexOf(th);
-    const isAsc = th.classList.contains("asc");
-
-    const clean = (val) => val.replace(/[^0-9.\\-]/g, "");
-
-    rows.sort((a, b) => {
-        const A = a.children[colIndex].innerText.trim();
-        const B = b.children[colIndex].innerText.trim();
-        const numA = parseFloat(clean(A));
-        const numB = parseFloat(clean(B));
-
-        if (!isNaN(numA) && !isNaN(numB)) {
-            return (isAsc ? -1 : 1) * (numA - numB);
-        }
-        return (isAsc ? -1 : 1) * A.localeCompare(B, 'en', {numeric:true});
-    });
-
-    rows.forEach(r => tbody.appendChild(r));
-
-    table.querySelectorAll("th").forEach(t => t.classList.remove("asc", "desc"));
-    if (isAsc) {
-        th.classList.remove("asc");
-        th.classList.add("desc");
-    } else {
-        th.classList.remove("desc");
-        th.classList.add("asc");
-    }
-}
-</script>
+    <script src="file=sort.js"></script>
     """
 
-    return html
 
+
+    return html 
 # ---------------- Filter ----------------
 def filter_table(search: str, tasks: list, df: pd.DataFrame, table_id: str = "leaderboard") -> str:
     """Filter DataFrame by search term and selected tasks."""
