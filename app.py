@@ -64,23 +64,19 @@ CUSTOM_CSS = """
         padding-right: 20px;
     }
     
-    th .sort-icon::after {
-        content: "⇅";
-        font-size: 12px;
-        opacity: 0.4;
+    th .sort-icon {
         margin-left: 6px;
+        font-size: 12px;
+        opacity: 0.5;
+        color: #666;
     }
     
-    th.asc .sort-icon::after {
-        content: "↑";
-        opacity: 0.9;
-        color: #2563eb; /* آبی شیک */
+    th.asc .sort-icon {
+        color: #2563eb;
         font-weight: bold;
     }
     
-    th.desc .sort-icon::after {
-        content: "↓";
-        opacity: 0.9;
+    th.desc .sort-icon {
         color: #2563eb;
         font-weight: bold;
     }
