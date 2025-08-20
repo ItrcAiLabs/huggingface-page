@@ -139,9 +139,44 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                     label="",
                     elem_classes=["task-box"],
                 )
+            sort_col = gr.Dropdown(
+                choices=df.columns.tolist(),
+                value=df.columns[0],
+                label="Sort by column"
+            )
+            sort_order = gr.Radio(
+                choices=["Ascending", "Descending"],
+                value="Descending",
+                label="Order"
+            )
+            
+            output_html = gr.HTML(value=df_to_styled_html(df, table_id=table_id))
+            # ---------------- event connection ----------------
+            def update_table(search, tasks, col, order):
+                sorted_df = sort_dataframe(df, col, ascending=(order == "Ascending"))
+                return filter_table(search, tasks, sorted_df, table_id=table_id)
         
-                output_html = gr.HTML(value=df_to_styled_html(df, table_id=table_id))
-        
+            search_input.change(
+                fn=update_table,
+                inputs=[search_input, task_selector, sort_col, sort_order],
+                outputs=output_html,
+            )
+            task_selector.change(
+                fn=update_table,
+                inputs=[search_input, task_selector, sort_col, sort_order],
+                outputs=output_html,
+            )
+            sort_col.change(
+                fn=update_table,
+                inputs=[search_input, task_selector, sort_col, sort_order],
+                outputs=output_html,
+            )
+            sort_order.change(
+                fn=update_table,
+                inputs=[search_input, task_selector, sort_col, sort_order],
+                outputs=output_html,
+            )
+                
                 search_input.change(
                     fn=make_filter_func(df, table_id),
                     inputs=[search_input, task_selector],
