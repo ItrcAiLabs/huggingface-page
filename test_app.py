@@ -3,6 +3,23 @@ from utils import submit_request, load_all_data, df_to_styled_html, TASK_GROUPS,
 import pandas as pd
 
 SMALL_PARAMS_B = 9
+# --- Context range choices (tokens) ---
+CONTEXT_RANGE_CHOICES = ["0–16K", "16K–32K", "32K–128K", "128K–500K", "500K+"]
+
+def ctx_to_int(x):
+    
+    import math
+    if pd.isna(x):
+        return -1
+    s = str(x).strip().lower().replace(" ", "")
+    try:
+        if s.endswith("m"):
+            return int(float(s[:-1]) * 1_000_000)
+        if s.endswith("k"):
+            return int(float(s[:-1]) * 1_000)
+        return int(float(s))
+    except:
+        return -1
 
 def apply_quick_filters(df: pd.DataFrame, quick: list, brands: list) -> pd.DataFrame:
     out = df.copy()
@@ -18,13 +35,34 @@ def apply_quick_filters(df: pd.DataFrame, quick: list, brands: list) -> pd.DataF
             out = out[v < SMALL_PARAMS_B]
     if brands and "Organization" in out.columns:
         out = out[out["Organization"].astype(str).isin(brands)]
+        # --- Context range filter ---
+    if ctx_range:
+        col = next((c for c in ["Input Context Length","Context Length","Max Context","Context"] if c in out.columns), None)
+        if col:
+            v = out[col].apply(ctx_to_int)
+            if ctx_range == "0–16K":
+                out = out[(v >= 0) & (v < 16_000)]
+            elif ctx_range == "16K–32K":
+                out = out[(v >= 16_000) & (v < 32_000)]
+            elif ctx_range == "32K–128K":
+                out = out[(v >= 32_000) & (v < 128_000)]
+            elif ctx_range == "128K–500K":
+                out = out[(v >= 128_000) & (v < 500_000)]
+            elif ctx_range == "500K+":
+                out = out[(v >= 500_000)]
     return out
 
+# def make_pipeline_filter(current_df: pd.DataFrame, table_id: str):
+#     def _fn(search_text: str, task_cols: list, quick: list, brands: list):
+#         df1 = apply_quick_filters(current_df, quick or [], brands or [])
+#         return filter_table(search_text, task_cols, df1, table_id=table_id)
+#     return _fn
 def make_pipeline_filter(current_df: pd.DataFrame, table_id: str):
-    def _fn(search_text: str, task_cols: list, quick: list, brands: list):
-        df1 = apply_quick_filters(current_df, quick or [], brands or [])
+    def _fn(search_text: str, task_cols: list, quick: list, brands: list, ctx_range: str | None):
+        df1 = apply_quick_filters(current_df, quick or [], brands or [], ctx_range)
         return filter_table(search_text, task_cols, df1, table_id=table_id)
     return _fn
+
 
 
 # ---------------- Load leaderboard data ----------------
@@ -201,6 +239,17 @@ body, .gradio-container {
 .gr-checkbox-group label:hover{background:#e0e7ff}
 .gr-checkbox-group input:checked+label{background:#4f46e5;color:#fff;border-color:#4f46e5}
 
+/* Context range dropdown */
+.ctx-range select, .ctx-range .wrap-inner, #ctx_range_dd {
+    border: 1.5px solid #e5e7eb !important;
+    border-radius: 999px !important;
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+    background: #f8fafc !important;
+}
+.ctx-range:hover select { border-color: #93c5fd !important; }
+
+
 """
 
 # ---------------- Sort Function ----------------
@@ -297,8 +346,10 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
 
         # def make_filter_func(current_df, table_id):
         #     return lambda s, tasks: filter_table(s, tasks, current_df, table_id=table_id)
+        # def make_filter_func(current_df, table_id):
+        #     return lambda s, tasks, qf, br: make_pipeline_filter(current_df, table_id)(s, tasks, qf, br)
         def make_filter_func(current_df, table_id):
-            return lambda s, tasks, qf, br: make_pipeline_filter(current_df, table_id)(s, tasks, qf, br)
+            return lambda s, tasks, qf, br, cr: make_pipeline_filter(current_df, table_id)(s, tasks, qf, br, cr)
 
         
         for tab_name, df, table_id in tabs:
@@ -350,6 +401,16 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                     inputs=[search_input, task_selector, quick_filters, brand_filters],
                     outputs=output_html,
                 )
+                context_range = gr.Dropdown(
+                    choices=CONTEXT_RANGE_CHOICES,
+                    value=None,
+                    label="",
+                    placeholder="Input Context Length",
+                    elem_id="ctx_range_dd",
+                    elem_classes=["ctx-range"],
+                )
+
+
 
     with gr.Tab("ℹ️ About"):
         gr.Markdown("""
