@@ -351,29 +351,30 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         )
         #---------------------------------------------------
         gr.Markdown("<div class='section-title'>Quick Filters</div>")
-        with gr.Row():
+        with gr.Row(elem_classes=["quick-filters-wrap"]):
+            # 🔹 quick filters (open/small models)
             quick_filters = gr.CheckboxGroup(
-                choices=["Open Models","Small Models (<9B)"],
-                value=[], label=""
+                choices=["Open Models","Small Models (<8B)"],
+                value=[], label="",
             )
-            gr.HTML("<span class='mini-chip'>Input Context Length</span>")
-    
-        # Dropdown جمع‌وجور (بدون لیبل داخلی)
-        context_range = gr.Dropdown(
-            choices=CONTEXT_RANGE_CHOICES,
-            value=None,
-            label="",          # لیبل داخلی نمی‌خوایم
-            show_label=False,  # پسِش هم مخفی
-            container=False,
-            elem_classes=["ctx-range"],
-        )
-
-
-
-        brand_filters = gr.CheckboxGroup(
-            choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
-            value=[], label=""
-        )
+        
+            # 🔹 context range pill (label + dropdown)
+            with gr.Row(elem_classes=["ctx-filter-pill"]):
+                gr.HTML("<span class='mini-chip'>Input Context</span>")
+                context_range = gr.Dropdown(
+                    choices=CONTEXT_RANGE_CHOICES,
+                    value=None,
+                    label="",
+                    show_label=False,
+                    container=False,
+                    elem_classes=["ctx-range"],
+                )
+        
+            # 🔹 brand filters
+            brand_filters = gr.CheckboxGroup(
+                choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
+                value=[], label="",
+            )
 #---------------------------------------------------------------------------------------------------------------------
         # subtabs for SBU / UQ / AUT
         tabs = [
