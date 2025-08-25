@@ -4,7 +4,6 @@ import pandas as pd
 
 # ---------------- Context Helpers ----------------
 def normalize_context(val: str) -> int:
-    """تبدیل مقدار context مثل '16k' یا '1M' به عدد"""
     if not isinstance(val, str):
         return 0
     v = val.lower().replace(" ", "")
@@ -127,10 +126,14 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
             choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
             value=[], label=""
         )
-        context_ranges = gr.CheckboxGroup(
+        context_ranges = gr.Dropdown(
             choices=["0-16K","16K-32K","32K-128K","128K-500K","500K+"],
-            value=[], label="Context Ranges"
+            value=None,
+            multiselect=True,    
+            label="Context Range",
+            interactive=True
         )
+
 
         tabs = [
             ("🏛️ SBU", df_sbu, "leaderboard_sbu"),
