@@ -33,12 +33,13 @@ def make_brand_icon_css() -> str:
     for brand, fname in BRAND_ICONS.items():
         fp = BRANDS_DIR / fname
         if not fp.exists():
-            continue  # اگر نبود، صرفاً آیکون برای آن برند نمایش داده نشود
+            continue
         uri = _data_uri(fp)
-        # آیکون روی pseudo-elementِ before همان لیبل قرار می‌گیرد
+        # توجه: label:has(input[value="..."]) چون input داخل label قرار دارد
         rules.append(
-            f'.brand-chips input[value="{brand}"] + label::before '
-            f'{{ background-image:url("{uri}"); }}'
+            f'''.brand-chips .gr-checkbox-group label:has(input[value="{brand}"])::before {{
+                    background-image: url("{uri}");
+                }}'''
         )
     return "<style>\n" + "\n".join(rules) + "\n</style>"
 
