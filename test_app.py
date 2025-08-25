@@ -89,117 +89,46 @@ body, .gradio-container {
     border-color: #3b82f6 !important;
 }
 /* ====== Table ====== */
-# /* قاب کلی جدول */
-# .table-wrapper {
-#     border: 1px solid #dbeafe;       /* آبی خیلی ملایم */
-#     border-radius: 12px;
-#     overflow-x: auto;                
-#     box-shadow: 0 2px 6px rgba(59,130,246,0.05);
-#     margin: 20px 0;
-# }
-
-# /* جدول */
-# .styled-table {
-#     width: 100%;
-#     border-collapse: collapse;
-#     font-family: 'Inter','Vazirmatn',sans-serif;
-#     font-size: 14px;
-#     table-layout: auto; /* ستون‌ها خودکار متناسب */
-# }
-
-# /* هدر */
-# .styled-table thead {
-#     background: linear-gradient(90deg, #f9fbff, #eef6ff); /* آبی روشن */
-# }
-# .styled-table th {
-#     padding: 12px 10px;
-#     font-weight: 600;
-#     font-size: 13px;
-#     color: #1e3a8a;                  /* آبی شیک */
-#     text-align: left;
-#     border-bottom: 2px solid #bfdbfe;
-#     white-space: normal;             /* اجازه بشکنه */
-#     word-wrap: break-word;
-#     max-width: 180px;                /* هدر بیش از حد عریض نشه */
-#     line-height: 1.4;
-# }
-
-# /* بدنه */
-# .styled-table td {
-#     padding: 12px 10px;
-#     font-size: 14px;
-#     color: #333;
-#     border-bottom: 1px solid #dbeafe; 
-#     max-width: 180px;                
-#     overflow: hidden;
-#     text-overflow: ellipsis;
-#     white-space: nowrap;              
-# }
-
-
-# .styled-table tbody tr:nth-child(even) {
-#     background: #fafcff;
-# }
-
-
-# .styled-table tbody tr:hover {
-#     background: #e0f2fe;
-#     transition: background 0.2s ease-in-out;
-# }
-
-.table-wrapper {
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    overflow-x: auto;                
-    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-    margin: 20px 0;
-    background: #fff;
+.table-wrapper { 
+    border: 1px solid #e9ecef !important; 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important;
+    background: #fff !important;
 }
 
-.styled-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: 'Inter','Vazirmatn',sans-serif;
-    font-size: 14px;
-    table-layout: auto;
+.table-wrapper table[border],
+.table-wrapper table[style*="border"] {
+    border: none !important;
 }
 
-.styled-table thead {
-    background: linear-gradient(90deg, #fafafa, #f5f5f5);
+.table-wrapper table,
+.table-wrapper thead,
+.table-wrapper tbody,
+.table-wrapper tr,
+.table-wrapper th,
+.table-wrapper td {
+    border: 0 !important;
+    border-color: #e5e7eb !important;
 }
 
-.styled-table th {
-    padding: 12px 10px;
-    font-weight: 600;
-    font-size: 13px;
-    color: #1e3a8a;
-    text-align: left;
-    border-bottom: 1px solid #e5e7eb;
-    white-space: normal;
-    word-wrap: break-word;
-    max-width: 180px;
-    line-height: 1.4;
+.table-wrapper th { 
+    border-bottom: 1px solid #e5e7eb !important; 
+}
+.table-wrapper td { 
+    border-bottom: 1px solid #f0f0f0 !important; 
 }
 
-.styled-table td {
-    padding: 12px 10px;
-    font-size: 14px;
-    color: #333;
-    border-bottom: 1px solid #f0f0f0;
-    max-width: 180px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+#leaderboard_sbu, 
+#leaderboard_uq, 
+#leaderboard_aut {
+    border: none !important;
+}
+#leaderboard_sbu th, #leaderboard_uq th, #leaderboard_aut th {
+    border-bottom: 1px solid #e5e7eb !important;
+}
+#leaderboard_sbu td, #leaderboard_uq td, #leaderboard_aut td {
+    border-bottom: 1px solid #f0f0f0 !important;
 }
 
-.styled-table tbody tr:nth-child(even) {
-    background: #fafafa;
-}
-
-.styled-table tbody tr:hover {
-    background: #f0f7ff;
-    transition: background 0.2s ease-in-out;
-}
 
 .model-col {
     font-weight: 600;
@@ -227,55 +156,6 @@ body, .gradio-container {
 ::-webkit-scrollbar {
     display: none;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# .styled-table {
-#     width: 100%;
-#     border-collapse: separate;
-#     border-spacing: 0;
-#     font-size: 14px;
-#     border: 1px solid #e5e7eb;
-#     border-radius: 12px;
-#     overflow: hidden;
-#     box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-#     background: white;
-#     animation: fadeIn 0.5s ease;
-# }
-# .styled-table thead {
-#     background: #f1f5f9;
-# }
-# .styled-table th {
-#     padding: 12px 16px;
-#     font-weight: 600;
-#     text-align: left;
-#     color: #1e3a8a;
-#     border-bottom: 2px solid #e5e7eb;
-#     font-size: 13px;
-#     text-transform: uppercase;
-# }
-# .styled-table td {
-#     padding: 12px 16px;
-#     border-bottom: 1px solid #f1f1f1;
-# }
-# .styled-table tbody tr:nth-child(even) {
-#     background: #fafafa;
-# }
-# .styled-table tbody tr:hover {
-#     background: #e0e7ff !important;
-#     transition: background 0.25s ease;
-# }
 
 
 /* ====== Animation ====== */
