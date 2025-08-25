@@ -533,6 +533,32 @@ body, .gradio-container {
   content:""; position:absolute; left:10px; width:16px; height:16px;
   background-size:contain; background-repeat:no-repeat; background-position:center;
 }
+/* مخفی کردن خود مربع چک‌باکس */
+#brand_openai input[type="checkbox"],
+#brand_anthropic input[type="checkbox"],
+#brand_google input[type="checkbox"],
+#brand_meta input[type="checkbox"],
+#brand_qwen input[type="checkbox"],
+#brand_mistral input[type="checkbox"],
+#brand_deepseek input[type="checkbox"],
+#brand_xai input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+/* حالت انتخاب شده */
+#brand_openai input[type="checkbox"]:checked + label,
+#brand_anthropic input[type="checkbox"]:checked + label,
+#brand_google input[type="checkbox"]:checked + label,
+#brand_meta input[type="checkbox"]:checked + label,
+#brand_qwen input[type="checkbox"]:checked + label,
+#brand_mistral input[type="checkbox"]:checked + label,
+#brand_deepseek input[type="checkbox"]:checked + label,
+#brand_xai input[type="checkbox"]:checked + label {
+    background: #0ea5e9;
+    color: #fff;
+    border-color: #0284c7;
+}
 
 """
 
