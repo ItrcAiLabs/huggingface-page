@@ -194,7 +194,7 @@ def df_to_styled_html(
     html += "<thead><tr>"
 
     for col in df.columns:
-        if col.lower() in ["model", "precision", "license", "organization", "context"]:
+        if col.lower() in ["model", "precision", "license", "organization"]:
             html += f"<th>{col}</th>"
         else:
             up_color = "color:#999;"
