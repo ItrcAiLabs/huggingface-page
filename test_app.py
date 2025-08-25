@@ -252,10 +252,9 @@ body, .gradio-container {
 /* ---- Compact pill dropdown ---- */
 .ctx-range{
   display:inline-block !important;
-  max-width:120px !important;       
+  max-width:120px !important; 
   min-width:96px !important;
 }
-
 .ctx-range select,
 .ctx-range button,
 .ctx-range .wrap-inner{
@@ -268,14 +267,10 @@ body, .gradio-container {
   box-shadow:0 1px 2px rgba(0,0,0,.04) !important;
   cursor:pointer !important;
 }
-
-/* hover */
 .ctx-range:hover select,
 .ctx-range:hover button{
   border-color:#3b82f6 !important;
 }
-
-.ctx-range .container, .ctx-range .label-wrap{ padding:0 !important; border:none !important; }
 
 
 
