@@ -3,7 +3,7 @@ from utils import submit_request, load_all_data, df_to_styled_html, TASK_GROUPS,
 import pandas as pd
 
 SMALL_PARAMS_B = 9
-CONTEXT_RANGE_CHOICES = ["0–16K", "16K–32K", "32K–128K", "128K–500K", "500K+"]
+CONTEXT_RANGE_CHOICES = ["No Filter", "0–16K", "16K–32K", "32K–128K", "128K–500K", "500K+"]
 
 def ctx_to_int(x):
     if pd.isna(x):
@@ -37,7 +37,8 @@ def apply_quick_filters(df: pd.DataFrame, quick: list, brands: list, ctx_range: 
         out = out[out["Organization"].astype(str).isin(brands)]
 
     # Context range
-    if ctx_range:
+# Context range
+    if ctx_range and ctx_range != "No Filter":
         col = next((c for c in ["Input Context Length","Context Length","Max Context","Context"] if c in out.columns), None)
         if col:
             v = out[col].apply(ctx_to_int)
