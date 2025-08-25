@@ -422,17 +422,15 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                 value=[], label=""
             )
         
-            # ردیف ۳: کانتکست (لیبل چیپی + دکمه + + dropdown مخفی + نشان‌دادن انتخاب)
-            with gr.Row(elem_classes=["ctx-filter-pill"]):
-                gr.HTML("<span class='chip-label'>Input Context Length</span>")
+           with gr.Row(elem_classes=["ctx-filter-pill"]):
                 context_range = gr.Dropdown(
                     choices=CONTEXT_RANGE_CHOICES,
                     value=None,
-                    label="",
-                    show_label=False,
-                    container=False,
+                    label="Input Context Length",   # ✅ لیبل روی خود Dropdown
+                    show_label=True,                # ✅ لیبل نمایش داده شود
                     elem_classes=["ctx-dd"],
                 )
+
 #---------------------------------------------------------------------------------------------------------------------
        
         # subtabs for SBU / UQ / AUT
