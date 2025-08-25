@@ -1,50 +1,44 @@
 import gradio as gr
 
-with gr.Blocks() as demo:
-    gr.Markdown("## 🖼️ تست لوگوها از static/brands")
-    gr.HTML("""
-    <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:center">
-        <div><img src="/file=static/brands/openai.svg"    width="56"><br>OpenAI</div>
-        <div><img src="/file=static/brands/anthropic.svg" width="56"><br>Anthropic</div>
-        <div><img src="/file=static/brands/google.svg"    width="56"><br>Google</div>
-        <div><img src="/file=static/brands/meta.svg"      width="56"><br>Meta</div>
-        <div><img src="/file=static/brands/qwen.webp"     width="56"><br>Qwen</div>
-        <div><img src="/file=static/brands/mistral.svg"   width="56"><br>Mistral</div>
-        <div><img src="/file=static/brands/deepseek.svg"  width="56"><br>DeepSeek</div>
-        <div><img src="/file=static/brands/xai.svg"       width="56"><br>xAI</div>
+logos = [
+    ("openai.svg",    "OpenAI"),
+    ("anthropic.svg", "Anthropic"),
+    ("google.svg",    "Google"),
+    ("meta.svg",      "Meta"),
+    ("qwen.webp",     "Qwen"),
+    ("mistral.svg",   "Mistral"),
+    ("deepseek.svg",  "DeepSeek"),
+    ("xai.svg",       "xAI"),
+]
+
+def render_logos():
+    items = []
+    for fname, label in logos:
+        items.append(
+            f"""
+            <figure style="text-align:center; margin:0;">
+                <img src="/file=static/brands/{fname}" width="56" alt="{label}" draggable="false" />
+                <figcaption style="font-size:12px;color:#555;margin-top:6px">{label}</figcaption>
+            </figure>
+            """
+        )
+    return f"""
+    <style>
+      /* بدون امکان انتخاب/درگ یا کلیک */
+      .logo-grid img {{
+        user-select: none;
+        -webkit-user-drag: none;
+        pointer-events: none;
+      }}
+    </style>
+    <div class="logo-grid" style="display:flex; gap:20px; flex-wrap:wrap; align-items:center;">
+        {''.join(items)}
     </div>
-    """)
+    """
+
+with gr.Blocks() as demo:
+    gr.Markdown("## 🖼️ لوگوها (نمایش ساده، بدون تعامل)")
+    gr.HTML(render_logos())
 
 if __name__ == "__main__":
     demo.launch()
-
-# import gradio as gr
-# from pathlib import Path
-
-# ROOT = Path(__file__).parent
-# BRANDS = ROOT / "static" / "brands"
-
-# files = [
-#     (BRANDS/"openai.svg").as_posix(),
-#     (BRANDS/"anthropic.svg").as_posix(),
-#     (BRANDS/"google.svg").as_posix(),
-#     (BRANDS/"meta.svg").as_posix(),
-#     (BRANDS/"qwen.webp").as_posix(),
-#     (BRANDS/"mistral.svg").as_posix(),
-#     (BRANDS/"deepseek.webp").as_posix(),
-#     (BRANDS/"xai.svg").as_posix(),
-# ]
-
-# with gr.Blocks() as demo:
-#     gr.Markdown("## 🖼️ تست لوگوها از static/brands (Components)")
-#     gr.Gallery(
-#         value=files,
-#         label=None,
-#         preview=True,
-#         allow_preview=True,
-#         columns=8,
-#         height=140
-#     )
-
-# if __name__ == "__main__":
-#     demo.launch()
