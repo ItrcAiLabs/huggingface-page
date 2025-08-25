@@ -335,11 +335,11 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
             context_range = gr.Dropdown(
                 choices=CONTEXT_RANGE_CHOICES,
                 value=None,
-                label="",
-                placeholder="Input Context Length",
+                label="Input Context Length",   # ✅ همین نقش عنوان/placeholder رو بازی می‌کنه
                 elem_id="ctx_range_dd",
                 elem_classes=["ctx-range"],
             )
+
         brand_filters = gr.CheckboxGroup(
             choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
             value=[], label=""
