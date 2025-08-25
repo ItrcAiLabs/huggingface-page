@@ -115,9 +115,18 @@ df_sbu = add_organization_column(dfs["SBU"])
 df_uq  = add_organization_column(dfs["UQ"])
 df_aut = add_organization_column(dfs["AUT"])
 
-df_sbu = df_sbu.loc[df_sbu[TASK_GROUPS["SBU"]].notna().any(axis=1)]
-df_uq  = df_uq.loc[df_uq[TASK_GROUPS["UQ"]].notna().any(axis=1)]
-df_aut = df_aut.loc[df_aut[TASK_GROUPS["AUT"]].notna().any(axis=1)]
+def _keep_rows_with_any_scores(df: pd.DataFrame, group: str) -> pd.DataFrame:
+    cols = [c for c in TASK_GROUPS[group] if c in df.columns]
+    if cols:
+        return df.loc[df[cols].notna().any(axis=1)]
+    return df
+
+df_sbu = _keep_rows_with_any_scores(df_sbu, "SBU")
+df_uq  = _keep_rows_with_any_scores(df_uq,  "UQ")
+df_aut = _keep_rows_with_any_scores(df_aut, "AUT")
+# df_sbu = df_sbu.loc[df_sbu[TASK_GROUPS["SBU"]].notna().any(axis=1)]
+# df_uq  = df_uq.loc[df_uq[TASK_GROUPS["UQ"]].notna().any(axis=1)]
+# df_aut = df_aut.loc[df_aut[TASK_GROUPS["AUT"]].notna().any(axis=1)]
 
 # df_sbu = dfs["SBU"]
 # df_uq  = dfs["UQ"]
@@ -439,14 +448,14 @@ body, .gradio-container {
   background-size:contain; background-repeat:no-repeat; background-position:center;
 }
 
-.brand-chips .gr-checkbox-group > div:nth-of-type(1) > label::before { background-image:url("/assets/brands/openai.svg"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(2) > label::before { background-image:url("/assets/brands/anthropic.svg"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(3) > label::before { background-image:url("/assets/brands/google.svg"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(4) > label::before { background-image:url("/assets/brands/meta.svg"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(5) > label::before { background-image:url("/assets/brands/qwen.webp"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(6) > label::before { background-image:url("/assets/brands/mistral.svg"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(7) > label::before { background-image:url("/assets/brands/deepseek.svg"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(8) > label::before { background-image:url("/assets/brands/xai.svg"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(1) > label::before { background-image:url("assets/brands/openai.svg"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(2) > label::before { background-image:url("assets/brands/anthropic.svg"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(3) > label::before { background-image:url("assets/brands/google.svg"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(4) > label::before { background-image:url("assets/brands/meta.svg"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(5) > label::before { background-image:url("assets/brands/qwen.webp"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(6) > label::before { background-image:url("assets/brands/mistral.svg"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(7) > label::before { background-image:url("assets/brands/deepseek.svg"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(8) > label::before { background-image:url("assets/brands/xai.svg"); }
 
 """
 
