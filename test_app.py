@@ -295,47 +295,61 @@ body, .gradio-container {
   cursor: pointer !important;
 }
 /* همه‌ی فیلترها داخل یک باکس */
-/* ===== همه فیلترها داخل یک باکس ===== */
+/* باکس کلی فیلترها */
 .filters-box{
-  display:flex; flex-wrap:wrap; gap:10px;
-  padding:12px; border:1px solid #e5e7eb; border-radius:12px;
-  background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.04);
+  display:flex; 
+  flex-direction:column;  /* ستون: ردیف بالا + ردیف پایین */
+  gap:12px;
+  padding:12px; 
+  border:1px solid #e5e7eb; 
+  border-radius:12px;
+  background:#fff; 
+  box-shadow:0 1px 3px rgba(0,0,0,.04);
 }
 
-/* ===== چیپ‌های چک‌باکسی (Quick + Brand) ===== */
-.gr-checkbox-group{ display:flex; flex-wrap:wrap; gap:8px; }
+/* چیپ‌های چک‌باکسی (Quick + Brand) */
+.gr-checkbox-group{
+  display:flex; 
+  flex-wrap:wrap; 
+  gap:8px;
+}
 .gr-checkbox-group input{ display:none; }
 .gr-checkbox-group label{
-  display:inline-flex; align-items:center; gap:8px;
-  padding:8px 12px; border-radius:9999px;
-  background:#eef2ff; color:#1e293b; border:1px solid #e5e7eb;
-  font-weight:700; font-size:13px; cursor:pointer;
-  box-shadow:0 2px 4px rgba(0,0,0,.04); transition:.2s;
+  display:inline-flex; 
+  align-items:center; 
+  gap:6px;
+  padding:6px 12px; 
+  border-radius:9999px;
+  background:#eef2ff; 
+  color:#1e293b; 
+  border:1px solid #e5e7eb;
+  font-weight:600; 
+  font-size:13px; 
+  cursor:pointer;
+  transition:.2s;
 }
 .gr-checkbox-group label:hover{ background:#e0e7ff; border-color:#93c5fd; }
-.gr-checkbox-group input:checked+label{ background:#4f46e5; color:#fff; border-color:#4f46e5; }
-
-/* ===== کانتکست: لیبل + dropdown داخل یک قرص ===== */
-.ctx-filter-pill{
-  display:inline-flex; align-items:center; gap:6px;
-  padding:2px 8px; border:1px solid #e5e7eb; border-radius:9999px;
-  background:#f9fafb; box-shadow:0 1px 2px rgba(0,0,0,.04); height:32px;
-}
-/* استایل لیبل روی Dropdown */
-.ctx-dd label {
-  font-weight: 700;
-  font-size: 12px;
-  color: #334155;
-  margin-bottom: 2px;
+.gr-checkbox-group input:checked+label{
+  background:#4f46e5; 
+  color:#fff; 
+  border-color:#4f46e5;
 }
 
+/* استایل لیبل Dropdown کانتکست */
+.ctx-dd label{
+  font-weight:600; 
+  font-size:13px; 
+  color:#334155; 
+  margin-bottom:2px;
+}
 .ctx-dd select, .ctx-dd button, .ctx-dd .wrap-inner{
-  border:none !important; background:transparent !important;
-  font-size:13px !important; height:26px !important;
+  border:1px solid #e5e7eb !important; 
+  border-radius:8px !important;
+  padding:4px 8px !important;
+  font-size:13px !important; 
+  background:#f9fafb !important;
   cursor:pointer !important;
 }
-
-
 
 
 """
