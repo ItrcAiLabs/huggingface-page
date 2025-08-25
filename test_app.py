@@ -286,7 +286,7 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                 output_html = gr.HTML(value=df_to_styled_html(df, table_id=table_id))
 
                 for col in df.columns:
-                    if col.lower() not in ["model", "precision", "license", "organization", "Context"]:
+                    if col.lower() not in ["model", "precision", "license", "organization"]:
                         btn_asc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_asc")
                         btn_desc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_desc")
 
