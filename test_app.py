@@ -275,7 +275,6 @@ body, .gradio-container {
   border-color:#3b82f6 !important;
 }
 
-.ctx-range label{ display:none !important; }
 .ctx-range .container, .ctx-range .label-wrap{ padding:0 !important; border:none !important; }
 
 
