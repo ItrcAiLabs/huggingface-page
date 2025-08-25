@@ -418,10 +418,13 @@ body, .gradio-container {
 }
 
 /* ===== Brand chips: آبی روشن + لوگو ===== */
-/* ===== Brand chips: آبی روشن + لوگو ===== */
-.brand-chips .gr-checkbox-group { display:flex; flex-wrap:wrap; gap:8px; }
+.brand-chips .gr-checkbox-group { 
+  display:flex; flex-wrap:wrap; gap:8px; 
+}
 
-.brand-chips .gr-checkbox-group input { display:none; }
+.brand-chips .gr-checkbox-group input { 
+  display:none; 
+}
 
 .brand-chips .gr-checkbox-group label {
   display:inline-flex; align-items:center; gap:8px;
@@ -442,20 +445,21 @@ body, .gradio-container {
   background:#0ea5e9; color:#fff; border-color:#0284c7;
 }
 
-/* لوگوها */
-.brand-chips .gr-checkbox-group label::before{
+/* لوگوها با توجه به مقدار value هر گزینه */
+.brand-chips input[value="OpenAI"]    + label::before { background-image:url("assets/brands/openai.svg"); }
+.brand-chips input[value="Anthropic"] + label::before { background-image:url("assets/brands/anthropic.svg"); }
+.brand-chips input[value="Google"]    + label::before { background-image:url("assets/brands/google.svg"); }
+.brand-chips input[value="Meta"]      + label::before { background-image:url("assets/brands/meta.svg"); }
+.brand-chips input[value="Qwen"]      + label::before { background-image:url("assets/brands/qwen.webp"); }
+.brand-chips input[value="Mistral"]   + label::before { background-image:url("assets/brands/mistral.svg"); }
+.brand-chips input[value="DeepSeek"]  + label::before { background-image:url("assets/brands/deepseek.webp"); }
+.brand-chips input[value="xAI"]       + label::before { background-image:url("assets/brands/xai.svg"); }
+
+/* استایل لوگوی پیش‌فرض */
+.brand-chips .gr-checkbox-group label::before {
   content:""; position:absolute; left:10px; width:16px; height:16px;
   background-size:contain; background-repeat:no-repeat; background-position:center;
 }
-
-.brand-chips .gr-checkbox-group > div:nth-of-type(1) > label::before { background-image:url("assets/brands/openai.svg"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(2) > label::before { background-image:url("assets/brands/anthropic.svg"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(3) > label::before { background-image:url("assets/brands/google.svg"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(4) > label::before { background-image:url("assets/brands/meta.svg"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(5) > label::before { background-image:url("assets/brands/qwen.webp"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(6) > label::before { background-image:url("assets/brands/mistral.svg"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(7) > label::before { background-image:url("assets/brands/deepseek.svg"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(8) > label::before { background-image:url("assets/brands/xai.svg"); }
 
 """
 
