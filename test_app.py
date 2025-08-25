@@ -409,6 +409,7 @@ body, .gradio-container {
 }
 
 /* ===== Brand chips: آبی روشن + لوگو ===== */
+/* ===== Brand chips: آبی روشن + لوگو ===== */
 .brand-chips .gr-checkbox-group { display:flex; flex-wrap:wrap; gap:8px; }
 
 .brand-chips .gr-checkbox-group input { display:none; }
@@ -432,23 +433,20 @@ body, .gradio-container {
   background:#0ea5e9; color:#fff; border-color:#0284c7;
 }
 
-/* آیکون پایه (روی همهٔ لیبل‌ها) */
+/* لوگوها */
 .brand-chips .gr-checkbox-group label::before{
   content:""; position:absolute; left:10px; width:16px; height:16px;
   background-size:contain; background-repeat:no-repeat; background-position:center;
 }
 
-/* نگاشت لوگوها: بر اساس ترتیب items داخلی
-   ساختار: .gr-checkbox-group > div:nth-of-type(N) > label */
-.brand-chips .gr-checkbox-group > div:nth-of-type(1) > label::before { background-image:url("https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(2) > label::before { background-image:url("https://upload.wikimedia.org/wikipedia/commons/2/24/Anthropic-logo.svg"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(3) > label::before { background-image:url("https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(4) > label::before { background-image:url("https://upload.wikimedia.org/wikipedia/commons/0/05/Meta_Platforms_Inc._logo.svg"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(5) > label::before { background-image:url("https://huggingface.co/front/assets/hub/qwen-icon.png"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(6) > label::before { background-image:url("https://mistral.ai/favicon.ico"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(7) > label::before { background-image:url("https://avatars.githubusercontent.com/u/172669550?s=200&v=4"); }
-.brand-chips .gr-checkbox-group > div:nth-of-type(8) > label::before { background-image:url("https://x.ai/favicon.ico"); }
-
+.brand-chips .gr-checkbox-group > div:nth-of-type(1) > label::before { background-image:url("/assets/brands/openai.svg"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(2) > label::before { background-image:url("/assets/brands/anthropic.svg"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(3) > label::before { background-image:url("/assets/brands/google.svg"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(4) > label::before { background-image:url("/assets/brands/meta.svg"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(5) > label::before { background-image:url("/assets/brands/qwen.webp"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(6) > label::before { background-image:url("/assets/brands/mistral.svg"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(7) > label::before { background-image:url("/assets/brands/deepseek.svg"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(8) > label::before { background-image:url("/assets/brands/xai.svg"); }
 
 """
 
