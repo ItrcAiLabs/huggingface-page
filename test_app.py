@@ -111,13 +111,17 @@ OPEN_ORGS = {
 
 # ---------------- Load leaderboard data ----------------
 dfs = load_all_data("data/")
-# df_sbu = add_organization_column(dfs["SBU"])
-# df_uq  = add_organization_column(dfs["UQ"])
-# df_aut = add_organization_column(dfs["AUT"])
+df_sbu = add_organization_column(dfs["SBU"])
+df_uq  = add_organization_column(dfs["UQ"])
+df_aut = add_organization_column(dfs["AUT"])
 
-df_sbu = dfs["SBU"]
-df_uq  = dfs["UQ"]
-df_aut = dfs["AUT"]
+df_sbu = df_sbu.loc[df_sbu[TASK_GROUPS["SBU"]].notna().any(axis=1)]
+df_uq  = df_uq.loc[df_uq[TASK_GROUPS["UQ"]].notna().any(axis=1)]
+df_aut = df_aut.loc[df_aut[TASK_GROUPS["AUT"]].notna().any(axis=1)]
+
+# df_sbu = dfs["SBU"]
+# df_uq  = dfs["UQ"]
+# df_aut = dfs["AUT"]
 
 # ---------------- Custom CSS ----------------
 CUSTOM_CSS = """
