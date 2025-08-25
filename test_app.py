@@ -226,53 +226,92 @@ body, .gradio-container {
     from {opacity:0; transform: translateY(6px);}
     to {opacity:1; transform: translateY(0);}
 }
-.quick-filters-wrap{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0 12px}
-.quick-title{color:#334155;font-weight:700;margin-inline-end:6px}
-.gr-checkbox-group{display:flex;flex-wrap:wrap;gap:8px}
-.gr-checkbox-group input{display:none}
-.gr-checkbox-group label{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:8px 12px;border-radius:999px;background:#eef2ff;color:#1e293b;
-    border:1px solid #e5e7eb;font-weight:700;font-size:13px;cursor:pointer;
-    box-shadow:0 2px 4px rgba(0,0,0,0.04);transition:.2s
-}
-.gr-checkbox-group label:hover{background:#e0e7ff}
-.gr-checkbox-group input:checked+label{background:#4f46e5;color:#fff;border-color:#4f46e5}
-
-/* ---- Tiny chip label ---- */
-.mini-chip{
-  display:inline-flex; align-items:center; gap:6px;
-  padding:4px 10px; border:1px solid #e5e7eb; border-radius:9999px;
-  background:#ffffff;
-  font-weight:700; font-size:12px; color:#334155;
-  box-shadow:0 1px 2px rgba(0,0,0,.04);
-  height:32px; line-height:32px;
+/* ===== Quick Filters Container ===== */
+.quick-filters-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 8px 0 12px;
 }
 
-/* ---- Compact pill dropdown ---- */
-.ctx-range{
-  display:inline-block !important;
-  max-width:120px !important; 
-  min-width:96px !important;
+/* ===== Quick Filter Checkbox Pills ===== */
+.gr-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
+.gr-checkbox-group input {
+  display: none;
+}
+.gr-checkbox-group label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 9999px;
+  background: #eef2ff;
+  color: #1e293b;
+  border: 1px solid #e5e7eb;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  transition: .2s;
+}
+.gr-checkbox-group label:hover {
+  background: #e0e7ff;
+}
+.gr-checkbox-group input:checked + label {
+  background: #4f46e5;
+  color: #fff;
+  border-color: #4f46e5;
+}
+
+/* ===== Label (chip) for Context Range ===== */
+.mini-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  font-weight: 700;
+  font-size: 12px;
+  color: #334155;
+  height: 28px;
+  line-height: 20px;
+}
+
+/* ===== Container for Label + Dropdown together ===== */
+.ctx-filter-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 2px 6px;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  background: #f9fafb;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  height: 32px; /* هم‌قد بقیه چیپ‌ها */
+}
+.ctx-filter-pill:hover {
+  border-color: #93c5fd;
+}
+
+/* ===== Compact Dropdown inside pill ===== */
 .ctx-range select,
 .ctx-range button,
-.ctx-range .wrap-inner{
-  border:1px solid #d1d5db !important;
-  border-radius:9999px !important;
-  padding:4px 10px !important;
-  font-size:13px !important;
-  height:32px !important;
-  background:#f9fafb !important;
-  box-shadow:0 1px 2px rgba(0,0,0,.04) !important;
-  cursor:pointer !important;
+.ctx-range .wrap-inner {
+  border: none !important;
+  background: transparent !important;
+  padding: 0 6px !important;
+  font-size: 13px !important;
+  height: 26px !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
 }
-.ctx-range:hover select,
-.ctx-range:hover button{
-  border-color:#3b82f6 !important;
-}
-
-
 
 """
 
