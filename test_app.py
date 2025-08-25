@@ -4,6 +4,44 @@ import pandas as pd
 
 SMALL_PARAMS_B = 9
 CONTEXT_RANGE_CHOICES = ["No Filter", "0–16K", "16K–32K", "32K–128K", "128K–500K", "500K+"]
+from pathlib import Path
+import base64, mimetypes
+
+BRANDS_DIR = Path(__file__).parent / "static" / "brands"
+
+BRAND_ICONS = {
+    "OpenAI":    "openai.svg",
+    "Anthropic": "anthropic.svg",
+    "Google":    "google.svg",
+    "Meta":      "meta.svg",
+    "Qwen":      "qwen.webp",
+    "Mistral":   "mistral.svg",
+    "DeepSeek":  "deepseek.webp",   # svg قبلی خراب بود، همین webp رو می‌گذاریم
+    "xAI":       "xai.svg",
+}
+
+def _data_uri(p: Path) -> str:
+    if p.suffix.lower() == ".svg":
+        mime = "image/svg+xml"
+    else:
+        mime = mimetypes.guess_type(p.name)[0] or "application/octet-stream"
+    b64 = base64.b64encode(p.read_bytes()).decode("ascii")
+    return f"data:{mime};base64,{b64}"
+
+def make_brand_icon_css() -> str:
+    rules = []
+    for brand, fname in BRAND_ICONS.items():
+        fp = BRANDS_DIR / fname
+        if not fp.exists():
+            continue  # اگر نبود، صرفاً آیکون برای آن برند نمایش داده نشود
+        uri = _data_uri(fp)
+        # آیکون روی pseudo-elementِ before همان لیبل قرار می‌گیرد
+        rules.append(
+            f'.brand-chips input[value="{brand}"] + label::before '
+            f'{{ background-image:url("{uri}"); }}'
+        )
+    return "<style>\n" + "\n".join(rules) + "\n</style>"
+
 
 def ctx_to_int(x):
     if pd.isna(x):
@@ -421,41 +459,24 @@ body, .gradio-container {
 .brand-chips .gr-checkbox-group { 
   display:flex; flex-wrap:wrap; gap:8px; 
 }
-
-.brand-chips .gr-checkbox-group input { 
-  display:none; 
-}
-
+.brand-chips .gr-checkbox-group input { display:none; }
 .brand-chips .gr-checkbox-group label {
   display:inline-flex; align-items:center; gap:8px;
   padding:6px 12px; border-radius:9999px;
-  background:#e0f2fe;             /* آبی روشن */
-  color:#0369a1;                   /* متن آبی تیره */
+  background:#e0f2fe;
+  color:#0369a1;
   border:1px solid #bae6fd;
   font-weight:600; font-size:13px; cursor:pointer;
   transition:.2s;
   position:relative; padding-left:30px; /* جا برای لوگو */
 }
-
 .brand-chips .gr-checkbox-group label:hover {
   background:#bae6fd; border-color:#7dd3fc;
 }
-
 .brand-chips .gr-checkbox-group input:checked + label {
   background:#0ea5e9; color:#fff; border-color:#0284c7;
 }
-
-/* لوگوها با توجه به مقدار value هر گزینه */
-.brand-chips input[value="OpenAI"]    + label::before { background-image:url("assets/brands/openai.svg"); }
-.brand-chips input[value="Anthropic"] + label::before { background-image:url("assets/brands/anthropic.svg"); }
-.brand-chips input[value="Google"]    + label::before { background-image:url("assets/brands/google.svg"); }
-.brand-chips input[value="Meta"]      + label::before { background-image:url("assets/brands/meta.svg"); }
-.brand-chips input[value="Qwen"]      + label::before { background-image:url("assets/brands/qwen.webp"); }
-.brand-chips input[value="Mistral"]   + label::before { background-image:url("assets/brands/mistral.svg"); }
-.brand-chips input[value="DeepSeek"]  + label::before { background-image:url("assets/brands/deepseek.webp"); }
-.brand-chips input[value="xAI"]       + label::before { background-image:url("assets/brands/xai.svg"); }
-
-/* استایل لوگوی پیش‌فرض */
+/* جای لوگو */
 .brand-chips .gr-checkbox-group label::before {
   content:""; position:absolute; left:10px; width:16px; height:16px;
   background-size:contain; background-repeat:no-repeat; background-position:center;
@@ -508,6 +529,8 @@ def make_sort_func(col, df, table_id, ascending):
 
 # ---------------- Gradio App ----------------
 with gr.Blocks(css=CUSTOM_CSS) as demo:
+    gr.HTML(make_brand_icon_css())
+
     # ===== Navbar =====
     gr.HTML("""
     <div class="navbar">
