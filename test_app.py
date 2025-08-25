@@ -1,6 +1,35 @@
 import gradio as gr
 from utils import submit_request, load_all_data, df_to_styled_html, TASK_GROUPS, filter_table
 import pandas as pd
+LONG_CTX_THRESHOLD = 128_000
+SMALL_PARAMS_B = 8
+
+def apply_quick_filters(df: pd.DataFrame, quick: list, brands: list) -> pd.DataFrame:
+    out = df.copy()
+    if "Multimodal" in quick and "Modality" in out.columns:
+        out = out[out["Modality"].astype(str).str.contains("image|audio|vision|multimodal", case=False, na=False)]
+    if "Open Models" in quick and "License" in out.columns:
+        out = out[out["License"].astype(str).str.lower().ne("custom")]
+    if "Long Context" in quick:
+        col = next((c for c in ["Input Context Length","Context Length","Max Context","Context"] if c in out.columns), None)
+        if col:
+            v = pd.to_numeric(out[col], errors="coerce").fillna(0)
+            out = out[v >= LONG_CTX_THRESHOLD]
+    if "Small Models (<8B)" in quick:
+        col = next((c for c in ["#Params (B)","Params (B)","Parameters (B)"] if c in out.columns), None)
+        if col:
+            v = pd.to_numeric(out[col], errors="coerce").fillna(1e9)
+            out = out[v < SMALL_PARAMS_B]
+    if brands and "Organization" in out.columns:
+        out = out[out["Organization"].astype(str).isin(brands)]
+    return out
+
+def make_pipeline_filter(current_df: pd.DataFrame, table_id: str):
+    def _fn(search_text: str, task_cols: list, quick: list, brands: list):
+        df1 = apply_quick_filters(current_df, quick or [], brands or [])
+        return filter_table(search_text, task_cols, df1, table_id=table_id)
+    return _fn
+
 
 # ---------------- Load leaderboard data ----------------
 dfs = load_all_data("data/")
@@ -163,6 +192,19 @@ body, .gradio-container {
     from {opacity:0; transform: translateY(6px);}
     to {opacity:1; transform: translateY(0);}
 }
+.quick-filters-wrap{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0 12px}
+.quick-title{color:#334155;font-weight:700;margin-inline-end:6px}
+.gr-checkbox-group{display:flex;flex-wrap:wrap;gap:8px}
+.gr-checkbox-group input{display:none}
+.gr-checkbox-group label{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 12px;border-radius:999px;background:#eef2ff;color:#1e293b;
+    border:1px solid #e5e7eb;font-weight:700;font-size:13px;cursor:pointer;
+    box-shadow:0 2px 4px rgba(0,0,0,0.04);transition:.2s
+}
+.gr-checkbox-group label:hover{background:#e0e7ff}
+.gr-checkbox-group input:checked+label{background:#4f46e5;color:#fff;border-color:#4f46e5}
+
 """
 
 # ---------------- Sort Function ----------------
@@ -205,7 +247,18 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
             placeholder="Type model name...",
             elem_classes=["search-box"],
         )
-
+        #---------------------------------------------------
+        gr.Markdown("<div class='section-title'>Quick Filters</div>")
+        with gr.Row():
+            quick_filters = gr.CheckboxGroup(
+                choices=["Multimodal","Open Models","Long Context","Small Models (<8B)"],
+                value=[], label=""
+            )
+        brand_filters = gr.CheckboxGroup(
+            choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
+            value=[], label=""
+        )
+#---------------------------------------------------------------------------------------------------------------------
         # subtabs for SBU / UQ / AUT
         tabs = [
             ("🏛️ SBU", df_sbu, "leaderboard_sbu"),
@@ -213,9 +266,12 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
             ("⚙️ AUT", df_aut, "leaderboard_aut"),
         ]
 
+        # def make_filter_func(current_df, table_id):
+        #     return lambda s, tasks: filter_table(s, tasks, current_df, table_id=table_id)
         def make_filter_func(current_df, table_id):
-            return lambda s, tasks: filter_table(s, tasks, current_df, table_id=table_id)
+            return lambda s, tasks, qf, br: make_pipeline_filter(current_df, table_id)(s, tasks, qf, br)
 
+        
         for tab_name, df, table_id in tabs:
             with gr.Tab(tab_name):
                 tab_tasks = [col for col in TASK_GROUPS[tab_name.split()[1]]]
@@ -253,6 +309,16 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                 task_selector.change(
                     fn=make_filter_func(df, table_id),
                     inputs=[search_input, task_selector],
+                    outputs=output_html,
+                )
+                quick_filters.change(
+                    fn=make_pipeline_filter(df, table_id),
+                    inputs=[search_input, task_selector, quick_filters, brand_filters],
+                    outputs=output_html,
+                )
+                brand_filters.change(
+                    fn=make_pipeline_filter(df, table_id),
+                    inputs=[search_input, task_selector, quick_filters, brand_filters],
                     outputs=output_html,
                 )
 
