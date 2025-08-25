@@ -5,7 +5,7 @@ with gr.Blocks() as demo:
 
     # هر لوگو رو مستقیم لود کن
     gr.HTML('<div style="display:flex; gap:20px; flex-wrap:wrap;">'
-            '<div><img src="file=assets/brands/openai.svg" width="48"><br>OpenAI</div>'
+            '<div><img src="file=/assets/brands/openai.svg" width="48"><br>OpenAI</div>'
             '<div><img src="file=assets/brands/anthropic.svg" width="48"><br>Anthropic</div>'
             '<div><img src="file=assets/brands/google.svg" width="48"><br>Google</div>'
             '<div><img src="file=assets/brands/meta.svg" width="48"><br>Meta</div>'
