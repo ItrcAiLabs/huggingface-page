@@ -6,7 +6,7 @@ from datetime import datetime
 import pytz
 from datasets import load_dataset, Dataset
 
-FIXED_COLUMNS = ["model", "params", "license", "precision", "type", "context"]
+FIXED_COLUMNS = ["model", "params", "license", "precision", "type", "Context"]
 
 
 # ---------------- Task Groups ----------------
@@ -115,7 +115,7 @@ def load_all_data(path: str):
 
     df = pd.DataFrame(rows)
 
-    base_cols = ["Model", "Precision", "#Params (B)", "context"]
+    base_cols = ["Model", "Precision", "#Params (B)", "Context"]
     dfs = {}
 
     for group, tasks in TASK_GROUPS.items():
@@ -175,7 +175,7 @@ def df_to_styled_html(
     if df.empty:
         return "<p>No results found.</p>"
 
-    task_columns = [c for c in df.columns if c not in ["Model", "Precision", "#Params (B)", "License", "Organization", "context"]]
+    task_columns = [c for c in df.columns if c not in ["Model", "Precision", "#Params (B)", "License", "Organization", "Context"]]
     df = df.dropna(how="all", subset=task_columns)
     df = df[~df[task_columns].apply(lambda row: all(str(v) in ["--", "nan", "NaN"] for v in row), axis=1)]
 
@@ -194,7 +194,7 @@ def df_to_styled_html(
     html += "<thead><tr>"
 
     for col in df.columns:
-        if col.lower() in ["model", "precision", "license", "organization", "context"]:
+        if col.lower() in ["model", "precision", "license", "organization", "Context"]:
             html += f"<th>{col}</th>"
         else:
             up_color = "color:#999;"
@@ -252,7 +252,7 @@ def filter_table(search: str, tasks: list, df: pd.DataFrame, table_id: str = "le
     if search:
         df = df[df["Model"].str.contains(search, case=False, na=False)]
     if tasks:
-        base_cols = ["Model", "Precision", "#Params (B)", "context"]
+        base_cols = ["Model", "Precision", "#Params (B)", "Context"]
         selected_cols = base_cols + [c for c in tasks if c in df.columns]
         df = df[selected_cols]
     return df_to_styled_html(df, table_id=table_id)
