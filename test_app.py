@@ -223,9 +223,9 @@ def make_sort_func(col, df, table_id, ascending):
             return -1
         s = str(x).strip().lower().replace(" ", "")
         try:
-            if s.endswith("m"):   # مثل 1M
+            if s.endswith("m"):   
                 return int(float(s[:-1]) * 1_000_000)
-            if s.endswith("k"):   # مثل 128k
+            if s.endswith("k"):   
                 return int(float(s[:-1]) * 1_000)
             return int(float(s))
         except:
