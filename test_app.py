@@ -252,10 +252,10 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         gr.HTML("""
         <div style='text-align:center; margin-bottom:30px; font-family:"Vazirmatn",sans-serif;'>
             <p style='font-size:16px; color:#555;'>Interactive Persian NLP Leaderboard — Compare models across multiple benchmarks</p>
-            <div style='margin-top:15px;'>
-                <img src='static/persian_flag.png' width='50' style='margin:0 10px;'/>
-                <img src='static/ai_logo.png' width='50' style='margin:0 10px;'/>
-            </div>
+            # <div style='margin-top:15px;'>
+            #     <img src='static/persian_flag.png' width='50' style='margin:0 10px;'/>
+            #     <img src='static/ai_logo.png' width='50' style='margin:0 10px;'/>
+            # </div>
         </div>
         """)
 
