@@ -280,7 +280,7 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         gr.Markdown("<div class='section-title'>Quick Filters</div>")
         with gr.Row():
             quick_filters = gr.CheckboxGroup(
-                choices=["Open Models","Long Context","Small Models (<8B)"],
+                choices=["Open Models","Small Models (<9B)"],
                 value=[], label=""
             )
         brand_filters = gr.CheckboxGroup(
