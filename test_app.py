@@ -235,83 +235,71 @@ body, .gradio-container {
   margin: 8px 0 12px;
 }
 
-/* ===== Quick Filter Checkbox Pills ===== */
+/* ====== Container: All filters in one box ====== */
+.all-filters-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+/* ====== Pills (Quick + Brand filters) ====== */
 .gr-checkbox-group {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
-.gr-checkbox-group input {
-  display: none;
-}
+.gr-checkbox-group input { display: none; }
 .gr-checkbox-group label {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
+  gap: 6px;
+  padding: 6px 12px;
   border-radius: 9999px;
-  background: #eef2ff;
+  background: #f3f4f6;
   color: #1e293b;
   border: 1px solid #e5e7eb;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 13px;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-  transition: .2s;
+  transition: all .2s;
 }
-.gr-checkbox-group label:hover {
-  background: #e0e7ff;
-}
+.gr-checkbox-group label:hover { background: #e0e7ff; border-color: #93c5fd; }
 .gr-checkbox-group input:checked + label {
-  background: #4f46e5;
-  color: #fff;
-  border-color: #4f46e5;
+  background: #4f46e5; color: #fff; border-color: #4f46e5;
 }
 
-/* ===== Label (chip) for Context Range ===== */
-.mini-chip {
+/* ====== Context pill (label + dropdown) ====== */
+.ctx-filter-pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 10px;
-  border: none;
-  border-radius: 9999px;
-  background: transparent;
-  font-weight: 700;
-  font-size: 12px;
-  color: #334155;
-  height: 28px;
-  line-height: 20px;
-}
-
-/* ===== Container for Label + Dropdown together ===== */
-.ctx-filter-pill {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  padding: 2px 6px;
+  padding: 2px 8px;
   border: 1px solid #e5e7eb;
   border-radius: 9999px;
   background: #f9fafb;
   box-shadow: 0 1px 2px rgba(0,0,0,.04);
-  height: 32px; /* هم‌قد بقیه چیپ‌ها */
+  height: 32px;
 }
-.ctx-filter-pill:hover {
-  border-color: #93c5fd;
+.mini-chip {
+  font-weight: 600;
+  font-size: 12px;
+  color: #334155;
 }
-
-/* ===== Compact Dropdown inside pill ===== */
 .ctx-range select,
 .ctx-range button,
 .ctx-range .wrap-inner {
   border: none !important;
   background: transparent !important;
-  padding: 0 6px !important;
   font-size: 13px !important;
   height: 26px !important;
-  box-shadow: none !important;
   cursor: pointer !important;
 }
+
 
 """
 
@@ -390,16 +378,16 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         )
         #---------------------------------------------------
         gr.Markdown("<div class='section-title'>Quick Filters</div>")
-        with gr.Row(elem_classes=["quick-filters-wrap"]):
-            # 🔹 quick filters (open/small models)
+        with gr.Row(elem_classes=["all-filters-box"]):
+            # Quick filters
             quick_filters = gr.CheckboxGroup(
                 choices=["Open Models","Small Models (<8B)"],
-                value=[], label="",
+                value=[], label=""
             )
         
-            # 🔹 context range pill (label + dropdown)
+            # Context filter (label + dropdown در یک pill)
             with gr.Row(elem_classes=["ctx-filter-pill"]):
-                gr.HTML("<span class='mini-chip'>Input Context</span>")
+                gr.HTML("<span class='mini-chip'>Context</span>")
                 context_range = gr.Dropdown(
                     choices=CONTEXT_RANGE_CHOICES,
                     value=None,
@@ -409,10 +397,10 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                     elem_classes=["ctx-range"],
                 )
         
-            # 🔹 brand filters
+            # Brand filters
             brand_filters = gr.CheckboxGroup(
                 choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
-                value=[], label="",
+                value=[], label=""
             )
 #---------------------------------------------------------------------------------------------------------------------
         # subtabs for SBU / UQ / AUT
