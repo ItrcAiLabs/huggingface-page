@@ -448,11 +448,24 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                 )
         
             # 🔹 ردیف پایین: برندها
+# برندها (چیپ + لوگو)
+            brand_choices = [
+                ("OpenAI", "https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg"),
+                ("Anthropic", "https://upload.wikimedia.org/wikipedia/commons/2/24/Anthropic-logo.svg"),
+                ("Google", "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"),
+                ("Meta", "https://upload.wikimedia.org/wikipedia/commons/0/05/Meta_Platforms_Inc._logo.svg"),
+                ("Qwen", "https://huggingface.co/front/assets/hub/qwen-icon.png"),
+                ("Mistral", "https://mistral.ai/favicon.ico"),
+                ("DeepSeek", "https://avatars.githubusercontent.com/u/172669550?s=200&v=4"),
+                ("xAI", "https://x.ai/favicon.ico"),
+            ]
+            
             brand_filters = gr.CheckboxGroup(
-                choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
-                value=[], label="Brands",
+                choices=[f"<img src='{logo}' width='16' style='vertical-align:middle;margin-right:6px;'/> {name}" for name, logo in brand_choices],
+                value=[],
+                label="Brands",
+                elem_classes=["brand-chips"],
             )
-        
 
 #---------------------------------------------------------------------------------------------------------------------
        
