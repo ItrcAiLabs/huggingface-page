@@ -349,4 +349,3 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
 
 if __name__ == "__main__":
     demo.launch()
-کلشو بازننویسی کن برام
