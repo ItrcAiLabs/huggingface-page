@@ -153,6 +153,17 @@ body, .gradio-container {
     color: #2563eb;
 }
 
+.navbar { 
+    display: none !important; 
+}
+
+.gradio-container {
+    padding-top: 0 !important;   /* اگه بالای صفحه فاصله افتاد، صفرش کن */
+}
+
+.main-title {
+    margin-top: 24px !important; /* تیتر کمی بالاتر بیاد */
+}
 
 
 
