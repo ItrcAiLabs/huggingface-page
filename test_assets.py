@@ -1,26 +1,22 @@
 import gradio as gr
 from pathlib import Path
 
-ROOT = Path(__file__).parent  # همان ریشهٔ ریپو/Space
+ROOT = Path(__file__).parent
 BRANDS = ROOT / "static" / "brands"
-
-def logo(fname, label):
-    # as_posix برای سازگاری با لینوکسی بودن Space
-    return f'<div><img src="file={ (BRANDS / fname).as_posix() }" width="56"><br>{label}</div>'
 
 with gr.Blocks() as demo:
     gr.Markdown("## 🖼️ تست نمایش لوگوها از static/brands")
+
+    # لینک تست باز کردن فایل
+    gr.HTML(f'<p><a href="file={(BRANDS / "openai.svg").as_posix()}" target="_blank">بازکردن openai.svg</a></p>')
+
+    # نمایش همه لوگوها
     html = (
-        '<div style="display:flex; gap:20px; flex-wrap:wrap; align-items:center;">'
-        + logo("openai.svg", "OpenAI")
-        + logo("anthropic.svg", "Anthropic")
-        + logo("google.svg", "Google")
-        + logo("meta.svg", "Meta")
-        + logo("qwen.webp", "Qwen")
-        + logo("mistral.svg", "Mistral")
-        + logo("deepseek.svg", "DeepSeek")
-        + logo("xai.svg", "xAI")
-        + '</div>'
+        '<div style="display:flex; gap:20px; flex-wrap:wrap;">'
+        f'<div><img src="file={(BRANDS / "openai.svg").as_posix()}" width="56"><br>OpenAI</div>'
+        f'<div><img src="file={(BRANDS / "anthropic.svg").as_posix()}" width="56"><br>Anthropic</div>'
+        f'<div><img src="file={(BRANDS / "google.svg").as_posix()}" width="56"><br>Google</div>'
+        '</div>'
     )
     gr.HTML(html)
 
