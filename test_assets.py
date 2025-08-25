@@ -11,7 +11,7 @@ files = [
     (BRANDS/"meta.svg").as_posix(),
     (BRANDS/"qwen.webp").as_posix(),
     (BRANDS/"mistral.svg").as_posix(),
-    (BRANDS/"deepseek.svg").as_posix(),
+    (BRANDS/"deepseek.webp").as_posix(),
     (BRANDS/"xai.svg").as_posix(),
 ]
 
