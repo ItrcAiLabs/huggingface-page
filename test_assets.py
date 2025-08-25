@@ -1,7 +1,7 @@
 import gradio as gr
 
 with gr.Blocks() as demo:
-    gr.Markdown("## 🖼️ تست لوگوها (assets/brands)")
+    gr.Markdown("## 🖼️ تست لوگوها (/assets/brands)")
 
     # هر لوگو رو مستقیم لود کن
     gr.HTML('<div style="display:flex; gap:20px; flex-wrap:wrap;">'
