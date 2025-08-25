@@ -680,55 +680,33 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                     label="",
                     elem_classes=["task-box"],
                 )
-
+            
                 output_html = gr.HTML(value=df_to_styled_html(df, table_id=table_id))
+            
+                # تابع فیلتر که ۸ چک‌باکس را به لیست برند تبدیل می‌کند
                 filter_fn = make_filter_func_by_checkboxes(df, table_id)
+            
+                # دکمه‌های سورت مثل قبل
                 for col in df.columns:
                     if col.lower() not in ["model", "precision", "license", "organization"]:
                         btn_asc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_asc")
                         btn_desc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_desc")
-
-                        btn_asc.click(
-                            make_sort_func(col, df, table_id, True),
-                            inputs=None,
-                            outputs=output_html,
-                        )
-                        btn_desc.click(
-                            make_sort_func(col, df, table_id, False),
-                            inputs=None,
-                            outputs=output_html,
-                        )
-
-                search_input.change(
-                    fn=make_filter_func(df, table_id),
-                    inputs=[search_input, task_selector, quick_filters, brand_filters, context_range],
-                    outputs=output_html,
-                )
-                task_selector.change(
-                    fn=make_filter_func(df, table_id),
-                    inputs=[search_input, task_selector, quick_filters, brand_filters, context_range],
-                    outputs=output_html,
-                )
-                quick_filters.change(
-                    fn=make_pipeline_filter(df, table_id),
-                    inputs=[search_input, task_selector, quick_filters, brand_filters, context_range],
-                    outputs=output_html,
-                )
-                for cb in [cb_openai, cb_anthropic, cb_google, cb_meta, cb_qwen, cb_mistral, cb_deepseek, cb_xai]:
-                    cb.change(
-                        fn=filter_fn,
-                        inputs=[search_input, task_selector, quick_filters,
-                                cb_openai, cb_anthropic, cb_google, cb_meta, cb_qwen, cb_mistral, cb_deepseek, cb_xai,
-                                context_range],
-                        outputs=output_html,
-                    )
-                context_range.change(
-                    fn=make_pipeline_filter(df, table_id),
-                    inputs=[search_input, task_selector, quick_filters, brand_filters, context_range],
-                    outputs=output_html,
-                )
-
-
+                        btn_asc.click(make_sort_func(col, df, table_id, True), inputs=None, outputs=output_html)
+                        btn_desc.click(make_sort_func(col, df, table_id, False), inputs=None, outputs=output_html)
+            
+                # ورودی‌های مشترک برای همه تریگرها
+                brand_inputs = [cb_openai, cb_anthropic, cb_google, cb_meta, cb_qwen, cb_mistral, cb_deepseek, cb_xai]
+                common_inputs = [search_input, task_selector, quick_filters, *brand_inputs, context_range]
+            
+                # تریگرها: همه باید از filter_fn استفاده کنند و ۸ چک‌باکس را پاس بدهند
+                search_input.change(fn=filter_fn, inputs=common_inputs, outputs=output_html)
+                task_selector.change(fn=filter_fn, inputs=common_inputs, outputs=output_html)
+                quick_filters.change(fn=filter_fn, inputs=common_inputs, outputs=output_html)
+                context_range.change(fn=filter_fn, inputs=common_inputs, outputs=output_html)
+            
+                # هر کدام از ۸ چک‌باکس هم اگر عوض شد، همین فیلتر اجرا شود
+                for cb in brand_inputs:
+                    cb.change(fn=filter_fn, inputs=common_inputs, outputs=output_html)
 
     with gr.Tab("ℹ️ About"):
         gr.Markdown("""
