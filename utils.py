@@ -122,7 +122,6 @@ def load_all_data(path: str):
         cols = base_cols + [col for col in tasks if col in df.columns]
         sub_df = df[cols].copy()
 
-        # تبدیل مقادیر ستون‌های تسک به عدد
         for col in tasks:
             if col in sub_df.columns:
                 sub_df[col] = pd.to_numeric(sub_df[col], errors="coerce")
@@ -132,7 +131,6 @@ def load_all_data(path: str):
     return dfs
     
 def sort_dataframe(df: pd.DataFrame, col: str, ascending: bool = True):
-    """بر اساس ستون داده‌ها رو مرتب می‌کنه"""
     if col in df.columns:
         return df.sort_values(by=col, ascending=ascending).reset_index(drop=True)
     return df
@@ -177,12 +175,10 @@ def df_to_styled_html(
     if df.empty:
         return "<p>No results found.</p>"
 
-    # حذف ردیف‌های نامعتبر
-    task_columns = [c for c in df.columns if c not in ["Model", "Precision", "#Params (B)", "License", "Organization"]]
+    task_columns = [c for c in df.columns if c not in ["Model", "Precision", "#Params (B)", "License", "Organization", "context"]]
     df = df.dropna(how="all", subset=task_columns)
     df = df[~df[task_columns].apply(lambda row: all(str(v) in ["--", "nan", "NaN"] for v in row), axis=1)]
 
-    # لینک مدل‌ها
     if "Model" in df.columns:
         def linkify(m):
             if isinstance(m, str) and "/" in m:
@@ -198,8 +194,7 @@ def df_to_styled_html(
     html += "<thead><tr>"
 
     for col in df.columns:
-        # ستون‌های ثابت → فقط متن
-        if col.lower() in ["model", "precision", "license", "organization"]:
+        if col.lower() in ["model", "precision", "license", "organization", "context"]:
             html += f"<th>{col}</th>"
         else:
             up_color = "color:#999;"
