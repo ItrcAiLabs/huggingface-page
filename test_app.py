@@ -89,64 +89,117 @@ body, .gradio-container {
     border-color: #3b82f6 !important;
 }
 /* ====== Table ====== */
-/* قاب کلی جدول */
+# /* قاب کلی جدول */
+# .table-wrapper {
+#     border: 1px solid #dbeafe;       /* آبی خیلی ملایم */
+#     border-radius: 12px;
+#     overflow-x: auto;                
+#     box-shadow: 0 2px 6px rgba(59,130,246,0.05);
+#     margin: 20px 0;
+# }
+
+# /* جدول */
+# .styled-table {
+#     width: 100%;
+#     border-collapse: collapse;
+#     font-family: 'Inter','Vazirmatn',sans-serif;
+#     font-size: 14px;
+#     table-layout: auto; /* ستون‌ها خودکار متناسب */
+# }
+
+# /* هدر */
+# .styled-table thead {
+#     background: linear-gradient(90deg, #f9fbff, #eef6ff); /* آبی روشن */
+# }
+# .styled-table th {
+#     padding: 12px 10px;
+#     font-weight: 600;
+#     font-size: 13px;
+#     color: #1e3a8a;                  /* آبی شیک */
+#     text-align: left;
+#     border-bottom: 2px solid #bfdbfe;
+#     white-space: normal;             /* اجازه بشکنه */
+#     word-wrap: break-word;
+#     max-width: 180px;                /* هدر بیش از حد عریض نشه */
+#     line-height: 1.4;
+# }
+
+# /* بدنه */
+# .styled-table td {
+#     padding: 12px 10px;
+#     font-size: 14px;
+#     color: #333;
+#     border-bottom: 1px solid #dbeafe; 
+#     max-width: 180px;                
+#     overflow: hidden;
+#     text-overflow: ellipsis;
+#     white-space: nowrap;              
+# }
+
+
+# .styled-table tbody tr:nth-child(even) {
+#     background: #fafcff;
+# }
+
+
+# .styled-table tbody tr:hover {
+#     background: #e0f2fe;
+#     transition: background 0.2s ease-in-out;
+# }
+
 .table-wrapper {
-    border: 1px solid #dbeafe;       /* آبی خیلی ملایم */
+    border: 1px solid #e5e7eb;
     border-radius: 12px;
     overflow-x: auto;                
-    box-shadow: 0 2px 6px rgba(59,130,246,0.05);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
     margin: 20px 0;
+    background: #fff;
 }
 
-/* جدول */
 .styled-table {
     width: 100%;
     border-collapse: collapse;
     font-family: 'Inter','Vazirmatn',sans-serif;
     font-size: 14px;
-    table-layout: auto; /* ستون‌ها خودکار متناسب */
+    table-layout: auto;
 }
 
-/* هدر */
 .styled-table thead {
-    background: linear-gradient(90deg, #f9fbff, #eef6ff); /* آبی روشن */
+    background: linear-gradient(90deg, #fafafa, #f5f5f5);
 }
+
 .styled-table th {
     padding: 12px 10px;
     font-weight: 600;
     font-size: 13px;
-    color: #1e3a8a;                  /* آبی شیک */
+    color: #1e3a8a;
     text-align: left;
-    border-bottom: 2px solid #bfdbfe;
-    white-space: normal;             /* اجازه بشکنه */
+    border-bottom: 1px solid #e5e7eb;
+    white-space: normal;
     word-wrap: break-word;
-    max-width: 180px;                /* هدر بیش از حد عریض نشه */
+    max-width: 180px;
     line-height: 1.4;
 }
 
-/* بدنه */
 .styled-table td {
     padding: 12px 10px;
     font-size: 14px;
     color: #333;
-    border-bottom: 1px solid #dbeafe; 
-    max-width: 180px;                
+    border-bottom: 1px solid #f0f0f0;
+    max-width: 180px;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;              
+    white-space: nowrap;
 }
-
 
 .styled-table tbody tr:nth-child(even) {
-    background: #fafcff;
+    background: #fafafa;
 }
-
 
 .styled-table tbody tr:hover {
-    background: #e0f2fe;
+    background: #f0f7ff;
     transition: background 0.2s ease-in-out;
 }
-
 
 .model-col {
     font-weight: 600;
