@@ -362,13 +362,14 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                 choices=["Open Models","Small Models (<9B)"],
                 value=[], label=""
             )
-        gr.HTML("<span class='mini-chip'>Input Context Length</span>")
+            gr.HTML("<span class='mini-chip'>Input Context Length</span>")
     
+        # Dropdown جمع‌وجور (بدون لیبل داخلی)
         context_range = gr.Dropdown(
             choices=CONTEXT_RANGE_CHOICES,
             value=None,
-            label="",
-            show_label=False,
+            label="",          # لیبل داخلی نمی‌خوایم
+            show_label=False,  # پسِش هم مخفی
             container=False,
             elem_classes=["ctx-range"],
         )
