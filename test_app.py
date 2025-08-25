@@ -321,7 +321,14 @@ body, .gradio-container {
   padding:2px 8px; border:1px solid #e5e7eb; border-radius:9999px;
   background:#f9fafb; box-shadow:0 1px 2px rgba(0,0,0,.04); height:32px;
 }
-.chip-label{ font-weight:700; font-size:12px; color:#334155; }
+/* استایل لیبل روی Dropdown */
+.ctx-dd label {
+  font-weight: 700;
+  font-size: 12px;
+  color: #334155;
+  margin-bottom: 2px;
+}
+
 .ctx-dd select, .ctx-dd button, .ctx-dd .wrap-inner{
   border:none !important; background:transparent !important;
   font-size:13px !important; height:26px !important;
@@ -422,8 +429,8 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                 value=[], label=""
             )
         
-           with gr.Row(elem_classes=["ctx-filter-pill"]):
-                context_range = gr.Dropdown(
+           
+            context_range = gr.Dropdown(
                     choices=CONTEXT_RANGE_CHOICES,
                     value=None,
                     label="Input Context Length",   # ✅ لیبل روی خود Dropdown
