@@ -332,6 +332,14 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                 choices=["Open Models","Small Models (<9B)"],
                 value=[], label=""
             )
+            context_range = gr.Dropdown(
+                choices=CONTEXT_RANGE_CHOICES,
+                value=None,
+                label="",
+                placeholder="Input Context Length",
+                elem_id="ctx_range_dd",
+                elem_classes=["ctx-range"],
+            )
         brand_filters = gr.CheckboxGroup(
             choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
             value=[], label=""
@@ -401,15 +409,11 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                     inputs=[search_input, task_selector, quick_filters, brand_filters],
                     outputs=output_html,
                 )
-                context_range = gr.Dropdown(
-                    choices=CONTEXT_RANGE_CHOICES,
-                    value=None,
-                    label="",
-                    placeholder="Input Context Length",
-                    elem_id="ctx_range_dd",
-                    elem_classes=["ctx-range"],
+                context_range.change(   
+                    fn=make_pipeline_filter(df, table_id),
+                    inputs=[search_input, task_selector, quick_filters, brand_filters, context_range],
+                    outputs=output_html,
                 )
-
 
 
     with gr.Tab("ℹ️ About"):
