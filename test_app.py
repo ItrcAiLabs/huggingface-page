@@ -352,6 +352,33 @@ body, .gradio-container {
   cursor:pointer !important;
 }
 
+/* چیپ‌های برند با پس‌زمینه آبی روشن */
+.brand-chips .gr-checkbox-group label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: #e0f2fe;   /* آبی روشن */
+  color: #0369a1;        /* آبی تیره‌تر برای متن */
+  border: 1px solid #bae6fd;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.brand-chips .gr-checkbox-group label:hover {
+  background: #bae6fd;
+  border-color: #7dd3fc;
+}
+
+.brand-chips .gr-checkbox-group input:checked+label {
+  background: #0ea5e9;
+  color: #fff;
+  border-color: #0284c7;
+}
+
 
 """
 
