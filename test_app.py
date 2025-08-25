@@ -239,24 +239,45 @@ body, .gradio-container {
 .gr-checkbox-group label:hover{background:#e0e7ff}
 .gr-checkbox-group input:checked+label{background:#4f46e5;color:#fff;border-color:#4f46e5}
 
-/* ---- Compact Context Range Dropdown ---- */
-.ctx-range {
-    max-width: 180px !important;   /* عرض کم */
-    display: inline-block !important;
+/* ---- Tiny chip label ---- */
+.mini-chip{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:4px 10px; border:1px solid #e5e7eb; border-radius:9999px;
+  background:#ffffff;
+  font-weight:700; font-size:12px; color:#334155;
+  box-shadow:0 1px 2px rgba(0,0,0,.04);
+  height:32px; line-height:32px;
 }
-.ctx-range select {
-    border: 1px solid #d1d5db !important;
-    border-radius: 9999px !important;      /* گرد کامل (pill) */
-    padding: 4px 10px !important;          /* جمع‌وجور */
-    font-size: 13px !important;
-    height: 32px !important;               /* ارتفاع کم */
-    background: #f9fafb !important;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.04) !important;
-    cursor: pointer !important;
+
+/* ---- Compact pill dropdown ---- */
+.ctx-range{
+  display:inline-block !important;
+  max-width:120px !important;       
+  min-width:96px !important;
 }
-.ctx-range select:hover {
-    border-color: #3b82f6 !important;
+
+.ctx-range select,
+.ctx-range button,
+.ctx-range .wrap-inner{
+  border:1px solid #d1d5db !important;
+  border-radius:9999px !important;
+  padding:4px 10px !important;
+  font-size:13px !important;
+  height:32px !important;
+  background:#f9fafb !important;
+  box-shadow:0 1px 2px rgba(0,0,0,.04) !important;
+  cursor:pointer !important;
 }
+
+/* hover */
+.ctx-range:hover select,
+.ctx-range:hover button{
+  border-color:#3b82f6 !important;
+}
+
+.ctx-range label{ display:none !important; }
+.ctx-range .container, .ctx-range .label-wrap{ padding:0 !important; border:none !important; }
+
 
 
 """
@@ -341,12 +362,17 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                 choices=["Open Models","Small Models (<9B)"],
                 value=[], label=""
             )
-            context_range = gr.Dropdown(
-                choices=CONTEXT_RANGE_CHOICES,
-                value=None,
-                label="",   
-                elem_classes=["ctx-range"],
-            )
+        gr.HTML("<span class='mini-chip'>Input Context Length</span>")
+    
+        context_range = gr.Dropdown(
+            choices=CONTEXT_RANGE_CHOICES,
+            value=None,
+            label="",
+            show_label=False,
+            container=False,
+            elem_classes=["ctx-range"],
+        )
+
 
 
         brand_filters = gr.CheckboxGroup(
