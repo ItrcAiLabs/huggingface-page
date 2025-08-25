@@ -239,15 +239,24 @@ body, .gradio-container {
 .gr-checkbox-group label:hover{background:#e0e7ff}
 .gr-checkbox-group input:checked+label{background:#4f46e5;color:#fff;border-color:#4f46e5}
 
-/* Context range dropdown */
-.ctx-range select, .ctx-range .wrap-inner, #ctx_range_dd {
-    border: 1.5px solid #e5e7eb !important;
-    border-radius: 999px !important;
-    padding: 6px 12px !important;
-    font-size: 13px !important;
-    background: #f8fafc !important;
+/* ---- Compact Context Range Dropdown ---- */
+.ctx-range {
+    max-width: 180px !important;   /* عرض کم */
+    display: inline-block !important;
 }
-.ctx-range:hover select { border-color: #93c5fd !important; }
+.ctx-range select {
+    border: 1px solid #d1d5db !important;
+    border-radius: 9999px !important;      /* گرد کامل (pill) */
+    padding: 4px 10px !important;          /* جمع‌وجور */
+    font-size: 13px !important;
+    height: 32px !important;               /* ارتفاع کم */
+    background: #f9fafb !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04) !important;
+    cursor: pointer !important;
+}
+.ctx-range select:hover {
+    border-color: #3b82f6 !important;
+}
 
 
 """
@@ -335,10 +344,10 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
             context_range = gr.Dropdown(
                 choices=CONTEXT_RANGE_CHOICES,
                 value=None,
-                label="Input Context Length",   # ✅ همین نقش عنوان/placeholder رو بازی می‌کنه
-                elem_id="ctx_range_dd",
+                label="",   
                 elem_classes=["ctx-range"],
             )
+
 
         brand_filters = gr.CheckboxGroup(
             choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
