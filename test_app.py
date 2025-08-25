@@ -35,9 +35,10 @@ def make_brand_icon_css() -> str:
         if not fp.exists():
             continue
         uri = _data_uri(fp)
-        # توجه: label:has(input[value="..."]) چون input داخل label قرار دارد
+        # ساختار DOM: هر آیتم → div شامل input + label
+        # پس div:has(input[value="..."]) > label::before را هدف می‌گیریم
         rules.append(
-            f'''.brand-chips .gr-checkbox-group label:has(input[value="{brand}"])::before {{
+            f'''.brand-chips .gr-checkbox-group div:has(> input[value="{brand}"]) > label::before {{
                     background-image: url("{uri}");
                 }}'''
         )
