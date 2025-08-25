@@ -6,8 +6,8 @@ SMALL_PARAMS_B = 8
 
 def apply_quick_filters(df: pd.DataFrame, quick: list, brands: list) -> pd.DataFrame:
     out = df.copy()
-    if "Multimodal" in quick and "Modality" in out.columns:
-        out = out[out["Modality"].astype(str).str.contains("image|audio|vision|multimodal", case=False, na=False)]
+    # if "Multimodal" in quick and "Modality" in out.columns:
+    #     out = out[out["Modality"].astype(str).str.contains("image|audio|vision|multimodal", case=False, na=False)]
     if "Open Models" in quick and "License" in out.columns:
         out = out[out["License"].astype(str).str.lower().ne("custom")]
     if "Long Context" in quick:
@@ -251,7 +251,7 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         gr.Markdown("<div class='section-title'>Quick Filters</div>")
         with gr.Row():
             quick_filters = gr.CheckboxGroup(
-                choices=["Multimodal","Open Models","Long Context","Small Models (<8B)"],
+                choices=["Open Models","Long Context","Small Models (<8B)"],
                 value=[], label=""
             )
         brand_filters = gr.CheckboxGroup(
