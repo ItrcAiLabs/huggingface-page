@@ -295,13 +295,14 @@ body, .gradio-container {
   cursor: pointer !important;
 }
 /* همه‌ی فیلترها داخل یک باکس */
+/* ===== همه فیلترها داخل یک باکس ===== */
 .filters-box{
   display:flex; flex-wrap:wrap; gap:10px;
   padding:12px; border:1px solid #e5e7eb; border-radius:12px;
   background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.04);
 }
 
-/* چیپ‌های چک‌باکسی (Quick + Brand) */
+/* ===== چیپ‌های چک‌باکسی (Quick + Brand) ===== */
 .gr-checkbox-group{ display:flex; flex-wrap:wrap; gap:8px; }
 .gr-checkbox-group input{ display:none; }
 .gr-checkbox-group label{
@@ -314,32 +315,19 @@ body, .gradio-container {
 .gr-checkbox-group label:hover{ background:#e0e7ff; border-color:#93c5fd; }
 .gr-checkbox-group input:checked+label{ background:#4f46e5; color:#fff; border-color:#4f46e5; }
 
-/* کانتکست: چیپِ لیبل + دکمه + + منوی مخفی + نشان مقدار */
-.ctx-chip{
+/* ===== کانتکست: لیبل + dropdown داخل یک قرص ===== */
+.ctx-filter-pill{
   display:inline-flex; align-items:center; gap:6px;
   padding:2px 8px; border:1px solid #e5e7eb; border-radius:9999px;
   background:#f9fafb; box-shadow:0 1px 2px rgba(0,0,0,.04); height:32px;
 }
 .chip-label{ font-weight:700; font-size:12px; color:#334155; }
-.chip-plus{
-  width:22px; height:22px; line-height:22px;
-  padding:0 !important; border-radius:9999px !important;
-  border:1px solid #d1d5db !important; background:#fff !important;
-  font-weight:900; font-size:14px; cursor:pointer;
-}
-.chip-plus:hover{ border-color:#93c5fd !important; }
 .ctx-dd select, .ctx-dd button, .ctx-dd .wrap-inner{
   border:none !important; background:transparent !important;
-  padding:0 6px !important; font-size:13px !important; height:26px !important;
-  box-shadow:none !important; cursor:pointer !important;
+  font-size:13px !important; height:26px !important;
+  cursor:pointer !important;
 }
-/* چیپ مقدار انتخاب‌شده (مثل 0–16K) */
-.value-badge{
-  display:inline-flex; align-items:center;
-  padding:2px 8px; height:22px;
-  border-radius:8px; background:#eef2ff; color:#4f46e5;
-  font-weight:700; font-size:12px; border:1px solid #e5e7eb;
-}
+
 
 
 
@@ -435,28 +423,18 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
             )
         
             # ردیف ۳: کانتکست (لیبل چیپی + دکمه + + dropdown مخفی + نشان‌دادن انتخاب)
-            ctx_open_state = gr.State(False)
-            with gr.Row(elem_classes=["ctx-chip"]):
+            with gr.Row(elem_classes=["ctx-filter-pill"]):
                 gr.HTML("<span class='chip-label'>Input Context Length</span>")
-                ctx_plus = gr.Button("+", elem_classes=["chip-plus"], value="+", scale=0)
                 context_range = gr.Dropdown(
                     choices=CONTEXT_RANGE_CHOICES,
-                    value=None, label="", show_label=False, container=False,
-                    elem_classes=["ctx-dd"], visible=False
+                    value=None,
+                    label="",
+                    show_label=False,
+                    container=False,
+                    elem_classes=["ctx-dd"],
                 )
-                ctx_value_chip = gr.HTML("", elem_classes=["chip-value"])
 #---------------------------------------------------------------------------------------------------------------------
-        def toggle_ctx_dropdown(is_open: bool):
-            new_state = not is_open
-            return new_state, gr.update(visible=new_state)
-        
-        def apply_ctx_choice(val: str | None):
-            html = f"<span class='value-badge'>{val}</span>" if val else ""
-            return html, False, gr.update(visible=False)
-        
-        ctx_plus.click(toggle_ctx_dropdown, inputs=[ctx_open_state], outputs=[ctx_open_state, context_range])
-        context_range.change(apply_ctx_choice, inputs=[context_range], outputs=[ctx_value_chip, ctx_open_state, context_range])
-
+       
         # subtabs for SBU / UQ / AUT
         tabs = [
             ("🏛️ SBU", df_sbu, "leaderboard_sbu"),
