@@ -3,12 +3,9 @@ from utils import submit_request, load_all_data, df_to_styled_html, TASK_GROUPS,
 import pandas as pd
 
 SMALL_PARAMS_B = 9
-# --- Context range choices (tokens) ---
 CONTEXT_RANGE_CHOICES = ["0–16K", "16K–32K", "32K–128K", "128K–500K", "500K+"]
 
 def ctx_to_int(x):
-    
-    import math
     if pd.isna(x):
         return -1
     s = str(x).strip().lower().replace(" ", "")
@@ -21,21 +18,25 @@ def ctx_to_int(x):
     except:
         return -1
 
-def apply_quick_filters(df: pd.DataFrame, quick: list, brands: list) -> pd.DataFrame:
+def apply_quick_filters(df: pd.DataFrame, quick: list, brands: list, ctx_range: str | None = None) -> pd.DataFrame:
     out = df.copy()
-    # if "Multimodal" in quick and "Modality" in out.columns:
-    #     out = out[out["Modality"].astype(str).str.contains("image|audio|vision|multimodal", case=False, na=False)]
+
+    # Open-source
     if "Open Models" in quick and "License" in out.columns:
         out = out[out["License"].astype(str).str.lower().ne("custom")]
-    
-    if "Small Models (<9B)" in quick:
+
+    # Small models
+    if f"Small Models (<{SMALL_PARAMS_B}B)" in quick:
         col = next((c for c in ["#Params (B)","Params (B)","Parameters (B)"] if c in out.columns), None)
         if col:
             v = pd.to_numeric(out[col], errors="coerce").fillna(1e9)
             out = out[v < SMALL_PARAMS_B]
+
+    # Brands
     if brands and "Organization" in out.columns:
         out = out[out["Organization"].astype(str).isin(brands)]
-        # --- Context range filter ---
+
+    # Context range
     if ctx_range:
         col = next((c for c in ["Input Context Length","Context Length","Max Context","Context"] if c in out.columns), None)
         if col:
@@ -52,17 +53,11 @@ def apply_quick_filters(df: pd.DataFrame, quick: list, brands: list) -> pd.DataF
                 out = out[(v >= 500_000)]
     return out
 
-# def make_pipeline_filter(current_df: pd.DataFrame, table_id: str):
-#     def _fn(search_text: str, task_cols: list, quick: list, brands: list):
-#         df1 = apply_quick_filters(current_df, quick or [], brands or [])
-#         return filter_table(search_text, task_cols, df1, table_id=table_id)
-#     return _fn
 def make_pipeline_filter(current_df: pd.DataFrame, table_id: str):
     def _fn(search_text: str, task_cols: list, quick: list, brands: list, ctx_range: str | None):
         df1 = apply_quick_filters(current_df, quick or [], brands or [], ctx_range)
         return filter_table(search_text, task_cols, df1, table_id=table_id)
     return _fn
-
 
 
 # ---------------- Load leaderboard data ----------------
@@ -299,6 +294,53 @@ body, .gradio-container {
   height: 26px !important;
   cursor: pointer !important;
 }
+/* همه‌ی فیلترها داخل یک باکس */
+.filters-box{
+  display:flex; flex-wrap:wrap; gap:10px;
+  padding:12px; border:1px solid #e5e7eb; border-radius:12px;
+  background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.04);
+}
+
+/* چیپ‌های چک‌باکسی (Quick + Brand) */
+.gr-checkbox-group{ display:flex; flex-wrap:wrap; gap:8px; }
+.gr-checkbox-group input{ display:none; }
+.gr-checkbox-group label{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 12px; border-radius:9999px;
+  background:#eef2ff; color:#1e293b; border:1px solid #e5e7eb;
+  font-weight:700; font-size:13px; cursor:pointer;
+  box-shadow:0 2px 4px rgba(0,0,0,.04); transition:.2s;
+}
+.gr-checkbox-group label:hover{ background:#e0e7ff; border-color:#93c5fd; }
+.gr-checkbox-group input:checked+label{ background:#4f46e5; color:#fff; border-color:#4f46e5; }
+
+/* کانتکست: چیپِ لیبل + دکمه + + منوی مخفی + نشان مقدار */
+.ctx-chip{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:2px 8px; border:1px solid #e5e7eb; border-radius:9999px;
+  background:#f9fafb; box-shadow:0 1px 2px rgba(0,0,0,.04); height:32px;
+}
+.chip-label{ font-weight:700; font-size:12px; color:#334155; }
+.chip-plus{
+  width:22px; height:22px; line-height:22px;
+  padding:0 !important; border-radius:9999px !important;
+  border:1px solid #d1d5db !important; background:#fff !important;
+  font-weight:900; font-size:14px; cursor:pointer;
+}
+.chip-plus:hover{ border-color:#93c5fd !important; }
+.ctx-dd select, .ctx-dd button, .ctx-dd .wrap-inner{
+  border:none !important; background:transparent !important;
+  padding:0 6px !important; font-size:13px !important; height:26px !important;
+  box-shadow:none !important; cursor:pointer !important;
+}
+/* چیپ مقدار انتخاب‌شده (مثل 0–16K) */
+.value-badge{
+  display:inline-flex; align-items:center;
+  padding:2px 8px; height:22px;
+  border-radius:8px; background:#eef2ff; color:#4f46e5;
+  font-weight:700; font-size:12px; border:1px solid #e5e7eb;
+}
+
 
 
 """
@@ -378,31 +420,43 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         )
         #---------------------------------------------------
         gr.Markdown("<div class='section-title'>Quick Filters</div>")
-        with gr.Row(elem_classes=["all-filters-box"]):
-            # Quick filters
+        
+        with gr.Row(elem_classes=["filters-box"]):
+            # ردیف ۱: چیپ‌های سریع
             quick_filters = gr.CheckboxGroup(
-                choices=["Open Models","Small Models (<8B)"],
+                choices=["Open Models", f"Small Models (<{SMALL_PARAMS_B}B)"],
                 value=[], label=""
             )
         
-            # Context filter (label + dropdown در یک pill)
-            with gr.Row(elem_classes=["ctx-filter-pill"]):
-                gr.HTML("<span class='mini-chip'>Context</span>")
-                context_range = gr.Dropdown(
-                    choices=CONTEXT_RANGE_CHOICES,
-                    value=None,
-                    label="",
-                    show_label=False,
-                    container=False,
-                    elem_classes=["ctx-range"],
-                )
-        
-            # Brand filters
+            # ردیف ۲: برندها (چیپ)
             brand_filters = gr.CheckboxGroup(
                 choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
                 value=[], label=""
             )
+        
+            # ردیف ۳: کانتکست (لیبل چیپی + دکمه + + dropdown مخفی + نشان‌دادن انتخاب)
+            ctx_open_state = gr.State(False)
+            with gr.Row(elem_classes=["ctx-chip"]):
+                gr.HTML("<span class='chip-label'>Input Context Length</span>")
+                ctx_plus = gr.Button("+", elem_classes=["chip-plus"], value="+", scale=0)
+                context_range = gr.Dropdown(
+                    choices=CONTEXT_RANGE_CHOICES,
+                    value=None, label="", show_label=False, container=False,
+                    elem_classes=["ctx-dd"], visible=False
+                )
+                ctx_value_chip = gr.HTML("", elem_classes=["chip-value"])
 #---------------------------------------------------------------------------------------------------------------------
+        def toggle_ctx_dropdown(is_open: bool):
+            new_state = not is_open
+            return new_state, gr.update(visible=new_state)
+        
+        def apply_ctx_choice(val: str | None):
+            html = f"<span class='value-badge'>{val}</span>" if val else ""
+            return html, False, gr.update(visible=False)
+        
+        ctx_plus.click(toggle_ctx_dropdown, inputs=[ctx_open_state], outputs=[ctx_open_state, context_range])
+        context_range.change(apply_ctx_choice, inputs=[context_range], outputs=[ctx_value_chip, ctx_open_state, context_range])
+
         # subtabs for SBU / UQ / AUT
         tabs = [
             ("🏛️ SBU", df_sbu, "leaderboard_sbu"),
@@ -449,29 +503,30 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
 
                 search_input.change(
                     fn=make_filter_func(df, table_id),
-                    inputs=[search_input, task_selector],
+                    inputs=[search_input, task_selector, quick_filters, brand_filters, context_range],
                     outputs=output_html,
                 )
                 task_selector.change(
                     fn=make_filter_func(df, table_id),
-                    inputs=[search_input, task_selector],
+                    inputs=[search_input, task_selector, quick_filters, brand_filters, context_range],
                     outputs=output_html,
                 )
                 quick_filters.change(
                     fn=make_pipeline_filter(df, table_id),
-                    inputs=[search_input, task_selector, quick_filters, brand_filters],
+                    inputs=[search_input, task_selector, quick_filters, brand_filters, context_range],
                     outputs=output_html,
                 )
                 brand_filters.change(
                     fn=make_pipeline_filter(df, table_id),
-                    inputs=[search_input, task_selector, quick_filters, brand_filters],
+                    inputs=[search_input, task_selector, quick_filters, brand_filters, context_range],
                     outputs=output_html,
                 )
-                context_range.change(   
+                context_range.change(
                     fn=make_pipeline_filter(df, table_id),
                     inputs=[search_input, task_selector, quick_filters, brand_filters, context_range],
                     outputs=output_html,
                 )
+
 
 
     with gr.Tab("ℹ️ About"):
