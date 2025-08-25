@@ -1,23 +1,20 @@
 import gradio as gr
-from pathlib import Path
-
-ROOT = Path(__file__).parent
-BRANDS = ROOT / "static" / "brands"
 
 with gr.Blocks() as demo:
-    gr.Markdown("## 🖼️ تست نمایش لوگوها از static/brands")
-
-    # لینک تست باز کردن فایل
-    gr.HTML(f'<p><a href="file={(BRANDS / "openai.svg").as_posix()}" target="_blank">بازکردن openai.svg</a></p>')
-
-    # نمایش همه لوگوها
-    html = (
-        '<div style="display:flex; gap:20px; flex-wrap:wrap;">'
-        f'<div><img src="file={(BRANDS / "openai.svg").as_posix()}" width="56"><br>OpenAI</div>'
-        f'<div><img src="file={(BRANDS / "anthropic.svg").as_posix()}" width="56"><br>Anthropic</div>'
-        f'<div><img src="file={(BRANDS / "google.svg").as_posix()}" width="56"><br>Google</div>'
-        '</div>'
-    )
+    gr.Markdown("## 🖼️ تست لوگوها از static/brands")
+    # نکته: برای فایل‌های محلی از 'file=' استفاده کن (نسبت به ریشه‌ی ریپو/Space)
+    html = """
+    <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:center;">
+        <div><img src="file=static/brands/openai.svg"    width="56"><br>OpenAI</div>
+        <div><img src="file=static/brands/anthropic.svg" width="56"><br>Anthropic</div>
+        <div><img src="file=static/brands/google.svg"    width="56"><br>Google</div>
+        <div><img src="file=static/brands/meta.svg"      width="56"><br>Meta</div>
+        <div><img src="file=static/brands/qwen.webp"     width="56"><br>Qwen</div>
+        <div><img src="file=static/brands/mistral.svg"   width="56"><br>Mistral</div>
+        <div><img src="file=static/brands/deepseek.svg"  width="56"><br>DeepSeek</div>
+        <div><img src="file=static/brands/xai.svg"       width="56"><br>xAI</div>
+    </div>
+    """
     gr.HTML(html)
 
 if __name__ == "__main__":
