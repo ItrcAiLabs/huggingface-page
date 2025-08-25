@@ -376,22 +376,22 @@ body, .gradio-container {
   background:#0ea5e9; color:#fff; border-color:#0284c7;
 }
 
-/* آیکون لوگو با ::before؛ به ازای هر برند با ترتیبِ choices */
+/* آیکون پایه (روی همهٔ لیبل‌ها) */
 .brand-chips .gr-checkbox-group label::before{
   content:""; position:absolute; left:10px; width:16px; height:16px;
   background-size:contain; background-repeat:no-repeat; background-position:center;
-  filter:none;
 }
 
-/* ترتیب مطابق با choices بالا: OpenAI, Anthropic, Google, Meta, Qwen, Mistral, DeepSeek, xAI */
-.brand-chips .gr-checkbox-group label:nth-of-type(1)::before { background-image:url("https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg"); }
-.brand-chips .gr-checkbox-group label:nth-of-type(2)::before { background-image:url("https://upload.wikimedia.org/wikipedia/commons/2/24/Anthropic-logo.svg"); }
-.brand-chips .gr-checkbox-group label:nth-of-type(3)::before { background-image:url("https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"); }
-.brand-chips .gr-checkbox-group label:nth-of-type(4)::before { background-image:url("https://upload.wikimedia.org/wikipedia/commons/0/05/Meta_Platforms_Inc._logo.svg"); }
-.brand-chips .gr-checkbox-group label:nth-of-type(5)::before { background-image:url("https://huggingface.co/front/assets/hub/qwen-icon.png"); }
-.brand-chips .gr-checkbox-group label:nth-of-type(6)::before { background-image:url("https://mistral.ai/favicon.ico"); }
-.brand-chips .gr-checkbox-group label:nth-of-type(7)::before { background-image:url("https://avatars.githubusercontent.com/u/172669550?s=200&v=4"); }
-.brand-chips .gr-checkbox-group label:nth-of-type(8)::before { background-image:url("https://x.ai/favicon.ico"); }
+/* نگاشت لوگوها: بر اساس ترتیب items داخلی
+   ساختار: .gr-checkbox-group > div:nth-of-type(N) > label */
+.brand-chips .gr-checkbox-group > div:nth-of-type(1) > label::before { background-image:url("https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(2) > label::before { background-image:url("https://upload.wikimedia.org/wikipedia/commons/2/24/Anthropic-logo.svg"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(3) > label::before { background-image:url("https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(4) > label::before { background-image:url("https://upload.wikimedia.org/wikipedia/commons/0/05/Meta_Platforms_Inc._logo.svg"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(5) > label::before { background-image:url("https://huggingface.co/front/assets/hub/qwen-icon.png"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(6) > label::before { background-image:url("https://mistral.ai/favicon.ico"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(7) > label::before { background-image:url("https://avatars.githubusercontent.com/u/172669550?s=200&v=4"); }
+.brand-chips .gr-checkbox-group > div:nth-of-type(8) > label::before { background-image:url("https://x.ai/favicon.ico"); }
 
 
 """
@@ -473,27 +473,28 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         gr.Markdown("<div class='section-title'>Quick Filters</div>")
 
         with gr.Column(elem_classes=["filters-box"]):
-            # 🔹 ردیف بالا: open models + small models + context
+            # ردیف بالا: quick + context
             with gr.Row():
                 quick_filters = gr.CheckboxGroup(
                     choices=["Open Models", f"Small Models (<{SMALL_PARAMS_B}B)"],
                     value=[], label=""
                 )
-        
                 context_range = gr.Dropdown(
-                    choices=CONTEXT_RANGE_CHOICES,
-                    value=None,
+                    choices=["No Filter","0–16K","16K–32K","32K–128K","128K–500K","500K+"],
+                    value="No Filter",
                     label="Input Context Length",
                     show_label=True,
                     elem_classes=["ctx-dd"],
                 )
         
+            # ردیف پایین: برندها (افقی، چیپیِ آبی)
+            with gr.Row():
                 brand_filters = gr.CheckboxGroup(
                     choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
-                    value=[],           # هرکدوم خواستی پیش‌فرض تیک بزنی اینجا لیست کن
-                    label="Brands",
-                    elem_classes=["brand-chips"],
+                    value=[], label="",
+                    elem_classes=["brand-chips"],   # ← مهم
                 )
+        
 #---------------------------------------------------------------------------------------------------------------------
        
         # subtabs for SBU / UQ / AUT
