@@ -6,7 +6,7 @@ from datetime import datetime
 import pytz
 from datasets import load_dataset, Dataset
 
-FIXED_COLUMNS = ["model", "params", "license", "precision", "type"]
+FIXED_COLUMNS = ["model", "params", "license", "precision", "type", "context"]
 
 
 # ---------------- Task Groups ----------------
@@ -115,7 +115,7 @@ def load_all_data(path: str):
 
     df = pd.DataFrame(rows)
 
-    base_cols = ["Model", "Precision", "#Params (B)"]
+    base_cols = ["Model", "Precision", "#Params (B)", "context"]
     dfs = {}
 
     for group, tasks in TASK_GROUPS.items():
@@ -252,7 +252,7 @@ def filter_table(search: str, tasks: list, df: pd.DataFrame, table_id: str = "le
     if search:
         df = df[df["Model"].str.contains(search, case=False, na=False)]
     if tasks:
-        base_cols = ["Model", "Precision", "#Params (B)"]
+        base_cols = ["Model", "Precision", "#Params (B)", "context"]
         selected_cols = base_cols + [c for c in tasks if c in df.columns]
         df = df[selected_cols]
     return df_to_styled_html(df, table_id=table_id)
