@@ -6,7 +6,7 @@ from datetime import datetime
 import pytz
 from datasets import load_dataset, Dataset
 
-FIXED_COLUMNS = ["model", "params", "license", "precision", "type", "Context"]
+FIXED_COLUMNS = ["model", "params", "license", "precision", "type"]
 
 
 # ---------------- Task Groups ----------------
@@ -194,7 +194,7 @@ def df_to_styled_html(
     html += "<thead><tr>"
 
     for col in df.columns:
-        if col.lower() in ["model", "precision", "license", "organization", "Context"]:
+        if col.lower() in ["model", "precision", "license", "organization", "context"]:
             html += f"<th>{col}</th>"
         else:
             up_color = "color:#999;"
