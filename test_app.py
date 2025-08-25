@@ -22,8 +22,8 @@ def apply_quick_filters(df: pd.DataFrame, quick: list, brands: list, ctx_range: 
     out = df.copy()
 
     # Open-source
-    if "Open Models" in quick and "License" in out.columns:
-        out = out[out["License"].astype(str).str.lower().ne("custom")]
+    if "Open Models" in quick and "OpenSource" in out.columns:
+        out = out[out["OpenSource"] == True]
 
     # Small models
     if f"Small Models (<{SMALL_PARAMS_B}B)" in quick:
@@ -61,8 +61,11 @@ def make_pipeline_filter(current_df: pd.DataFrame, table_id: str):
     return _fn
 def add_organization_column(df: pd.DataFrame) -> pd.DataFrame:
     if "Organization" not in df.columns:
-        df["Organization"] = df["Model"].apply(lambda m: str(m).split("/")[0].lower() if "/" in str(m) else str(m).lower())
+        df["Organization"] = df["Model"].apply(
+            lambda m: str(m).split("/")[0].lower() if "/" in str(m) else str(m).lower()
+        )
         df["Brand"] = df["Organization"].map(lambda o: ORG_TO_BRAND.get(o, o.title()))
+        df["OpenSource"] = df["Organization"].map(lambda o: OPEN_ORGS.get(o, False))
     return df
 ORG_TO_BRAND = {
     "openai": "OpenAI",
@@ -85,6 +88,26 @@ ORG_TO_BRAND = {
     "maralgpt": "Independent",
 }
 
+OPEN_ORGS = {
+    "openai": False,        # بسته
+    "anthropic": False,     # بسته
+    "google": False,        # gemini بسته است
+    "gemma": True,          # gemma اوپن‌سورس
+    "meta": True,           # llama اوپن‌سورس
+    "meta-llama": True,
+    "nousresearch": True,   # روی llama سوار شده
+    "qwen": True,
+    "mistral": True,
+    "deepseek": True,
+    "xai": False,
+    "coherelabs": False,    # بسته
+    "cohereforai": True,    # aya اوپن
+    "microsoft": True,      # phi اوپن
+    "ibm-granite": True,
+    "frameai": True,
+    "mehdihosseinimoghadam": True,
+    "maralgpt": True,
+}
 
 # ---------------- Load leaderboard data ----------------
 dfs = load_all_data("data/")
