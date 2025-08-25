@@ -1,8 +1,8 @@
 import gradio as gr
 from utils import submit_request, load_all_data, df_to_styled_html, TASK_GROUPS, filter_table
 import pandas as pd
-LONG_CTX_THRESHOLD = 128_000
-SMALL_PARAMS_B = 8
+
+SMALL_PARAMS_B = 9
 
 def apply_quick_filters(df: pd.DataFrame, quick: list, brands: list) -> pd.DataFrame:
     out = df.copy()
@@ -10,12 +10,8 @@ def apply_quick_filters(df: pd.DataFrame, quick: list, brands: list) -> pd.DataF
     #     out = out[out["Modality"].astype(str).str.contains("image|audio|vision|multimodal", case=False, na=False)]
     if "Open Models" in quick and "License" in out.columns:
         out = out[out["License"].astype(str).str.lower().ne("custom")]
-    if "Long Context" in quick:
-        col = next((c for c in ["Input Context Length","Context Length","Max Context","Context"] if c in out.columns), None)
-        if col:
-            v = pd.to_numeric(out[col], errors="coerce").fillna(0)
-            out = out[v >= LONG_CTX_THRESHOLD]
-    if "Small Models (<8B)" in quick:
+    
+    if "Small Models (<9B)" in quick:
         col = next((c for c in ["#Params (B)","Params (B)","Parameters (B)"] if c in out.columns), None)
         if col:
             v = pd.to_numeric(out[col], errors="coerce").fillna(1e9)
