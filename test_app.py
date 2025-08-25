@@ -129,25 +129,25 @@ body, .gradio-container {
     padding: 12px 10px;
     font-size: 14px;
     color: #333;
-    border-bottom: 1px solid #dbeafe; /* خطوط داخلی آبی ملایم */
-    max-width: 180px;                 /* ستون‌ها نسبتا یک اندازه */
+    border-bottom: 1px solid #dbeafe; 
+    max-width: 180px;                
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;              /* متن بدنه نشکنه */
+    white-space: nowrap;              
 }
 
-/* راه‌راه */
+
 .styled-table tbody tr:nth-child(even) {
     background: #fafcff;
 }
 
-/* افکت هاور */
+
 .styled-table tbody tr:hover {
     background: #e0f2fe;
     transition: background 0.2s ease-in-out;
 }
 
-/* ستون مدل خاص */
+
 .model-col {
     font-weight: 600;
     color: #2563eb;
@@ -158,11 +158,21 @@ body, .gradio-container {
 }
 
 .gradio-container {
-    padding-top: 0 !important;   /* اگه بالای صفحه فاصله افتاد، صفرش کن */
+    padding-top: 0 !important;   
 }
 
 .main-title {
-    margin-top: 24px !important; /* تیتر کمی بالاتر بیاد */
+    margin-top: 24px !important; 
+}
+.gradio-container [style*="resize"], 
+.gradio-container .svelte-1ipelgc, 
+.gradio-container .svelte-drgfj1 {
+    resize: none !important;
+    overflow: hidden !important;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 
