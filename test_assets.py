@@ -7,7 +7,7 @@ logos = [
     ("meta.svg",      "Meta"),
     ("qwen.webp",     "Qwen"),
     ("mistral.svg",   "Mistral"),
-    ("deepseek.svg",  "DeepSeek"),
+    ("deepseek.webp", "DeepSeek"),
     ("xai.svg",       "xAI"),
 ]
 
@@ -17,14 +17,13 @@ def render_logos():
         items.append(
             f"""
             <figure style="text-align:center; margin:0;">
-                <img src="/file=static/brands/{fname}" width="56" alt="{label}" draggable="false" />
+                <img src="file=static/brands/{fname}" width="56" alt="{label}" draggable="false" />
                 <figcaption style="font-size:12px;color:#555;margin-top:6px">{label}</figcaption>
             </figure>
             """
         )
     return f"""
     <style>
-      /* بدون امکان انتخاب/درگ یا کلیک */
       .logo-grid img {{
         user-select: none;
         -webkit-user-drag: none;
