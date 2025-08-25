@@ -33,8 +33,8 @@ def apply_quick_filters(df: pd.DataFrame, quick: list, brands: list, ctx_range: 
             out = out[v < SMALL_PARAMS_B]
 
     # Brands
-    if brands and "Organization" in out.columns:
-        out = out[out["Organization"].astype(str).isin(brands)]
+    if brands and "Brand" in out.columns:
+        out = out[out["Brand"].isin(brands)]
 
     # Context range
 # Context range
@@ -59,13 +59,42 @@ def make_pipeline_filter(current_df: pd.DataFrame, table_id: str):
         df1 = apply_quick_filters(current_df, quick or [], brands or [], ctx_range)
         return filter_table(search_text, task_cols, df1, table_id=table_id)
     return _fn
+def add_organization_column(df: pd.DataFrame) -> pd.DataFrame:
+    if "Organization" not in df.columns:
+        df["Organization"] = df["Model"].apply(lambda m: str(m).split("/")[0].lower() if "/" in str(m) else str(m).lower())
+        df["Brand"] = df["Organization"].map(lambda o: ORG_TO_BRAND.get(o, o.title()))
+    return df
+ORG_TO_BRAND = {
+    "openai": "OpenAI",
+    "anthropic": "Anthropic",
+    "google": "Google",
+    "gemma": "Google",        # بعضی مدل‌ها فقط gemma دارن
+    "meta": "Meta",
+    "meta-llama": "Meta",
+    "nousresearch": "Meta",   # چون Llama هست
+    "qwen": "Qwen",
+    "mistral": "Mistral",
+    "deepseek": "DeepSeek",
+    "xai": "xAI",
+    "coherelabs": "Cohere",
+    "cohereforai": "Cohere",
+    "microsoft": "Microsoft",
+    "ibm-granite": "IBM",
+    "frameai": "FrameAI",
+    "mehdihosseinimoghadam": "Independent",
+    "maralgpt": "Independent",
+}
 
 
 # ---------------- Load leaderboard data ----------------
 dfs = load_all_data("data/")
-df_sbu = dfs["SBU"]
-df_uq  = dfs["UQ"]
-df_aut = dfs["AUT"]
+df_sbu = add_organization_column(dfs["SBU"])
+df_uq  = add_organization_column(dfs["UQ"])
+df_aut = add_organization_column(dfs["AUT"])
+
+# df_sbu = dfs["SBU"]
+# df_uq  = dfs["UQ"]
+# df_aut = dfs["AUT"]
 
 # ---------------- Custom CSS ----------------
 CUSTOM_CSS = """
