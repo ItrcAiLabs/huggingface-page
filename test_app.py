@@ -415,28 +415,29 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         )
         #---------------------------------------------------
         gr.Markdown("<div class='section-title'>Quick Filters</div>")
+
+        with gr.Column(elem_classes=["filters-box"]):
+            # 🔹 ردیف بالا: open models + small models + context
+            with gr.Row():
+                quick_filters = gr.CheckboxGroup(
+                    choices=["Open Models", f"Small Models (<{SMALL_PARAMS_B}B)"],
+                    value=[], label=""
+                )
         
-        with gr.Row(elem_classes=["filters-box"]):
-            # ردیف ۱: چیپ‌های سریع
-            quick_filters = gr.CheckboxGroup(
-                choices=["Open Models", f"Small Models (<{SMALL_PARAMS_B}B)"],
-                value=[], label=""
-            )
-        
-            # ردیف ۲: برندها (چیپ)
-            brand_filters = gr.CheckboxGroup(
-                choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
-                value=[], label=""
-            )
-        
-           
-            context_range = gr.Dropdown(
+                context_range = gr.Dropdown(
                     choices=CONTEXT_RANGE_CHOICES,
                     value=None,
-                    label="Input Context Length",   # ✅ لیبل روی خود Dropdown
-                    show_label=True,                # ✅ لیبل نمایش داده شود
+                    label="Input Context Length",
+                    show_label=True,
                     elem_classes=["ctx-dd"],
                 )
+        
+            # 🔹 ردیف پایین: برندها
+            brand_filters = gr.CheckboxGroup(
+                choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
+                value=[], label="Brands",
+            )
+        
 
 #---------------------------------------------------------------------------------------------------------------------
        
