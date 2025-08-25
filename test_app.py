@@ -100,7 +100,7 @@ OPEN_ORGS = {
     "mistral": True,
     "deepseek": True,
     "xai": False,
-    "coherelabs": False,    # بسته
+    "coherelabs": True,    # بسته
     "cohereforai": True,    # aya اوپن
     "microsoft": True,      # phi اوپن
     "ibm-granite": True,
