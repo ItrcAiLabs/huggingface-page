@@ -16,7 +16,7 @@ BRAND_ICONS = {
     "Meta":      "meta.svg",
     "Qwen":      "qwen.webp",
     "Mistral":   "mistral.svg",
-    "DeepSeek":  "deepseek.webp",   # svg قبلی خراب بود، همین webp رو می‌گذاریم
+    "DeepSeek":  "deepseek.svg",   # svg قبلی خراب بود، همین webp رو می‌گذاریم
     "xAI":       "xai.svg",
 }
 
@@ -655,6 +655,23 @@ body, .gradio-container {
 [id^="brand_"] {
   margin: 0 !important;
   width: auto !important;
+}
+/* ردیف برندها کنار هم با فاصله‌ی کم */
+.brand-row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;          /* فاصله بین چیپ‌ها */
+  row-gap: 6px !important;
+  column-gap: 6px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* هر آیتم چک‌باکس داخل row */
+.brand-row > div {
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 0 0 auto !important;
 }
 
 
