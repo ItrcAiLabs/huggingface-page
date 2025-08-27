@@ -760,14 +760,14 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
     #                     cb_xai       = gr.Checkbox(label="xAI",       value=False, elem_id="brand_xai")
 
     with gr.Tab("📊 Persian Benchmark"):
-        # 🏆 Title
-        gr.HTML("<h1 class='main-title'>Tarazban Leaderboard</h1>")
-        gr.HTML("""
-        <div style='text-align:center; margin-bottom:30px; font-family:"Vazirmatn",sans-serif;'>
-            <p style='font-size:16px; color:#555;'>Interactive Persian NLP Leaderboard — Compare models across multiple benchmarks</p>
+        # # 🏆 Title
+        # gr.HTML("<h1 class='main-title'>Tarazban Leaderboard</h1>")
+        # gr.HTML("""
+        # <div style='text-align:center; margin-bottom:30px; font-family:"Vazirmatn",sans-serif;'>
+        #     <p style='font-size:16px; color:#555;'>Interactive Persian NLP Leaderboard — Compare models across multiple benchmarks</p>
             
-        </div>
-        """)
+        # </div>
+        # """)
 
         # 🔍 Search bar
         gr.Markdown("<div class='section-title'>🔍 Search Models</div>")
