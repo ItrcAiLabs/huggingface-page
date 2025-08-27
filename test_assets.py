@@ -559,6 +559,62 @@ body, .gradio-container {
     color: #fff;
     border-color: #0284c7;
 }
+/* ==== Brand chips (by elem_id) - layout & states ==== */
+/* 1) پنهان کردن مربع چک‌باکس پیش‌فرض */
+[id^="brand_"] input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 2) چیدمان لیبل به صورت چیپ با جا برای آیکون */
+[id^="brand_"] label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px 8px 40px;   /* ← فضای کافی برای آیکون */
+  border-radius: 9999px;
+  background: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background .2s, border-color .2s, color .2s, opacity .2s;
+}
+[id^="brand_"] label:hover { background: #bae6fd; border-color: #7dd3fc; }
+
+/* 3) جای‌گذاری آیکون (data URI) که قبلاً با make_brand_chip_css_by_id ست می‌شود */
+[id^="brand_"] label::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;                  /* ← کمی بزرگ‌تر تا واضح باشه */
+  height: 20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* 4) تمایز حالت انتخاب‌شده */
+[id^="brand_"] input[type="checkbox"]:checked + label {
+  background: #0ea5e9;
+  color: #fff;
+  border-color: #0284c7;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, .25) inset; /* هاله‌ی ظریف داخل چیپ */
+}
+
+/* 5) خوانایی بیشتر: آیکون‌های غیر انتخابی کمی کم‌رنگ باشند */
+[id^="brand_"] input[type="checkbox"]:not(:checked) + label::before {
+  filter: grayscale(100%) opacity(.8);
+}
+[id^="brand_"] input[type="checkbox"]:checked + label::before {
+  filter: none;
+}
+
 
 """
 
