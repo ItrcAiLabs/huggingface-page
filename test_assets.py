@@ -619,28 +619,39 @@ body, .gradio-container {
 
 
 
-/* ==== Hero Subtitle ==== */
-.hero .subtitle {
-  font-size: 18px;
-  font-weight: 400;
-  color: #4b5563;            /* خاکستری ملایم */
+/* === Main Title (بزرگ) === */
+.hero .main-title {
+  font-size: 46px;                     /* کمی بزرگ */
+  font-weight: 600;                    /* نازک‌تر از 800 */
+  color: #1e293b;                      /* سرمه‌ای/مشکی نرم */
   text-align: center;
-  margin-top: 10px;
+  margin: 20px 0 10px 0;
+  font-family: 'Raleway','Vazirmatn',sans-serif;
+  letter-spacing: 1px;                  /* فاصله‌ی شیک بین حروف */
+  animation: fadeInDown 1s ease-out;
+}
+
+/* === Subtitle (یکدست) === */
+.hero .subtitle {
+  font-size: 18px;                     /* کمی کوچیک‌تر */
+  font-weight: 500;
+  color: #4b5563;                      /* خاکستری تیره مدرن */
+  text-align: center;
+  margin-top: 8px;
   line-height: 1.6;
-  font-family: 'Vazirmatn','Raleway',sans-serif;
-  letter-spacing: 0.3px;
+  font-family: 'Raleway','Vazirmatn',sans-serif;
+  letter-spacing: 0.5px;
   animation: fadeInUp 1s ease-out;
 }
 
-.hero .subtitle span {
-  font-weight: 600;
-  color: #1e3a8a;            /* آبی تیره برای تأکید */
+/* انیمیشن‌های ظریف */
+@keyframes fadeInDown {
+  from {opacity: 0; transform: translateY(-10px);}
+  to   {opacity: 1; transform: translateY(0);}
 }
-
-/* افکت ظاهر شدن */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {opacity: 0; transform: translateY(10px);}
+  to   {opacity: 1; transform: translateY(0);}
 }
 
 
