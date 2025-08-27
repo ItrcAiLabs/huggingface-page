@@ -687,15 +687,17 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
 
     # ===== Navbar =====
     gr.HTML("""
-    <div class="navbar">
-        <div class="navbar-title">Tarazban Leaderboard</div>
-        <div class="navbar-links">
-            <a href="#">Leaderboard</a>
-            <a href="#">About</a>
-            <a href="#">Submit</a>
+        <div class="hero">
+          <div class="title-wrap">
+            <h1 class="main-title">
+              <span class="title-accent">Tarazban</span> Leaderboard
+            </h1>
+            <p class="subtitle">
+              Interactive Persian NLP Leaderboard — <span>Compare models across multiple benchmarks</span>
+            </p>
+          </div>
         </div>
-    </div>
-    """)
+        """)
 
     # with gr.Tab("📊 Persian Benchmark"):
     #     # 🏆 Title
