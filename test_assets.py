@@ -620,9 +620,13 @@ body, .gradio-container {
   margin: 20px 0 10px 0;
   font-family: 'Raleway','Vazirmatn',sans-serif;
   letter-spacing: 0.5px;
-  color: #000000;   /* سیاه کامل */
+  color: #000 !important;          /* سیاه کامل */
+  background: none !important;     /* گرادیان قبلی حذف بشه */
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
   animation: fadeInDown 1s ease-out;
 }
+
 
 /* === Subtitle (خاکستری، دو خطه با انیمیشن) === */
 .hero .subtitle {
