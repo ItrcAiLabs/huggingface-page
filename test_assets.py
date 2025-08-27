@@ -541,9 +541,10 @@ body, .gradio-container {
   cursor:pointer !important;
 }
 
-/* ==== Brand chips (Final, Fixed) ==== */
 
-/* ردیف برندها */
+/* ==== Brand chips (Clean) ==== */
+
+/* ردیف برندها کنار هم */
 .brand-row {
   display: flex !important;
   flex-wrap: wrap !important;
@@ -565,13 +566,51 @@ body, .gradio-container {
   pointer-events: none !important;
 }
 
-/* ظاهر پایهٔ چیپ — آبی روشن */
+/* ظاهر پایهٔ چیپ */
 [id^="brand_"] label {
   position: relative !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
-  padding: 6px
+  padding: 6px 10px 6px 42px !important;  /* جا برای لوگو سمت چپ */
+  border-radius: 9999px !important;
+  background: #e0f2fe !important;
+  color: #0369a1 !important;
+  border: 1px solid #bae6fd !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  transition: background .2s, border-color .2s, color .2s, box-shadow .2s !important;
+}
+[id^="brand_"] label:hover {
+  background: #bae6fd !important;
+  border-color: #7dd3fc !important;
+}
+
+/* جای لوگو (خودِ تصویر در make_brand_chip_css_by_id() ست می‌شود) */
+[id^="brand_"] label::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 20px !important;
+  height: 20px !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+/* حالت انتخاب‌شده — رنگ چیپ پررنگ شود */
+[id^="brand_"] label:has(input:checked) {
+  background: #0ea5e9 !important;
+  color: #fff !important;
+  border-color: #0284c7 !important;
+  box-shadow: 0 0 0 2px rgba(2,132,199,.25) inset !important;
+}
+
+
+
 
 
 /* === Main Title (بزرگ با گرادیان) === */
