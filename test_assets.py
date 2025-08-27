@@ -633,6 +633,29 @@ body, .gradio-container {
   display: block !important;
 }
 
+/* ==== Hero Subtitle ==== */
+.hero .subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  color: #4b5563;            /* خاکستری ملایم */
+  text-align: center;
+  margin-top: 10px;
+  line-height: 1.6;
+  font-family: 'Vazirmatn','Raleway',sans-serif;
+  letter-spacing: 0.3px;
+  animation: fadeInUp 1s ease-out;
+}
+
+.hero .subtitle span {
+  font-weight: 600;
+  color: #1e3a8a;            /* آبی تیره برای تأکید */
+}
+
+/* افکت ظاهر شدن */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
 
 """
@@ -698,66 +721,6 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
           </div>
         </div>
         """)
-
-    # with gr.Tab("📊 Persian Benchmark"):
-    #     # 🏆 Title
-    #     gr.HTML("<h1 class='main-title'>Tarazban Leaderboard</h1>")
-    #     gr.HTML("""
-    #     <div style='text-align:center; margin-bottom:30px; font-family:"Vazirmatn",sans-serif;'>
-    #         <p style='font-size:16px; color:#555;'>Interactive Persian NLP Leaderboard — Compare models across multiple benchmarks</p>
-            
-    #     </div>
-    #     """)
-
-    #     # 🔍 Search bar
-    #     gr.Markdown("<div class='section-title'>🔍 Search Models</div>")
-    #     search_input = gr.Textbox(
-    #         placeholder="Type model name...",
-    #         elem_classes=["search-box"],
-    #     )
-    #     #---------------------------------------------------
-    #     gr.Markdown("<div class='section-title'>Quick Filters</div>")
-
-    #     with gr.Column(elem_classes=["filters-box"]):
-    #         # ردیف بالا: quick + context
-    #         with gr.Row():
-    #             quick_filters = gr.CheckboxGroup(
-    #                 choices=["Open Models", f"Small Models (<{SMALL_PARAMS_B}B)"],
-    #                 value=[], label=""
-    #             )
-    #             context_range = gr.Dropdown(
-    #                 choices=["No Filter","0–16K","16K–32K","32K–128K","128K–500K","500K+"],
-    #                 value="No Filter",
-    #                 label="Input Context Length",
-    #                 show_label=True,
-    #                 elem_classes=["ctx-dd"],
-    #             )
-        
-    #         # ردیف پایین: برندها (افقی، چیپیِ آبی)
-    #         # with gr.Row():
-    #             # brand_filters = gr.CheckboxGroup(
-    #             #     choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
-    #             #     value=[], label="",
-    #             #     elem_classes=["brand-chips"],   # ← مهم
-    #             # )
-    #             # with gr.Row():
-    #                 # cb_openai    = gr.Checkbox(label="OpenAI",    value=False, elem_id="brand_openai")
-    #                 # cb_anthropic = gr.Checkbox(label="Anthropic", value=False, elem_id="brand_anthropic")
-    #                 # cb_google    = gr.Checkbox(label="Google",    value=False, elem_id="brand_google")
-    #                 # cb_meta      = gr.Checkbox(label="Meta",      value=False, elem_id="brand_meta")
-    #                 # cb_qwen      = gr.Checkbox(label="Qwen",      value=False, elem_id="brand_qwen")
-    #                 # cb_mistral   = gr.Checkbox(label="Mistral",   value=False, elem_id="brand_mistral")
-    #                 # cb_deepseek  = gr.Checkbox(label="DeepSeek",  value=False, elem_id="brand_deepseek")
-    #                 # cb_xai       = gr.Checkbox(label="xAI",       value=False, elem_id="brand_xai")
-    #             with gr.Row(elem_id="brand_row", elem_classes=["brand-row"]):
-    #                     cb_openai    = gr.Checkbox(label="OpenAI",    value=False, elem_id="brand_openai")
-    #                     cb_anthropic = gr.Checkbox(label="Anthropic", value=False, elem_id="brand_anthropic")
-    #                     cb_google    = gr.Checkbox(label="Google",    value=False, elem_id="brand_google")
-    #                     cb_meta      = gr.Checkbox(label="Meta",      value=False, elem_id="brand_meta")
-    #                     cb_qwen      = gr.Checkbox(label="Qwen",      value=False, elem_id="brand_qwen")
-    #                     cb_mistral   = gr.Checkbox(label="Mistral",   value=False, elem_id="brand_mistral")
-    #                     cb_deepseek  = gr.Checkbox(label="DeepSeek",  value=False, elem_id="brand_deepseek")
-    #                     cb_xai       = gr.Checkbox(label="xAI",       value=False, elem_id="brand_xai")
 
     with gr.Tab("📊 Persian Benchmark"):
         # # 🏆 Title
