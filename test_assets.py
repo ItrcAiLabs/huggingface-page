@@ -535,149 +535,38 @@ body, .gradio-container {
   cursor:pointer !important;
 }
 
-/* ===== Brand chips: آبی روشن + لوگو ===== */
-.brand-chips .gr-checkbox-group { 
-  display:flex; flex-wrap:wrap; gap:8px; 
-}
-.brand-chips .gr-checkbox-group input { display:none; }
-.brand-chips .gr-checkbox-group label {
-  display:inline-flex; align-items:center; gap:8px;
-  padding:6px 12px; border-radius:9999px;
-  background:#e0f2fe;
-  color:#0369a1;
-  border:1px solid #bae6fd;
-  font-weight:600; font-size:13px; cursor:pointer;
-  transition:.2s;
-  position:relative; padding-left:30px; /* جا برای لوگو */
-}
-.brand-chips .gr-checkbox-group label:hover {
-  background:#bae6fd; border-color:#7dd3fc;
-}
-.brand-chips .gr-checkbox-group input:checked + label {
-  background:#0ea5e9; color:#fff; border-color:#0284c7;
-}
-/* جای لوگو */
-.brand-chips .gr-checkbox-group label::before {
-  content:""; position:absolute; left:10px; width:16px; height:16px;
-  background-size:contain; background-repeat:no-repeat; background-position:center;
-}
-/* مخفی کردن خود مربع چک‌باکس */
-#brand_openai input[type="checkbox"],
-#brand_anthropic input[type="checkbox"],
-#brand_google input[type="checkbox"],
-#brand_meta input[type="checkbox"],
-#brand_qwen input[type="checkbox"],
-#brand_mistral input[type="checkbox"],
-#brand_deepseek input[type="checkbox"],
-#brand_xai input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-}
-/* حالت انتخاب شده */
-#brand_openai input[type="checkbox"]:checked + label,
-#brand_anthropic input[type="checkbox"]:checked + label,
-#brand_google input[type="checkbox"]:checked + label,
-#brand_meta input[type="checkbox"]:checked + label,
-#brand_qwen input[type="checkbox"]:checked + label,
-#brand_mistral input[type="checkbox"]:checked + label,
-#brand_deepseek input[type="checkbox"]:checked + label,
-#brand_xai input[type="checkbox"]:checked + label {
-    background: #0ea5e9;
-    color: #fff;
-    border-color: #0284c7;
-}
-/* ==== Brand chips layout & states (final) ==== */
-[id^="brand_"] input[type="checkbox"] {
-  position: absolute !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
 
-[id^="brand_"] label {
-  position: relative !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  padding: 8px 12px 8px 44px !important;  /* ← فاصله از آیکون */
-  border-radius: 9999px !important;
-  background: #e0f2fe !important;
-  color: #0369a1 !important;
-  border: 1px solid #bae6fd !important;
-  font-weight: 600 !important;
-  font-size: 13px !important;
-  cursor: pointer !important;
-  transition: background .2s, border-color .2s, color .2s, opacity .2s !important;
-}
-[id^="brand_"] label:hover { background: #bae6fd !important; border-color: #7dd3fc !important; }
+/* ==== Brand chips (Clean) ==== */
 
-[id^="brand_"] label::before {
-  /* فقط اندازه/جای آیکون؛ خود تصویر در make_brand_chip_css_by_id ست می‌شود */
-  width: 20px !important;
-  height: 20px !important;
-  left: 12px !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-}
-
-[id^="brand_"] input[type="checkbox"]:checked + label {
-  background: #0ea5e9 !important;
-  color: #fff !important;
-  border-color: #0284c7 !important;
-  box-shadow: 0 0 0 2px rgba(2,132,199,.25) inset !important;
-}
-
-[id^="brand_"] input[type="checkbox"]:not(:checked) + label::before {
-  filter: grayscale(100%) opacity(.85) !important;
-}
-[id^="brand_"] input[type="checkbox"]:checked + label::before {
-  filter: none !important;
-}
-
-/* جمع‌وجور کردن ردیف برندها */
+/* ردیف برندها کنار هم */
 .brand-row {
   display: flex !important;
   flex-wrap: wrap !important;
-  justify-content: flex-start !important;
-  gap: 3px !important;        /* فاصلهٔ بین چیپ‌ها */
-  column-gap: 10px !important;
-  row-gap: 10px !important;
-  padding: 0 !important;
-}
-
-/* ====== Brand chips layout & states ====== */
-.brand-row,
-#brand_row {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  justify-content: flex-start !important;
   gap: 6px !important;
   row-gap: 6px !important;
   margin: 0 !important;
   padding: 0 !important;
 }
-
-.brand-row > div,
-#brand_row > div {
+.brand-row > div {
   margin: 0 !important;
   padding: 0 !important;
   flex: 0 0 auto !important;
 }
 
-/* مخفی کردن تیک پیش‌فرض */
+/* مخفی کردن مربع چک‌باکس پیش‌فرض */
 [id^="brand_"] input[type="checkbox"] {
   position: absolute !important;
   opacity: 0 !important;
   pointer-events: none !important;
 }
 
-/* چیپ + لوگو */
+/* ظاهر چیپ */
 [id^="brand_"] label {
   position: relative !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
-  padding: 6px 12px 6px 44px !important;
+  padding: 6px 10px 6px 42px !important;  /* جا برای لوگو سمت چپ */
   border-radius: 9999px !important;
   background: #e0f2fe !important;
   color: #0369a1 !important;
@@ -685,128 +574,9 @@ body, .gradio-container {
   font-weight: 600 !important;
   font-size: 13px !important;
   cursor: pointer !important;
-  transition: background .2s, border-color .2s, color .2s !important;
-}
+  transition: background .2s, border
 
-[id^="brand_"] label:hover {
-  background: #bae6fd !important;
-  border-color: #7dd3fc !important;
-}
 
-[id^="brand_"] label::before {
-  content:"";
-  position: absolute;
-  left: 14px; top: 50%;
-  transform: translateY(-50%);
-  width: 18px; height: 18px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-/* حالت انتخاب */
-[id^="brand_"] input[type="checkbox"]:checked + label {
-  background: #0ea5e9 !important;
-  color: #fff !important;
-  border-color: #0284c7 !important;
-}
-
-[id^="brand_"] input[type="checkbox"]:not(:checked) + label::before {
-  filter: grayscale(100%) opacity(.85);
-}
-[id^="brand_"] input[type="checkbox"]:checked + label::before {
-  filter: none;
-}
-
-/* ===== Compact brand chips layout ===== */
-
-/* خود Row: فلکس با gap کم */
-#brand_row {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 6px !important;       /* ← اگر خواستی بذار 4 یا 3 */
-  row-gap: 6px !important;
-  column-gap: 6px !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* همه‌ی wrapperهای داخلی که Gradio می‌سازد: حاشیه/پدینگ/گپ صفر */
-#brand_row > div,
-#brand_row > div > div,
-#brand_row > div > div > div,
-#brand_row > div > div > div > div {
-  margin: 0 !important;
-  padding: 0 !important;
-  gap: 0 !important;
-  min-width: 0 !important;
-  width: auto !important;
-  max-width: none !important;
-  flex: 0 0 auto !important;
-}
-
-/* خود هر چک‌باکس برند به‌صورت چیپ کنار هم */
-#brand_row [id^="brand_"] {
-  display: inline-block !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  width: auto !important;
-  max-width: none !important;
-  min-width: 0 !important;
-}
-
-/* پنهان‌کردن مربع چک‌باکس پیش‌فرض */
-#brand_row [id^="brand_"] input[type="checkbox"] {
-  position: absolute !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
-/* خود چیپ (label) فشرده‌تر */
-#brand_row [id^="brand_"] label {
-  position: relative !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  padding: 6px 10px 6px 42px !important;  /* فاصله از آیکون */
-  border-radius: 9999px !important;
-  background: #e0f2fe !important;
-  color: #0369a1 !important;
-  border: 1px solid #bae6fd !important;
-  font-weight: 600 !important;
-  font-size: 12px !important;            /* کوچیک‌تر = فشرده‌تر */
-  cursor: pointer !important;
-  transition: background .2s, border-color .2s, color .2s !important;
-}
-
-/* آیکون (تصویر را make_brand_chip_css_by_id() ست می‌کند) */
-#brand_row [id^="brand_"] label::before {
-  content: "" !important;
-  position: absolute !important;
-  left: 12px !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  width: 18px !important;
-  height: 18px !important;
-  background-size: contain !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
-}
-
-/* حالت انتخاب‌شده واضح */
-#brand_row [id^="brand_"] input[type="checkbox"]:checked + label {
-  background: #0ea5e9 !important;
-  color: #fff !important;
-  border-color: #0284c7 !important;
-}
-
-/* کمی تمایز آیکون در حالت غیر انتخاب */
-#brand_row [id^="brand_"] input[type="checkbox"]:not(:checked) + label::before {
-  filter: grayscale(100%) opacity(.85) !important;
-}
-#brand_row [id^="brand_"] input[type="checkbox"]:checked + label::before {
-  filter: none !important;
-}
 
 """
 
@@ -855,7 +625,7 @@ def make_sort_func(col, df, table_id, ascending):
 
 # ---------------- Gradio App ----------------
 with gr.Blocks(css=CUSTOM_CSS) as demo:
-    gr.HTML(make_brand_icon_css())
+    # gr.HTML(make_brand_icon_css())
     gr.HTML(make_brand_chip_css_by_id())   # ← لوگوهای بدون JS و بدون :has()
 
     # ===== Navbar =====
