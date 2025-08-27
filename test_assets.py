@@ -573,7 +573,7 @@ body, .gradio-container {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 12px 8px 44px;   /* ← فضای کافی برای آیکون */
+  padding: 8px 12px 8px 70px;   /* ← فضای کافی برای آیکون */
   border-radius: 9999px;
   background: #e0f2fe;
   color: #0369a1;
