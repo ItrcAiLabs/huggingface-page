@@ -43,7 +43,6 @@ def make_brand_icon_css() -> str:
                 }}'''
         )
     return "<style>\n" + "\n".join(rules) + "\n</style>"
-
 def make_brand_chip_css_by_id() -> str:
     id_map = {
         "brand_openai":   BRAND_ICONS["OpenAI"],
@@ -65,24 +64,53 @@ def make_brand_chip_css_by_id() -> str:
             f'''#{elem_id} label::before {{
                     content:"";
                     position:absolute;
-                    left:10px; width:16px; height:16px;
+                    left:12px; top:50%; transform:translateY(-50%);
+                    width:20px; height:20px;
                     background-image:url("{uri}");
                     background-size:contain; background-repeat:no-repeat; background-position:center;
                 }}'''
         )
-        # اطمینان از فاصله جای لوگو
-        rules.append(f'''#{elem_id} label {{
-            position: relative; padding-left: 30px;
-        }}''')
-        # استایل چیپ
-        rules.append(f'''#{elem_id} label {{
-            display:inline-flex; align-items:center; gap:8px;
-            padding:6px 12px; border-radius:9999px;
-            background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd;
-            font-weight:600; font-size:13px; cursor:pointer; transition:.2s;
-        }}''')
-        rules.append(f'''#{elem_id} label:hover {{ background:#bae6fd; border-color:#7dd3fc; }}''')
     return "<style>\n" + "\n".join(rules) + "\n</style>"
+
+# def make_brand_chip_css_by_id() -> str:
+#     id_map = {
+#         "brand_openai":   BRAND_ICONS["OpenAI"],
+#         "brand_anthropic":BRAND_ICONS["Anthropic"],
+#         "brand_google":   BRAND_ICONS["Google"],
+#         "brand_meta":     BRAND_ICONS["Meta"],
+#         "brand_qwen":     BRAND_ICONS["Qwen"],
+#         "brand_mistral":  BRAND_ICONS["Mistral"],
+#         "brand_deepseek": BRAND_ICONS["DeepSeek"],
+#         "brand_xai":      BRAND_ICONS["xAI"],
+#     }
+#     rules = []
+#     for elem_id, fname in id_map.items():
+#         fp = BRANDS_DIR / fname
+#         if not fp.exists():
+#             continue
+#         uri = _data_uri(fp)
+#         rules.append(
+#             f'''#{elem_id} label::before {{
+#                     content:"";
+#                     position:absolute;
+#                     left:10px; width:16px; height:16px;
+#                     background-image:url("{uri}");
+#                     background-size:contain; background-repeat:no-repeat; background-position:center;
+#                 }}'''
+#         )
+#         # اطمینان از فاصله جای لوگو
+#         rules.append(f'''#{elem_id} label {{
+#             position: relative; padding-left: 30px;
+#         }}''')
+#         # استایل چیپ
+#         rules.append(f'''#{elem_id} label {{
+#             display:inline-flex; align-items:center; gap:8px;
+#             padding:6px 12px; border-radius:9999px;
+#             background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd;
+#             font-weight:600; font-size:13px; cursor:pointer; transition:.2s;
+#         }}''')
+#         rules.append(f'''#{elem_id} label:hover {{ background:#bae6fd; border-color:#7dd3fc; }}''')
+#     return "<style>\n" + "\n".join(rules) + "\n</style>"
 def collect_brands(openai, anthropic, google, meta, qwen, mistral, deepseek, xai):
     selected = []
     if openai:   selected.append("OpenAI")
@@ -559,61 +587,53 @@ body, .gradio-container {
     color: #fff;
     border-color: #0284c7;
 }
-/* ==== Brand chips (by elem_id) - layout & states ==== */
-/* 1) پنهان کردن مربع چک‌باکس پیش‌فرض */
+/* ==== Brand chips layout & states (final) ==== */
 [id^="brand_"] input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
+  position: absolute !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
-/* 2) چیدمان لیبل به صورت چیپ با جا برای آیکون */
 [id^="brand_"] label {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px 8px 100px;   /* ← فضای کافی برای آیکون */
-  border-radius: 9999px;
-  background: #e0f2fe;
-  color: #0369a1;
-  border: 1px solid #bae6fd;
-  font-weight: 600;
-  font-size: 13px;
-  cursor: pointer;
-  transition: background .2s, border-color .2s, color .2s, opacity .2s;
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 8px 12px 8px 44px !important;  /* ← فاصله از آیکون */
+  border-radius: 9999px !important;
+  background: #e0f2fe !important;
+  color: #0369a1 !important;
+  border: 1px solid #bae6fd !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  transition: background .2s, border-color .2s, color .2s, opacity .2s !important;
 }
-[id^="brand_"] label:hover { background: #bae6fd; border-color: #7dd3fc; }
+[id^="brand_"] label:hover { background: #bae6fd !important; border-color: #7dd3fc !important; }
 
-/* 3) جای‌گذاری آیکون (data URI) که قبلاً با make_brand_chip_css_by_id ست می‌شود */
 [id^="brand_"] label::before {
-  content: "";
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;                  /* ← کمی بزرگ‌تر تا واضح باشه */
-  height: 20px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  /* فقط اندازه/جای آیکون؛ خود تصویر در make_brand_chip_css_by_id ست می‌شود */
+  width: 20px !important;
+  height: 20px !important;
+  left: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
 }
 
-/* 4) تمایز حالت انتخاب‌شده */
 [id^="brand_"] input[type="checkbox"]:checked + label {
-  background: #0ea5e9;
-  color: #fff;
-  border-color: #0284c7;
-  box-shadow: 0 0 0 2px rgba(2, 132, 199, .25) inset; /* هاله‌ی ظریف داخل چیپ */
+  background: #0ea5e9 !important;
+  color: #fff !important;
+  border-color: #0284c7 !important;
+  box-shadow: 0 0 0 2px rgba(2,132,199,.25) inset !important;
 }
 
-/* 5) خوانایی بیشتر: آیکون‌های غیر انتخابی کمی کم‌رنگ باشند */
 [id^="brand_"] input[type="checkbox"]:not(:checked) + label::before {
-  filter: grayscale(100%) opacity(.8);
+  filter: grayscale(100%) opacity(.85) !important;
 }
 [id^="brand_"] input[type="checkbox"]:checked + label::before {
-  filter: none;
+  filter: none !important;
 }
+
 
 
 """
