@@ -650,6 +650,37 @@ body, .gradio-container {
   to   {opacity: 1; transform: translateY(0);}
 }
 
+/* TABS */
+/* تب‌ها در وسط */
+.svelte-1ipelgc {  
+  justify-content: center !important;   /* تب‌ها وسط‌چین */
+}
+
+/* استایل دکمه‌های تب */
+.svelte-1ipelgc button {
+  font-family: 'Vazirmatn', 'Raleway', sans-serif !important;
+  font-size: 16px !important;     /* اندازه بزرگ‌تر */
+  font-weight: 600 !important;    /* ضخامت */
+  color: #1e3a8a !important;      /* آبی تیره */
+  padding: 10px 18px !important;
+  border-radius: 10px !important;
+  transition: all 0.3s ease !important;
+}
+
+/* حالت hover */
+.svelte-1ipelgc button:hover {
+  background: #e0f2fe !important;   /* آبی روشن */
+  color: #0369a1 !important;
+}
+
+/* تب انتخاب‌شده */
+.svelte-1ipelgc button[aria-selected="true"] {
+  background: linear-gradient(90deg, #1e40af, #2563eb) !important;
+  color: white !important;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1) !important;
+}
+
+
 """
 
 # ---------------- Sort Function ----------------
@@ -714,7 +745,7 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         </div>
         """)
 
-    with gr.Tab("📊 Persian Benchmark"):
+    with gr.Tab("📊 Benchmarks"):
         # # 🏆 Title
         # gr.HTML("<h1 class='main-title'>Tarazban Leaderboard</h1>")
         # gr.HTML("""
@@ -836,14 +867,14 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                 for cb in brand_inputs:
                     cb.change(fn=filter_fn, inputs=common_inputs, outputs=output_html)
 
-    with gr.Tab("ℹ️ About"):
+    with gr.Tab("🌐 About Tarazban"):
         gr.Markdown("""
         # Tarazban
         A leaderboard for Persian NLP models, grouped by **SBU**, **UQ**, and **AUT** tasks.  
         You can search, filter tasks, and compare models interactively.
         """)
 
-    with gr.Tab("📥 Submit Model Request"):
+    with gr.Tab("🚀 Submit Model"):
         model_name = gr.Textbox(label="Model Name", placeholder="Enter model name")
         revision = gr.Dropdown(["main"], label="Revision")
         precision = gr.Dropdown(["fp16", "bf16", "int8", "int4"], label="Precision")
