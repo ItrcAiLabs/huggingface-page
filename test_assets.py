@@ -612,35 +612,37 @@ body, .gradio-container {
 
 
 
-
-/* === Main Title (بزرگ با گرادیان) === */
+/* === Main Title (ساده مشکی با انیمیشن) === */
 .hero .main-title {
   font-size: 46px;
-  font-weight: 600;  /* نازک‌تر از قبل */
+  font-weight: 600;  
   text-align: center;
   margin: 20px 0 10px 0;
   font-family: 'Raleway','Vazirmatn',sans-serif;
-  letter-spacing: 1px;
-  background: linear-gradient(90deg, #1e3a8a, #9333ea);  /* آبی نفتی → بنفش ملایم */
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.5px;
+  color: #111827;   /* مشکی مدرن */
   animation: fadeInDown 1s ease-out;
 }
 
-/* === Subtitle (یکدست خاکستری شیک) === */
+/* === Subtitle (خاکستری، دو خطه با انیمیشن) === */
 .hero .subtitle {
   font-size: 18px;
   font-weight: 500;
   color: #4b5563;   /* خاکستری مدرن */
   text-align: center;
-  margin-top: 8px;
+  margin-top: 12px;
   line-height: 1.6;
   font-family: 'Raleway','Vazirmatn',sans-serif;
-  letter-spacing: 0.5px;
+  max-width: 700px;       /* محدود کردن عرض برای شکستن به خط دوم */
+  margin-left: auto;
+  margin-right: auto;
+  white-space: normal;    
+  word-wrap: break-word;
+  letter-spacing: 0.3px;
   animation: fadeInUp 1s ease-out;
 }
 
-/* انیمیشن‌های ظریف */
+/* ==== انیمیشن‌ها ==== */
 @keyframes fadeInDown {
   from {opacity: 0; transform: translateY(-10px);}
   to   {opacity: 1; transform: translateY(0);}
@@ -649,7 +651,6 @@ body, .gradio-container {
   from {opacity: 0; transform: translateY(10px);}
   to   {opacity: 1; transform: translateY(0);}
 }
-
 
 
 /* ===== Tabs Styling (Minimal Elegant, No underline) ===== */
