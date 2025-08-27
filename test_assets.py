@@ -287,15 +287,21 @@ body, .gradio-container {
 
 /* ====== Titles ====== */
 .main-title {
-    text-align: center !important;
-    font-size: 42px !important;
-    font-weight: 800 !important;
-    letter-spacing: 1.5px;
-    background: linear-gradient(90deg, #1e40af, #2563eb);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin: 40px 0 20px 0 !important;
+  text-align: center;
+  font-size: 48px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 30px 0 10px 0;
+  animation: fadeInDown 1s ease;
 }
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .section-title {
     font-size: 20px !important;
     font-weight: 600 !important;
