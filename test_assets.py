@@ -965,7 +965,7 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                 )
         
             # ردیف پایین: برندها (افقی، چیپیِ آبی)
-            # with gr.Row():
+            with gr.Row():
                 # brand_filters = gr.CheckboxGroup(
                 #     choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
                 #     value=[], label="",
