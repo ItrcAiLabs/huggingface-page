@@ -16,7 +16,7 @@ BRAND_ICONS = {
     "Meta":      "meta.svg",
     "Qwen":      "qwen.webp",
     "Mistral":   "mistral.svg",
-    "DeepSeek":  "deepseek.svg",   # svg قبلی خراب بود، همین webp رو می‌گذاریم
+    "DeepSeek":  "deepseek.svg",   
     "xAI":       "xai.svg",
 }
 
@@ -660,7 +660,7 @@ body, .gradio-container {
 .brand-row {
   display: flex !important;
   flex-wrap: wrap !important;
-  gap: 6px !important;          /* فاصله بین چیپ‌ها */
+  gap: 3px !important;          /* فاصله بین چیپ‌ها */
   row-gap: 6px !important;
   column-gap: 6px !important;
   padding: 0 !important;
