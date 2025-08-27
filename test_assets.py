@@ -645,48 +645,39 @@ body, .gradio-container {
   padding: 0 !important;
 }
 
-/*------------------------------------- هر چک‌باکس = یک div؛ مارجین و کش‌آمدن را حذف کن */
-.brand-row > div {
-  margin: 0 !important;
-  flex: 0 0 auto !important;   /* اجازه نده کش بیاد */
-}
-
-/* خودِ ریشهٔ هر چک‌باکسِ برند هم بدون مارجین */
-[id^="brand_"] {
-  margin: 0 !important;
-  width: auto !important;
-}
-/* ردیف برندها کنار هم با فاصله‌ی کم */
-.brand-row {
+/* ====== Brand chips layout & states ====== */
+.brand-row,
+#brand_row {
   display: flex !important;
   flex-wrap: wrap !important;
-  gap: 3px !important;          /* فاصله بین چیپ‌ها */
+  justify-content: flex-start !important;
+  gap: 6px !important;
   row-gap: 6px !important;
-  column-gap: 6px !important;
-  padding: 0 !important;
   margin: 0 !important;
+  padding: 0 !important;
 }
 
-/* هر آیتم چک‌باکس داخل row */
-.brand-row > div {
+.brand-row > div,
+#brand_row > div {
   margin: 0 !important;
   padding: 0 !important;
   flex: 0 0 auto !important;
 }
 
-/* ==== Brand chips layout & states (final) ==== */
+/* مخفی کردن تیک پیش‌فرض */
 [id^="brand_"] input[type="checkbox"] {
   position: absolute !important;
   opacity: 0 !important;
   pointer-events: none !important;
 }
 
+/* چیپ + لوگو */
 [id^="brand_"] label {
   position: relative !important;
   display: inline-flex !important;
   align-items: center !important;
-  gap: 8px !important;
-  padding: 8px 12px 8px 44px !important;  /* ← فاصله از آیکون */
+  gap: 6px !important;
+  padding: 6px 12px 6px 44px !important;
   border-radius: 9999px !important;
   background: #e0f2fe !important;
   color: #0369a1 !important;
@@ -694,83 +685,38 @@ body, .gradio-container {
   font-weight: 600 !important;
   font-size: 13px !important;
   cursor: pointer !important;
-  transition: background .2s, border-color .2s, color .2s, opacity .2s !important;
+  transition: background .2s, border-color .2s, color .2s !important;
 }
-[id^="brand_"] label:hover { background: #bae6fd !important; border-color: #7dd3fc !important; }
+
+[id^="brand_"] label:hover {
+  background: #bae6fd !important;
+  border-color: #7dd3fc !important;
+}
 
 [id^="brand_"] label::before {
-  /* فقط اندازه/جای آیکون؛ خود تصویر در make_brand_chip_css_by_id ست می‌شود */
-  width: 20px !important;
-  height: 20px !important;
-  left: 12px !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
+  content:"";
+  position: absolute;
+  left: 14px; top: 50%;
+  transform: translateY(-50%);
+  width: 18px; height: 18px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
+/* حالت انتخاب */
 [id^="brand_"] input[type="checkbox"]:checked + label {
   background: #0ea5e9 !important;
   color: #fff !important;
   border-color: #0284c7 !important;
-  box-shadow: 0 0 0 2px rgba(2,132,199,.25) inset !important;
 }
 
 [id^="brand_"] input[type="checkbox"]:not(:checked) + label::before {
-  filter: grayscale(100%) opacity(.85) !important;
+  filter: grayscale(100%) opacity(.85);
 }
 [id^="brand_"] input[type="checkbox"]:checked + label::before {
-  filter: none !important;
+  filter: none;
 }
-
-/* جمع‌وجور کردن ردیف برندها */
-.brand-row {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  justify-content: flex-start !important;
-  gap: 3px !important;        /* فاصلهٔ بین چیپ‌ها */
-  column-gap: 10px !important;
-  row-gap: 10px !important;
-  padding: 0 !important;
-}
-
-/*------------------------------------- هر چک‌باکس = یک div؛ مارجین و کش‌آمدن را حذف کن */
-.brand-row > div {
-  margin: 0 !important;
-  flex: 0 0 auto !important;   /* اجازه نده کش بیاد */
-}
-
-/* خودِ ریشهٔ هر چک‌باکسِ برند هم بدون مارجین */
-[id^="brand_"] {
-  margin: 0 !important;
-  width: auto !important;
-}
-/* ردیف برندها کنار هم با فاصله‌ی کم */
-.brand-row {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 3px !important;          /* فاصله بین چیپ‌ها */
-  row-gap: 6px !important;
-  column-gap: 6px !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-/* هر آیتم چک‌باکس داخل row */
-.brand-row > div {
-  margin: 0 !important;
-  padding: 0 !important;
-  flex: 0 0 auto !important;
-}
-
-/* ردیف برندها افقی */
-#brand_row {
-  display: flex !important;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: flex-start;
-}
-
-
-
 """
 
 # ---------------- Sort Function ----------------
@@ -883,7 +829,7 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                     # cb_mistral   = gr.Checkbox(label="Mistral",   value=False, elem_id="brand_mistral")
                     # cb_deepseek  = gr.Checkbox(label="DeepSeek",  value=False, elem_id="brand_deepseek")
                     # cb_xai       = gr.Checkbox(label="xAI",       value=False, elem_id="brand_xai")
-                with gr.Row(elem_id="brand_row"):
+                with gr.Row(elem_id="brand_row", elem_classes=["brand-row"]):
                         cb_openai    = gr.Checkbox(label="OpenAI",    value=False, elem_id="brand_openai")
                         cb_anthropic = gr.Checkbox(label="Anthropic", value=False, elem_id="brand_anthropic")
                         cb_google    = gr.Checkbox(label="Google",    value=False, elem_id="brand_google")
