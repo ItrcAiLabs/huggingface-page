@@ -652,39 +652,38 @@ body, .gradio-container {
 
 
 
-/* ===== Tabs Styling (softer blue) ===== */
-
-/* کل ردیف تب‌ها وسط‌چین */
+/* ===== Tabs Styling (Minimal Elegant) ===== */
 .tabs.svelte-1tcem6n {
   display: flex !important;
   justify-content: center !important;
-  gap: 10px !important;
+  gap: 20px !important;
   margin: 20px 0 !important;
+  border-bottom: 1px solid #e5e7eb !important; /* خط ملایم زیر تب‌ها */
 }
 
-/* ظاهر عمومی تب‌ها */
 .tabs.svelte-1tcem6n button[role="tab"] {
   font-family: 'Vazirmatn','Raleway',sans-serif !important;
-  font-size: 16px !important;
-  font-weight: 600 !important;
-  padding: 10px 20px !important;
-  border-radius: 10px !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;     /* نازک‌تر مثل تیتر */
+  padding: 8px 4px !important;
+  background: transparent !important;
+  color: #374151 !important;       /* خاکستری تیره خوانا */
   border: none !important;
+  border-radius: 0 !important;
   cursor: pointer !important;
-  transition: all 0.25s ease !important;
+  transition: color .2s ease, border-color .2s ease;
 }
 
-/* تب غیرفعال */
-.tabs.svelte-1tcem6n button[role="tab"]:not(.selected) {
-  background: #f8fafc !important;   /* خیلی روشن */
-  color: #475569 !important;
+/* هاور */
+.tabs.svelte-1tcem6n button[role="tab"]:hover {
+  color: #2563eb !important;        /* آبی ملایم هنگام هاور */
 }
 
 /* تب فعال */
 .tabs.svelte-1tcem6n button[role="tab"].selected {
-  background: linear-gradient(90deg, #60a5fa, #3b82f6) !important; /* آبی ملایم */
-  color: #fff !important;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  color: #1d4ed8 !important;        /* آبی کمی پررنگ‌تر */
+  border-bottom: 2px solid #2563eb !important; /* فقط خط زیر */
+  font-weight: 600 !important;
 }
 
 
