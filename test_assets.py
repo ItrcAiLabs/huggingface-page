@@ -761,6 +761,13 @@ body, .gradio-container {
   flex: 0 0 auto !important;
 }
 
+/* ردیف برندها افقی */
+#brand_row {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
+}
 
 
 
