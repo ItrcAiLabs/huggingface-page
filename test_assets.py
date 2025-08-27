@@ -651,34 +651,41 @@ body, .gradio-container {
 }
 
 /* TABS */
-/* تب‌ها در وسط */
-.svelte-1ipelgc {  
-  justify-content: center !important;   /* تب‌ها وسط‌چین */
+/* ===== Tabs Styling ===== */
+
+/* کل ردیف تب‌ها وسط‌چین */
+.tabs.svelte-1tcem6n {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  margin: 20px 0 !important;
 }
 
-/* استایل دکمه‌های تب */
-.svelte-1ipelgc button {
-  font-family: 'Vazirmatn', 'Raleway', sans-serif !important;
-  font-size: 16px !important;     /* اندازه بزرگ‌تر */
-  font-weight: 600 !important;    /* ضخامت */
-  color: #1e3a8a !important;      /* آبی تیره */
-  padding: 10px 18px !important;
+/* ظاهر عمومی تب‌ها */
+.tabs.svelte-1tcem6n button[role="tab"] {
+  font-family: 'Vazirmatn','Raleway',sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  padding: 10px 20px !important;
   border-radius: 10px !important;
-  transition: all 0.3s ease !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.25s ease !important;
 }
 
-/* حالت hover */
-.svelte-1ipelgc button:hover {
-  background: #e0f2fe !important;   /* آبی روشن */
-  color: #0369a1 !important;
+/* تب غیرفعال */
+.tabs.svelte-1tcem6n button[role="tab"]:not(.selected) {
+  background: #f1f5f9 !important;   /* خاکستری روشن */
+  color: #475569 !important;
 }
 
-/* تب انتخاب‌شده */
-.svelte-1ipelgc button[aria-selected="true"] {
+/* تب فعال */
+.tabs.svelte-1tcem6n button[role="tab"].selected {
   background: linear-gradient(90deg, #1e40af, #2563eb) !important;
-  color: white !important;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.1) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
+
 
 
 """
