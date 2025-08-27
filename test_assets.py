@@ -541,10 +541,9 @@ body, .gradio-container {
   cursor:pointer !important;
 }
 
+/* ==== Brand chips (Final) ==== */
 
-/* ==== Brand chips (Clean) ==== */
-
-/* ردیف برندها کنار هم */
+/* ردیف برندها */
 .brand-row {
   display: flex !important;
   flex-wrap: wrap !important;
@@ -566,7 +565,7 @@ body, .gradio-container {
   pointer-events: none !important;
 }
 
-/* ظاهر پایهٔ چیپ */
+/* ظاهر پایهٔ چیپ — آبی روشن */
 [id^="brand_"] label {
   position: relative !important;
   display: inline-flex !important;
@@ -574,7 +573,7 @@ body, .gradio-container {
   gap: 6px !important;
   padding: 6px 10px 6px 42px !important;  /* جا برای لوگو سمت چپ */
   border-radius: 9999px !important;
-  background: #e0f2fe !important;
+  background: #e0f2fe !important;   /* آبی روشن */
   color: #0369a1 !important;
   border: 1px solid #bae6fd !important;
   font-weight: 600 !important;
@@ -583,11 +582,11 @@ body, .gradio-container {
   transition: background .2s, border-color .2s, color .2s, box-shadow .2s !important;
 }
 [id^="brand_"] label:hover {
-  background: #bae6fd !important;
+  background: #bae6fd !important;   /* هاور آبی کمی تیره‌تر */
   border-color: #7dd3fc !important;
 }
 
-/* جای لوگو (خودِ تصویر در make_brand_chip_css_by_id() ست می‌شود) */
+/* جای لوگو (همیشه رنگی = بدون grayscale) */
 [id^="brand_"] label::before {
   content: "" !important;
   position: absolute !important;
@@ -599,24 +598,16 @@ body, .gradio-container {
   background-size: contain !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
+  filter: none !important;   /* ← لوگو همیشه رنگ اصلی */
 }
 
-/* حالت انتخاب‌شده — رنگ چیپ پررنگ شود */
-[id^="brand_"] label:has(input:checked) {
-  background: #0ea5e9 !important;
+/* حالت انتخاب‌شده — آبی پررنگ */
+[id^="brand_"] input[type="checkbox"]:checked + label {
+  background: #0ea5e9 !important;   /* آبی پررنگ */
   color: #fff !important;
   border-color: #0284c7 !important;
   box-shadow: 0 0 0 2px rgba(2,132,199,.25) inset !important;
 }
-
-/* تمایز آیکون در حالت انتخاب/عدم انتخاب */
-[id^="brand_"] label:not(:has(input:checked))::before {
-  filter: grayscale(100%) opacity(.85) !important;
-}
-[id^="brand_"] label:has(input:checked)::before {
-  filter: none !important;
-}
-
 
 
 /* === Main Title (بزرگ با گرادیان) === */
