@@ -639,7 +639,7 @@ body, .gradio-container {
   display: flex !important;
   flex-wrap: wrap !important;
   justify-content: flex-start !important;
-  gap: 10px !important;        /* فاصلهٔ بین چیپ‌ها */
+  gap: 6px !important;        /* فاصلهٔ بین چیپ‌ها */
   column-gap: 10px !important;
   row-gap: 10px !important;
   padding: 0 !important;
@@ -657,19 +657,7 @@ body, .gradio-container {
   width: auto !important;
 }
 
-/* چیپ‌ها را کمی فشرده‌تر کن (اختیاری) */
-[id^="brand_"] label {
-  padding: 6px 10px 6px 42px !important;  /* افقی کمتر از قبل */
-  font-size: 12px !important;
-  gap: 6px !important;
-}
 
-/* آیکون کمی کوچک‌تر تا فضا بازتر شود (اختیاری) */
-[id^="brand_"] label::before {
-  width: 18px !important;
-  height: 18px !important;
-  left: 12px !important;
-}
 
 
 """
