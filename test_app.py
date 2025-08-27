@@ -16,7 +16,7 @@ BRAND_ICONS = {
     "Meta":      "meta.svg",
     "Qwen":      "qwen.webp",
     "Mistral":   "mistral.svg",
-    "DeepSeek":  "deepseek.webp",   # svg قبلی خراب بود، همین webp رو می‌گذاریم
+    "DeepSeek":  "deepseek.webp",   
     "xAI":       "xai.svg",
 }
 
@@ -43,7 +43,85 @@ def make_brand_icon_css() -> str:
                 }}'''
         )
     return "<style>\n" + "\n".join(rules) + "\n</style>"
+def make_brand_chip_css_by_id() -> str:
+    id_map = {
+        "brand_openai":   BRAND_ICONS["OpenAI"],
+        "brand_anthropic":BRAND_ICONS["Anthropic"],
+        "brand_google":   BRAND_ICONS["Google"],
+        "brand_meta":     BRAND_ICONS["Meta"],
+        "brand_qwen":     BRAND_ICONS["Qwen"],
+        "brand_mistral":  BRAND_ICONS["Mistral"],
+        "brand_deepseek": BRAND_ICONS["DeepSeek"],
+        "brand_xai":      BRAND_ICONS["xAI"],
+    }
+    rules = []
+    for elem_id, fname in id_map.items():
+        fp = BRANDS_DIR / fname
+        if not fp.exists():
+            continue
+        uri = _data_uri(fp)
+        rules.append(
+            f'''#{elem_id} label::before {{
+                    content:"";
+                    position:absolute;
+                    left:12px; top:50%; transform:translateY(-50%);
+                    width:20px; height:20px;
+                    background-image:url("{uri}");
+                    background-size:contain; background-repeat:no-repeat; background-position:center;
+                }}'''
+        )
+    return "<style>\n" + "\n".join(rules) + "\n</style>"
 
+# def make_brand_chip_css_by_id() -> str:
+#     id_map = {
+#         "brand_openai":   BRAND_ICONS["OpenAI"],
+#         "brand_anthropic":BRAND_ICONS["Anthropic"],
+#         "brand_google":   BRAND_ICONS["Google"],
+#         "brand_meta":     BRAND_ICONS["Meta"],
+#         "brand_qwen":     BRAND_ICONS["Qwen"],
+#         "brand_mistral":  BRAND_ICONS["Mistral"],
+#         "brand_deepseek": BRAND_ICONS["DeepSeek"],
+#         "brand_xai":      BRAND_ICONS["xAI"],
+#     }
+#     rules = []
+#     for elem_id, fname in id_map.items():
+#         fp = BRANDS_DIR / fname
+#         if not fp.exists():
+#             continue
+#         uri = _data_uri(fp)
+#         rules.append(
+#             f'''#{elem_id} label::before {{
+#                     content:"";
+#                     position:absolute;
+#                     left:10px; width:16px; height:16px;
+#                     background-image:url("{uri}");
+#                     background-size:contain; background-repeat:no-repeat; background-position:center;
+#                 }}'''
+#         )
+#         # اطمینان از فاصله جای لوگو
+#         rules.append(f'''#{elem_id} label {{
+#             position: relative; padding-left: 30px;
+#         }}''')
+#         # استایل چیپ
+#         rules.append(f'''#{elem_id} label {{
+#             display:inline-flex; align-items:center; gap:8px;
+#             padding:6px 12px; border-radius:9999px;
+#             background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd;
+#             font-weight:600; font-size:13px; cursor:pointer; transition:.2s;
+#         }}''')
+#         rules.append(f'''#{elem_id} label:hover {{ background:#bae6fd; border-color:#7dd3fc; }}''')
+#     return "<style>\n" + "\n".join(rules) + "\n</style>"
+def collect_brands(openai, anthropic, google, meta, qwen, mistral, deepseek, xai):
+    selected = []
+    if openai:   selected.append("OpenAI")
+    if anthropic:selected.append("Anthropic")
+    if google:   selected.append("Google")
+    if meta:     selected.append("Meta")
+    if qwen:     selected.append("Qwen")
+    if mistral:  selected.append("Mistral")
+    if deepseek: selected.append("DeepSeek")
+    if xai:      selected.append("xAI")
+    return selected
 
 def ctx_to_int(x):
     if pd.isna(x):
@@ -483,6 +561,252 @@ body, .gradio-container {
   content:""; position:absolute; left:10px; width:16px; height:16px;
   background-size:contain; background-repeat:no-repeat; background-position:center;
 }
+/* مخفی کردن خود مربع چک‌باکس */
+#brand_openai input[type="checkbox"],
+#brand_anthropic input[type="checkbox"],
+#brand_google input[type="checkbox"],
+#brand_meta input[type="checkbox"],
+#brand_qwen input[type="checkbox"],
+#brand_mistral input[type="checkbox"],
+#brand_deepseek input[type="checkbox"],
+#brand_xai input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+/* حالت انتخاب شده */
+#brand_openai input[type="checkbox"]:checked + label,
+#brand_anthropic input[type="checkbox"]:checked + label,
+#brand_google input[type="checkbox"]:checked + label,
+#brand_meta input[type="checkbox"]:checked + label,
+#brand_qwen input[type="checkbox"]:checked + label,
+#brand_mistral input[type="checkbox"]:checked + label,
+#brand_deepseek input[type="checkbox"]:checked + label,
+#brand_xai input[type="checkbox"]:checked + label {
+    background: #0ea5e9;
+    color: #fff;
+    border-color: #0284c7;
+}
+/* ==== Brand chips layout & states (final) ==== */
+[id^="brand_"] input[type="checkbox"] {
+  position: absolute !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+[id^="brand_"] label {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 8px 12px 8px 44px !important;  /* ← فاصله از آیکون */
+  border-radius: 9999px !important;
+  background: #e0f2fe !important;
+  color: #0369a1 !important;
+  border: 1px solid #bae6fd !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  transition: background .2s, border-color .2s, color .2s, opacity .2s !important;
+}
+[id^="brand_"] label:hover { background: #bae6fd !important; border-color: #7dd3fc !important; }
+
+[id^="brand_"] label::before {
+  /* فقط اندازه/جای آیکون؛ خود تصویر در make_brand_chip_css_by_id ست می‌شود */
+  width: 20px !important;
+  height: 20px !important;
+  left: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+[id^="brand_"] input[type="checkbox"]:checked + label {
+  background: #0ea5e9 !important;
+  color: #fff !important;
+  border-color: #0284c7 !important;
+  box-shadow: 0 0 0 2px rgba(2,132,199,.25) inset !important;
+}
+
+[id^="brand_"] input[type="checkbox"]:not(:checked) + label::before {
+  filter: grayscale(100%) opacity(.85) !important;
+}
+[id^="brand_"] input[type="checkbox"]:checked + label::before {
+  filter: none !important;
+}
+
+/* جمع‌وجور کردن ردیف برندها */
+.brand-row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-start !important;
+  gap: 3px !important;        /* فاصلهٔ بین چیپ‌ها */
+  column-gap: 10px !important;
+  row-gap: 10px !important;
+  padding: 0 !important;
+}
+
+/* ====== Brand chips layout & states ====== */
+.brand-row,
+#brand_row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-start !important;
+  gap: 6px !important;
+  row-gap: 6px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.brand-row > div,
+#brand_row > div {
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 0 0 auto !important;
+}
+
+/* مخفی کردن تیک پیش‌فرض */
+[id^="brand_"] input[type="checkbox"] {
+  position: absolute !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* چیپ + لوگو */
+[id^="brand_"] label {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 6px 12px 6px 44px !important;
+  border-radius: 9999px !important;
+  background: #e0f2fe !important;
+  color: #0369a1 !important;
+  border: 1px solid #bae6fd !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  transition: background .2s, border-color .2s, color .2s !important;
+}
+
+[id^="brand_"] label:hover {
+  background: #bae6fd !important;
+  border-color: #7dd3fc !important;
+}
+
+[id^="brand_"] label::before {
+  content:"";
+  position: absolute;
+  left: 14px; top: 50%;
+  transform: translateY(-50%);
+  width: 18px; height: 18px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* حالت انتخاب */
+[id^="brand_"] input[type="checkbox"]:checked + label {
+  background: #0ea5e9 !important;
+  color: #fff !important;
+  border-color: #0284c7 !important;
+}
+
+[id^="brand_"] input[type="checkbox"]:not(:checked) + label::before {
+  filter: grayscale(100%) opacity(.85);
+}
+[id^="brand_"] input[type="checkbox"]:checked + label::before {
+  filter: none;
+}
+
+/* ===== Compact brand chips layout ===== */
+
+/* خود Row: فلکس با gap کم */
+#brand_row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;       /* ← اگر خواستی بذار 4 یا 3 */
+  row-gap: 6px !important;
+  column-gap: 6px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* همه‌ی wrapperهای داخلی که Gradio می‌سازد: حاشیه/پدینگ/گپ صفر */
+#brand_row > div,
+#brand_row > div > div,
+#brand_row > div > div > div,
+#brand_row > div > div > div > div {
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  min-width: 0 !important;
+  width: auto !important;
+  max-width: none !important;
+  flex: 0 0 auto !important;
+}
+
+/* خود هر چک‌باکس برند به‌صورت چیپ کنار هم */
+#brand_row [id^="brand_"] {
+  display: inline-block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  max-width: none !important;
+  min-width: 0 !important;
+}
+
+/* پنهان‌کردن مربع چک‌باکس پیش‌فرض */
+#brand_row [id^="brand_"] input[type="checkbox"] {
+  position: absolute !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* خود چیپ (label) فشرده‌تر */
+#brand_row [id^="brand_"] label {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 6px 10px 6px 42px !important;  /* فاصله از آیکون */
+  border-radius: 9999px !important;
+  background: #e0f2fe !important;
+  color: #0369a1 !important;
+  border: 1px solid #bae6fd !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;            /* کوچیک‌تر = فشرده‌تر */
+  cursor: pointer !important;
+  transition: background .2s, border-color .2s, color .2s !important;
+}
+
+/* آیکون (تصویر را make_brand_chip_css_by_id() ست می‌کند) */
+#brand_row [id^="brand_"] label::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 18px !important;
+  height: 18px !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+/* حالت انتخاب‌شده واضح */
+#brand_row [id^="brand_"] input[type="checkbox"]:checked + label {
+  background: #0ea5e9 !important;
+  color: #fff !important;
+  border-color: #0284c7 !important;
+}
+
+/* کمی تمایز آیکون در حالت غیر انتخاب */
+#brand_row [id^="brand_"] input[type="checkbox"]:not(:checked) + label::before {
+  filter: grayscale(100%) opacity(.85) !important;
+}
+#brand_row [id^="brand_"] input[type="checkbox"]:checked + label::before {
+  filter: none !important;
+}
 
 """
 
@@ -532,6 +856,7 @@ def make_sort_func(col, df, table_id, ascending):
 # ---------------- Gradio App ----------------
 with gr.Blocks(css=CUSTOM_CSS) as demo:
     gr.HTML(make_brand_icon_css())
+    gr.HTML(make_brand_chip_css_by_id())   # ← لوگوهای بدون JS و بدون :has()
 
     # ===== Navbar =====
     gr.HTML("""
@@ -544,6 +869,66 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         </div>
     </div>
     """)
+
+    # with gr.Tab("📊 Persian Benchmark"):
+    #     # 🏆 Title
+    #     gr.HTML("<h1 class='main-title'>Tarazban Leaderboard</h1>")
+    #     gr.HTML("""
+    #     <div style='text-align:center; margin-bottom:30px; font-family:"Vazirmatn",sans-serif;'>
+    #         <p style='font-size:16px; color:#555;'>Interactive Persian NLP Leaderboard — Compare models across multiple benchmarks</p>
+            
+    #     </div>
+    #     """)
+
+    #     # 🔍 Search bar
+    #     gr.Markdown("<div class='section-title'>🔍 Search Models</div>")
+    #     search_input = gr.Textbox(
+    #         placeholder="Type model name...",
+    #         elem_classes=["search-box"],
+    #     )
+    #     #---------------------------------------------------
+    #     gr.Markdown("<div class='section-title'>Quick Filters</div>")
+
+    #     with gr.Column(elem_classes=["filters-box"]):
+    #         # ردیف بالا: quick + context
+    #         with gr.Row():
+    #             quick_filters = gr.CheckboxGroup(
+    #                 choices=["Open Models", f"Small Models (<{SMALL_PARAMS_B}B)"],
+    #                 value=[], label=""
+    #             )
+    #             context_range = gr.Dropdown(
+    #                 choices=["No Filter","0–16K","16K–32K","32K–128K","128K–500K","500K+"],
+    #                 value="No Filter",
+    #                 label="Input Context Length",
+    #                 show_label=True,
+    #                 elem_classes=["ctx-dd"],
+    #             )
+        
+    #         # ردیف پایین: برندها (افقی، چیپیِ آبی)
+    #         # with gr.Row():
+    #             # brand_filters = gr.CheckboxGroup(
+    #             #     choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
+    #             #     value=[], label="",
+    #             #     elem_classes=["brand-chips"],   # ← مهم
+    #             # )
+    #             # with gr.Row():
+    #                 # cb_openai    = gr.Checkbox(label="OpenAI",    value=False, elem_id="brand_openai")
+    #                 # cb_anthropic = gr.Checkbox(label="Anthropic", value=False, elem_id="brand_anthropic")
+    #                 # cb_google    = gr.Checkbox(label="Google",    value=False, elem_id="brand_google")
+    #                 # cb_meta      = gr.Checkbox(label="Meta",      value=False, elem_id="brand_meta")
+    #                 # cb_qwen      = gr.Checkbox(label="Qwen",      value=False, elem_id="brand_qwen")
+    #                 # cb_mistral   = gr.Checkbox(label="Mistral",   value=False, elem_id="brand_mistral")
+    #                 # cb_deepseek  = gr.Checkbox(label="DeepSeek",  value=False, elem_id="brand_deepseek")
+    #                 # cb_xai       = gr.Checkbox(label="xAI",       value=False, elem_id="brand_xai")
+    #             with gr.Row(elem_id="brand_row", elem_classes=["brand-row"]):
+    #                     cb_openai    = gr.Checkbox(label="OpenAI",    value=False, elem_id="brand_openai")
+    #                     cb_anthropic = gr.Checkbox(label="Anthropic", value=False, elem_id="brand_anthropic")
+    #                     cb_google    = gr.Checkbox(label="Google",    value=False, elem_id="brand_google")
+    #                     cb_meta      = gr.Checkbox(label="Meta",      value=False, elem_id="brand_meta")
+    #                     cb_qwen      = gr.Checkbox(label="Qwen",      value=False, elem_id="brand_qwen")
+    #                     cb_mistral   = gr.Checkbox(label="Mistral",   value=False, elem_id="brand_mistral")
+    #                     cb_deepseek  = gr.Checkbox(label="DeepSeek",  value=False, elem_id="brand_deepseek")
+    #                     cb_xai       = gr.Checkbox(label="xAI",       value=False, elem_id="brand_xai")
 
     with gr.Tab("📊 Persian Benchmark"):
         # 🏆 Title
@@ -581,11 +966,31 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         
             # ردیف پایین: برندها (افقی، چیپیِ آبی)
             with gr.Row():
-                brand_filters = gr.CheckboxGroup(
-                    choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
-                    value=[], label="",
-                    elem_classes=["brand-chips"],   # ← مهم
-                )
+                # brand_filters = gr.CheckboxGroup(
+                #     choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
+                #     value=[], label="",
+                #     elem_classes=["brand-chips"],   # ← مهم
+                # )
+                # with gr.Row():
+                    # cb_openai    = gr.Checkbox(label="OpenAI",    value=False, elem_id="brand_openai")
+                    # cb_anthropic = gr.Checkbox(label="Anthropic", value=False, elem_id="brand_anthropic")
+                    # cb_google    = gr.Checkbox(label="Google",    value=False, elem_id="brand_google")
+                    # cb_meta      = gr.Checkbox(label="Meta",      value=False, elem_id="brand_meta")
+                    # cb_qwen      = gr.Checkbox(label="Qwen",      value=False, elem_id="brand_qwen")
+                    # cb_mistral   = gr.Checkbox(label="Mistral",   value=False, elem_id="brand_mistral")
+                    # cb_deepseek  = gr.Checkbox(label="DeepSeek",  value=False, elem_id="brand_deepseek")
+                    # cb_xai       = gr.Checkbox(label="xAI",       value=False, elem_id="brand_xai")
+                    with gr.Row(elem_classes=["brand-row"]):
+                        cb_openai    = gr.Checkbox(label="OpenAI",    value=False, elem_id="brand_openai")
+                        cb_anthropic = gr.Checkbox(label="Anthropic", value=False, elem_id="brand_anthropic")
+                        cb_google    = gr.Checkbox(label="Google",    value=False, elem_id="brand_google")
+                        cb_meta      = gr.Checkbox(label="Meta",      value=False, elem_id="brand_meta")
+                        cb_qwen      = gr.Checkbox(label="Qwen",      value=False, elem_id="brand_qwen")
+                        cb_mistral   = gr.Checkbox(label="Mistral",   value=False, elem_id="brand_mistral")
+                        cb_deepseek  = gr.Checkbox(label="DeepSeek",  value=False, elem_id="brand_deepseek")
+                        cb_xai       = gr.Checkbox(label="xAI",       value=False, elem_id="brand_xai")
+
+
         
 #---------------------------------------------------------------------------------------------------------------------
        
@@ -602,8 +1007,13 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         #     return lambda s, tasks, qf, br: make_pipeline_filter(current_df, table_id)(s, tasks, qf, br)
         def make_filter_func(current_df, table_id):
             return lambda s, tasks, qf, br, cr: make_pipeline_filter(current_df, table_id)(s, tasks, qf, br, cr)
-
-        
+        def make_filter_func_by_checkboxes(current_df, table_id):
+            def _fn(search_text, task_cols, quick, openai, anthropic, google, meta, qwen, mistral, deepseek, xai, ctx_range):
+                brands = collect_brands(openai, anthropic, google, meta, qwen, mistral, deepseek, xai)
+                df1 = apply_quick_filters(current_df, quick or [], brands, ctx_range)
+                return filter_table(search_text, task_cols, df1, table_id=table_id)
+            return _fn
+                
         for tab_name, df, table_id in tabs:
             with gr.Tab(tab_name):
                 tab_tasks = [col for col in TASK_GROUPS[tab_name.split()[1]]]
@@ -614,52 +1024,33 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                     label="",
                     elem_classes=["task-box"],
                 )
-
+            
                 output_html = gr.HTML(value=df_to_styled_html(df, table_id=table_id))
-
+            
+                # تابع فیلتر که ۸ چک‌باکس را به لیست برند تبدیل می‌کند
+                filter_fn = make_filter_func_by_checkboxes(df, table_id)
+            
+                # دکمه‌های سورت مثل قبل
                 for col in df.columns:
                     if col.lower() not in ["model", "precision", "license", "organization"]:
                         btn_asc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_asc")
                         btn_desc = gr.Button(visible=False, elem_id=f"{table_id}_{col}_desc")
-
-                        btn_asc.click(
-                            make_sort_func(col, df, table_id, True),
-                            inputs=None,
-                            outputs=output_html,
-                        )
-                        btn_desc.click(
-                            make_sort_func(col, df, table_id, False),
-                            inputs=None,
-                            outputs=output_html,
-                        )
-
-                search_input.change(
-                    fn=make_filter_func(df, table_id),
-                    inputs=[search_input, task_selector, quick_filters, brand_filters, context_range],
-                    outputs=output_html,
-                )
-                task_selector.change(
-                    fn=make_filter_func(df, table_id),
-                    inputs=[search_input, task_selector, quick_filters, brand_filters, context_range],
-                    outputs=output_html,
-                )
-                quick_filters.change(
-                    fn=make_pipeline_filter(df, table_id),
-                    inputs=[search_input, task_selector, quick_filters, brand_filters, context_range],
-                    outputs=output_html,
-                )
-                brand_filters.change(
-                    fn=make_pipeline_filter(df, table_id),
-                    inputs=[search_input, task_selector, quick_filters, brand_filters, context_range],
-                    outputs=output_html,
-                )
-                context_range.change(
-                    fn=make_pipeline_filter(df, table_id),
-                    inputs=[search_input, task_selector, quick_filters, brand_filters, context_range],
-                    outputs=output_html,
-                )
-
-
+                        btn_asc.click(make_sort_func(col, df, table_id, True), inputs=None, outputs=output_html)
+                        btn_desc.click(make_sort_func(col, df, table_id, False), inputs=None, outputs=output_html)
+            
+                # ورودی‌های مشترک برای همه تریگرها
+                brand_inputs = [cb_openai, cb_anthropic, cb_google, cb_meta, cb_qwen, cb_mistral, cb_deepseek, cb_xai]
+                common_inputs = [search_input, task_selector, quick_filters, *brand_inputs, context_range]
+            
+                # تریگرها: همه باید از filter_fn استفاده کنند و ۸ چک‌باکس را پاس بدهند
+                search_input.change(fn=filter_fn, inputs=common_inputs, outputs=output_html)
+                task_selector.change(fn=filter_fn, inputs=common_inputs, outputs=output_html)
+                quick_filters.change(fn=filter_fn, inputs=common_inputs, outputs=output_html)
+                context_range.change(fn=filter_fn, inputs=common_inputs, outputs=output_html)
+            
+                # هر کدام از ۸ چک‌باکس هم اگر عوض شد، همین فیلتر اجرا شود
+                for cb in brand_inputs:
+                    cb.change(fn=filter_fn, inputs=common_inputs, outputs=output_html)
 
     with gr.Tab("ℹ️ About"):
         gr.Markdown("""
