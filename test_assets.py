@@ -617,21 +617,7 @@ body, .gradio-container {
   filter: none !important;
 }
 
-/* (اختیاری) تیک کوچک داخل چیپ وقتی انتخاب شد */
-[id^="brand_"] label::after {
-  content: "";
-  position: absolute !important;
-  right: 10px !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  display: none !important;
-  font-weight: 700 !important;
-  font-size: 12px !important;
-}
-[id^="brand_"] label:has(input:checked)::after {
-  content: "✓" !important;
-  display: block !important;
-}
+
 
 /* ==== Hero Subtitle ==== */
 .hero .subtitle {
