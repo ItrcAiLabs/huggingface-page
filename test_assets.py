@@ -612,7 +612,7 @@ body, .gradio-container {
 
 
 
-/* === Main Title (ساده مشکی با انیمیشن) === */
+/* === Main Title (مشکی ساده با انیمیشن) === */
 .hero .main-title {
   font-size: 46px;
   font-weight: 600;  
@@ -620,7 +620,7 @@ body, .gradio-container {
   margin: 20px 0 10px 0;
   font-family: 'Raleway','Vazirmatn',sans-serif;
   letter-spacing: 0.5px;
-  color: #111827;   /* مشکی مدرن */
+  color: #000000;   /* سیاه کامل */
   animation: fadeInDown 1s ease-out;
 }
 
