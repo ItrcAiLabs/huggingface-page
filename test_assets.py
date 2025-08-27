@@ -650,8 +650,9 @@ body, .gradio-container {
   to   {opacity: 1; transform: translateY(0);}
 }
 
-/* TABS */
-/* ===== Tabs Styling ===== */
+
+
+/* ===== Tabs Styling (softer blue) ===== */
 
 /* کل ردیف تب‌ها وسط‌چین */
 .tabs.svelte-1tcem6n {
@@ -675,15 +676,15 @@ body, .gradio-container {
 
 /* تب غیرفعال */
 .tabs.svelte-1tcem6n button[role="tab"]:not(.selected) {
-  background: #f1f5f9 !important;   /* خاکستری روشن */
+  background: #f8fafc !important;   /* خیلی روشن */
   color: #475569 !important;
 }
 
 /* تب فعال */
 .tabs.svelte-1tcem6n button[role="tab"].selected {
-  background: linear-gradient(90deg, #1e40af, #2563eb) !important;
+  background: linear-gradient(90deg, #60a5fa, #3b82f6) !important; /* آبی ملایم */
   color: #fff !important;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
 
 
