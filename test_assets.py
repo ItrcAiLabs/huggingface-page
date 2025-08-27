@@ -774,7 +774,7 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                 )
         
             # ردیف پایین: برندها (افقی، چیپیِ آبی)
-            with gr.Row():
+            # with gr.Row():
                 # brand_filters = gr.CheckboxGroup(
                 #     choices=["OpenAI","Anthropic","Google","Meta","Qwen","Mistral","DeepSeek","xAI"],
                 #     value=[], label="",
@@ -789,7 +789,7 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                     # cb_mistral   = gr.Checkbox(label="Mistral",   value=False, elem_id="brand_mistral")
                     # cb_deepseek  = gr.Checkbox(label="DeepSeek",  value=False, elem_id="brand_deepseek")
                     # cb_xai       = gr.Checkbox(label="xAI",       value=False, elem_id="brand_xai")
-                    with gr.Row(elem_classes=["brand-row"]):
+                with gr.Row(elem_id="brand_row"):
                         cb_openai    = gr.Checkbox(label="OpenAI",    value=False, elem_id="brand_openai")
                         cb_anthropic = gr.Checkbox(label="Anthropic", value=False, elem_id="brand_anthropic")
                         cb_google    = gr.Checkbox(label="Google",    value=False, elem_id="brand_google")
