@@ -831,7 +831,9 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
             def _fn(search_text, task_cols, quick, openai, anthropic, google, meta, qwen, mistral, deepseek, xai, ctx_range):
                 brands = collect_brands(openai, anthropic, google, meta, qwen, mistral, deepseek, xai)
                 df1 = apply_quick_filters(current_df, quick or [], brands, ctx_range)
-                return filter_table(search_text, task_cols, df1, table_id=table_id)
+                # return filter_table(search_text, task_cols, df1, table_id=table_id)
+                return filter_table(search_text, task_cols, df1.drop(columns=["Organization","Brand","OpenSource"], errors="ignore"), table_id=table_id)
+
             return _fn
                 
         for tab_name, df, table_id in tabs:
@@ -845,7 +847,9 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                     elem_classes=["task-box"],
                 )
             
-                output_html = gr.HTML(value=df_to_styled_html(df, table_id=table_id))
+                # output_html = gr.HTML(value=df_to_styled_html(df, table_id=table_id))
+                output_html = gr.HTML(value=df_to_styled_html(df.drop(columns=["Organization","Brand","OpenSource"], errors="ignore"), table_id=table_id))
+
             
                 # تابع فیلتر که ۸ چک‌باکس را به لیست برند تبدیل می‌کند
                 filter_fn = make_filter_func_by_checkboxes(df, table_id)
