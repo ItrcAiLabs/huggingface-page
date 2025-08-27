@@ -16,7 +16,7 @@ BRAND_ICONS = {
     "Meta":      "meta.svg",
     "Qwen":      "qwen.webp",
     "Mistral":   "mistral.svg",
-    "DeepSeek":  "deepseek.svg",   
+    "DeepSeek":  "deepseek.webp",   
     "xAI":       "xai.svg",
 }
 
