@@ -634,6 +634,42 @@ body, .gradio-container {
   filter: none !important;
 }
 
+/* جمع‌وجور کردن ردیف برندها */
+.brand-row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;        /* فاصلهٔ بین چیپ‌ها */
+  column-gap: 10px !important;
+  row-gap: 10px !important;
+  padding: 0 !important;
+}
+
+/*------------------------------------- هر چک‌باکس = یک div؛ مارجین و کش‌آمدن را حذف کن */
+.brand-row > div {
+  margin: 0 !important;
+  flex: 0 0 auto !important;   /* اجازه نده کش بیاد */
+}
+
+/* خودِ ریشهٔ هر چک‌باکسِ برند هم بدون مارجین */
+[id^="brand_"] {
+  margin: 0 !important;
+  width: auto !important;
+}
+
+/* چیپ‌ها را کمی فشرده‌تر کن (اختیاری) */
+[id^="brand_"] label {
+  padding: 6px 10px 6px 42px !important;  /* افقی کمتر از قبل */
+  font-size: 12px !important;
+  gap: 6px !important;
+}
+
+/* آیکون کمی کوچک‌تر تا فضا بازتر شود (اختیاری) */
+[id^="brand_"] label::before {
+  width: 18px !important;
+  height: 18px !important;
+  left: 12px !important;
+}
 
 
 """
@@ -739,15 +775,25 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                 #     value=[], label="",
                 #     elem_classes=["brand-chips"],   # ← مهم
                 # )
-                with gr.Row():
-                    cb_openai    = gr.Checkbox(label="OpenAI",    value=False, elem_id="brand_openai")
-                    cb_anthropic = gr.Checkbox(label="Anthropic", value=False, elem_id="brand_anthropic")
-                    cb_google    = gr.Checkbox(label="Google",    value=False, elem_id="brand_google")
-                    cb_meta      = gr.Checkbox(label="Meta",      value=False, elem_id="brand_meta")
-                    cb_qwen      = gr.Checkbox(label="Qwen",      value=False, elem_id="brand_qwen")
-                    cb_mistral   = gr.Checkbox(label="Mistral",   value=False, elem_id="brand_mistral")
-                    cb_deepseek  = gr.Checkbox(label="DeepSeek",  value=False, elem_id="brand_deepseek")
-                    cb_xai       = gr.Checkbox(label="xAI",       value=False, elem_id="brand_xai")
+                # with gr.Row():
+                    # cb_openai    = gr.Checkbox(label="OpenAI",    value=False, elem_id="brand_openai")
+                    # cb_anthropic = gr.Checkbox(label="Anthropic", value=False, elem_id="brand_anthropic")
+                    # cb_google    = gr.Checkbox(label="Google",    value=False, elem_id="brand_google")
+                    # cb_meta      = gr.Checkbox(label="Meta",      value=False, elem_id="brand_meta")
+                    # cb_qwen      = gr.Checkbox(label="Qwen",      value=False, elem_id="brand_qwen")
+                    # cb_mistral   = gr.Checkbox(label="Mistral",   value=False, elem_id="brand_mistral")
+                    # cb_deepseek  = gr.Checkbox(label="DeepSeek",  value=False, elem_id="brand_deepseek")
+                    # cb_xai       = gr.Checkbox(label="xAI",       value=False, elem_id="brand_xai")
+                    with gr.Row(elem_classes=["brand-row"]):
+                        cb_openai    = gr.Checkbox(label="OpenAI",    value=False, elem_id="brand_openai")
+                        cb_anthropic = gr.Checkbox(label="Anthropic", value=False, elem_id="brand_anthropic")
+                        cb_google    = gr.Checkbox(label="Google",    value=False, elem_id="brand_google")
+                        cb_meta      = gr.Checkbox(label="Meta",      value=False, elem_id="brand_meta")
+                        cb_qwen      = gr.Checkbox(label="Qwen",      value=False, elem_id="brand_qwen")
+                        cb_mistral   = gr.Checkbox(label="Mistral",   value=False, elem_id="brand_mistral")
+                        cb_deepseek  = gr.Checkbox(label="DeepSeek",  value=False, elem_id="brand_deepseek")
+                        cb_xai       = gr.Checkbox(label="xAI",       value=False, elem_id="brand_xai")
+
 
         
 #---------------------------------------------------------------------------------------------------------------------
