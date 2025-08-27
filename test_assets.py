@@ -541,7 +541,7 @@ body, .gradio-container {
   cursor:pointer !important;
 }
 
-/* ==== Brand chips (Final) ==== */
+/* ==== Brand chips (Final, Fixed) ==== */
 
 /* ردیف برندها */
 .brand-row {
@@ -571,43 +571,7 @@ body, .gradio-container {
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
-  padding: 6px 10px 6px 42px !important;  /* جا برای لوگو سمت چپ */
-  border-radius: 9999px !important;
-  background: #e0f2fe !important;   /* آبی روشن */
-  color: #0369a1 !important;
-  border: 1px solid #bae6fd !important;
-  font-weight: 600 !important;
-  font-size: 13px !important;
-  cursor: pointer !important;
-  transition: background .2s, border-color .2s, color .2s, box-shadow .2s !important;
-}
-[id^="brand_"] label:hover {
-  background: #bae6fd !important;   /* هاور آبی کمی تیره‌تر */
-  border-color: #7dd3fc !important;
-}
-
-/* جای لوگو (همیشه رنگی = بدون grayscale) */
-[id^="brand_"] label::before {
-  content: "" !important;
-  position: absolute !important;
-  left: 12px !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  width: 20px !important;
-  height: 20px !important;
-  background-size: contain !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
-  filter: none !important;   /* ← لوگو همیشه رنگ اصلی */
-}
-
-/* حالت انتخاب‌شده — آبی پررنگ */
-[id^="brand_"] input[type="checkbox"]:checked + label {
-  background: #0ea5e9 !important;   /* آبی پررنگ */
-  color: #fff !important;
-  border-color: #0284c7 !important;
-  box-shadow: 0 0 0 2px rgba(2,132,199,.25) inset !important;
-}
+  padding: 6px
 
 
 /* === Main Title (بزرگ با گرادیان) === */
