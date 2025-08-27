@@ -639,7 +639,7 @@ body, .gradio-container {
   display: flex !important;
   flex-wrap: wrap !important;
   justify-content: flex-start !important;
-  gap: 6px !important;        /* فاصلهٔ بین چیپ‌ها */
+  gap: 3px !important;        /* فاصلهٔ بین چیپ‌ها */
   column-gap: 10px !important;
   row-gap: 10px !important;
   padding: 0 !important;
