@@ -652,26 +652,26 @@ body, .gradio-container {
 
 
 
-/* ===== Tabs Styling (Minimal Elegant) ===== */
+/* ===== Tabs Styling (Minimal Elegant, No underline) ===== */
 .tabs.svelte-1tcem6n {
   display: flex !important;
   justify-content: center !important;
   gap: 20px !important;
   margin: 20px 0 !important;
-  border-bottom: 1px solid #e5e7eb !important; /* خط ملایم زیر تب‌ها */
+  border: none !important; /* بدون خط زیر تب‌ها */
 }
 
 .tabs.svelte-1tcem6n button[role="tab"] {
   font-family: 'Vazirmatn','Raleway',sans-serif !important;
   font-size: 15px !important;
-  font-weight: 500 !important;     /* نازک‌تر مثل تیتر */
+  font-weight: 500 !important;     
   padding: 8px 4px !important;
   background: transparent !important;
-  color: #374151 !important;       /* خاکستری تیره خوانا */
+  color: #374151 !important;       /* خاکستری تیره */
   border: none !important;
   border-radius: 0 !important;
   cursor: pointer !important;
-  transition: color .2s ease, border-color .2s ease;
+  transition: color .2s ease;
 }
 
 /* هاور */
@@ -681,11 +681,9 @@ body, .gradio-container {
 
 /* تب فعال */
 .tabs.svelte-1tcem6n button[role="tab"].selected {
-  color: #1d4ed8 !important;        /* آبی کمی پررنگ‌تر */
-  border-bottom: 2px solid #2563eb !important; /* فقط خط زیر */
+  color: #1d4ed8 !important;        /* آبی پررنگ‌تر برای انتخاب */
   font-weight: 600 !important;
 }
-
 
 
 """
