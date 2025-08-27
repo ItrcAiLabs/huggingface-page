@@ -619,23 +619,25 @@ body, .gradio-container {
 
 
 
-/* === Main Title (بزرگ) === */
+/* === Main Title (بزرگ با گرادیان) === */
 .hero .main-title {
-  font-size: 46px;                     /* کمی بزرگ */
-  font-weight: 600;                    /* نازک‌تر از 800 */
-  color: #1e293b;                      /* سرمه‌ای/مشکی نرم */
+  font-size: 46px;
+  font-weight: 600;  /* نازک‌تر از قبل */
   text-align: center;
   margin: 20px 0 10px 0;
   font-family: 'Raleway','Vazirmatn',sans-serif;
-  letter-spacing: 1px;                  /* فاصله‌ی شیک بین حروف */
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #1e3a8a, #9333ea);  /* آبی نفتی → بنفش ملایم */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   animation: fadeInDown 1s ease-out;
 }
 
-/* === Subtitle (یکدست) === */
+/* === Subtitle (یکدست خاکستری شیک) === */
 .hero .subtitle {
-  font-size: 18px;                     /* کمی کوچیک‌تر */
+  font-size: 18px;
   font-weight: 500;
-  color: #4b5563;                      /* خاکستری تیره مدرن */
+  color: #4b5563;   /* خاکستری مدرن */
   text-align: center;
   margin-top: 8px;
   line-height: 1.6;
@@ -653,7 +655,6 @@ body, .gradio-container {
   from {opacity: 0; transform: translateY(10px);}
   to   {opacity: 1; transform: translateY(0);}
 }
-
 
 """
 
