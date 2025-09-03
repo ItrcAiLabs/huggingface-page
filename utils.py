@@ -256,7 +256,9 @@ def filter_table(search: str, tasks: list, df: pd.DataFrame, table_id: str = "le
         selected_cols = base_cols + [c for c in tasks if c in df.columns]
         df = df[selected_cols]
     return df_to_styled_html(df, table_id=table_id)
-from huggingface_hub import HfApi, HfHubHTTPError
+
+from huggingface_hub import HfApi
+from huggingface_hub.utils import HfHubHTTPError
 
 def submit_request(model_name, revision, precision, weight_type,
                    model_type, params, license_str, private_bool):
