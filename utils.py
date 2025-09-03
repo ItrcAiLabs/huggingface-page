@@ -389,8 +389,9 @@ def submit_request(
     model_name, revision, precision, weight_type,
     model_type, params, license_str, private_bool
 ):
-    model_name= model_name.strip()
-    model_name = model_name.strip(' "".,.،؛؟!…'')
+    TRIM_CHARS = ' \t\n\r"\'`.,:;!؟،؛…«»()[]{}|/\\'
+    
+    model_name = model_name.strip(TRIM_CHARS)
     try:
         # if not HF_TOKEN:
         #     return "❌ Error: Secret HF_TOKEN not found in Space."
