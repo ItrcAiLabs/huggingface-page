@@ -1,5 +1,18 @@
 import pandas as pd
 SMALL_PARAMS_B = 9
+
+def ctx_to_int(x):
+    if pd.isna(x):
+        return -1
+    s = str(x).strip().lower().replace(" ", "")
+    try:
+        if s.endswith("m"):
+            return int(float(s[:-1]) * 1_000_000)
+        if s.endswith("k"):
+            return int(float(s[:-1]) * 1_000)
+        return int(float(s))
+    except:
+        return -1
 def make_pipeline_filter(current_df: pd.DataFrame, table_id: str):
     def _fn(search_text: str, task_cols: list, quick: list, brands: list, ctx_range: str | None):
         df1 = apply_quick_filters(current_df, quick or [], brands or [], ctx_range)
