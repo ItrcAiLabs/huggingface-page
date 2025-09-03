@@ -1,6 +1,15 @@
 import gradio as gr
-from utils1 import submit_request, load_all_data, df_to_styled_html, TASK_GROUPS, filter_table,CUSTOM_CSS,make_brand_chip_css_by_id,SMALL_PARAMS_B,make_pipeline_filter,collect_brands,apply_quick_filters,make_sort_func,df_sbu,df_uq,df_aut
+# from utils1 import submit_request, load_all_data, df_to_styled_html, TASK_GROUPS, filter_table,CUSTOM_CSS,make_brand_chip_css_by_id,SMALL_PARAMS_B,make_pipeline_filter,collect_brands,apply_quick_filters,make_sort_func,df_sbu,df_uq,df_aut
 import pandas as pd
+import gradio as gr
+from src.tarazban.hf_submission import submit_request
+from src.tarazban.dataio import load_all_data, TASK_GROUPS
+from src.tarazban.render import df_to_styled_html
+from src.tarazban.filters import filter_table
+
+with open("static/styles.css", "r", encoding="utf-8") as f:
+    CUSTOM_CSS = f.read()
+
 # ---------------- Gradio App ----------------
 with gr.Blocks(css=CUSTOM_CSS) as demo:
     # gr.HTML(make_brand_icon_css())
