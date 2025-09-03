@@ -385,73 +385,6 @@ def ensure_private_dataset(repo_id: str, token: str):
             f"Check Org Write permission for this token. Original: {e}"
         )
 
-# def submit_request(
-#     model_name, revision, precision, weight_type,
-#     model_type, params, license_str, private_bool
-# ):
-#     try:
-#         if not HF_TOKEN:
-#             return "❌ Error: Secret HF_TOKEN not found in Space."
-
-#         # 1) مطمئن شو دیتاست وجود دارد (و پرایوت است)
-#         ensure_private_dataset(DATASET_NAME, HF_TOKEN)
-
-#         # 2) دیتاست را بخوان (اگر خالی بود، از لیست خالی شروع می‌کنیم)
-#         try:
-#             dataset = load_dataset(DATASET_NAME, split="train", token=HF_TOKEN)
-#         except Exception:
-#             dataset = Dataset.from_list([])  # دیتاست جدید/خالی
-
-#         # 3) چک تکراری نبودن
-#         existing_models = [entry.get("model") for entry in dataset]
-#         if model_name in existing_models:
-#             return f"⚠️ Model '{model_name}' already exists."
-
-#         # 4) رکورد جدید
-#         tehran = pytz.timezone("Asia/Tehran")
-#         now = datetime.now(tehran).strftime("%Y-%m-%dT%H:%M:%S")
-
-#         new_entry = {
-#             "id": str(uuid.uuid4()),
-#             "model": model_name,
-#             "revision": revision,
-#             "precision": precision,
-#             "weight_type": weight_type,
-#             "submitted_time": now,
-#             "model_type": model_type,
-#             "params": float(params) if (params not in [None, ""]) else None,
-#             "license": license_str,
-#             "private": bool(private_bool),
-#             "status": "⏳ pending"
-#         }
-
-#         dataset = dataset.add_item(new_entry)
-
-#         # 5) پوش به هاب
-#         dataset.push_to_hub(DATASET_NAME, token=HF_TOKEN)
-
-#         return f"✅ Submitted! ID: {new_entry['id']}"
-#     except HfHubHTTPError as e:
-#         # خطاهای هاب را خواناتر کن
-#         return (
-#             "❌ Error while pushing to Hub:\n"
-#             f"{e}\n\n"
-#             "راهنما: اگر 403 می‌بینی، توکن باید Org Write برای 'ailabs-itrc' داشته باشد "
-#             "یا DATASET_NAME را موقتاً به فضای شخصی خودت ببری."
-#         )
-#     except Exception as e:
-#         return f"❌ Error: {e}"
-
-import os, uuid
-from datetime import datetime
-import pytz
-from datasets import load_dataset, Dataset
-from huggingface_hub import HfApi
-from huggingface_hub.utils import HfHubHTTPError
-
-HF_TOKEN = os.environ.get("HF_TOKEN")
-DATASET_NAME = "ailabs-itrc/requests"  # یا از env بخون
-
 def submit_request(
     model_name, revision, precision, weight_type,
     model_type, params, license_str, private_bool
@@ -460,9 +393,11 @@ def submit_request(
         if not HF_TOKEN:
             return "❌ Error: Secret HF_TOKEN not found in Space."
 
+        # # 1) مطمئن شو دیتاست وجود دارد (و پرایوت است)
+        # ensure_private_dataset(DATASET_NAME, HF_TOKEN)
         api = HfApi(token=HF_TOKEN)
 
-        # 🔍 اول: چک کن مدل روی Hub وجود داره یا نه
+#         # 🔍 اول: چک کن مدل روی Hub وجود داره یا نه
         try:
             api.model_info(model_name)  # اگر نبود، خطا میده
         except HfHubHTTPError as e:
@@ -470,30 +405,18 @@ def submit_request(
             if code == 404:
                 return f"❌ Error: Model '{model_name}' not found on Hugging Face Hub."
             return f"❌ Error while checking model on Hub: {e}"
-
-        # 📂 دوم: دیتاست صف باید وجود داشته باشه
-        try:
-            api.repo_info(repo_id=DATASET_NAME, repo_type="dataset")
-        except HfHubHTTPError as e:
-            code = e.response.status_code if getattr(e, "response", None) else "?"
-            if code == 404:
-                return f"❌ Error: Dataset '{DATASET_NAME}' not found."
-            if code == 403:
-                return f"❌ Error: No write access to '{DATASET_NAME}'."
-            raise
-
-        # 📥 سوم: دیتاست رو بخون
+        # 2) دیتاست را بخوان (اگر خالی بود، از لیست خالی شروع می‌کنیم)
         try:
             dataset = load_dataset(DATASET_NAME, split="train", token=HF_TOKEN)
         except Exception:
-            dataset = Dataset.from_list([])
+            dataset = Dataset.from_list([])  # دیتاست جدید/خالی
 
-        # ⛔ چهارم: جلوگیری از رکورد تکراری
+        # 3) چک تکراری نبودن
         existing_models = [entry.get("model") for entry in dataset]
         if model_name in existing_models:
-            return f"⚠️ Model '{model_name}' already exists in dataset."
+            return f"⚠️ Model '{model_name}' already exists."
 
-        # 🆕 پنجم: رکورد جدید
+        # 4) رکورد جدید
         tehran = pytz.timezone("Asia/Tehran")
         now = datetime.now(tehran).strftime("%Y-%m-%dT%H:%M:%S")
 
@@ -512,13 +435,99 @@ def submit_request(
         }
 
         dataset = dataset.add_item(new_entry)
+
+        # 5) پوش به هاب
         dataset.push_to_hub(DATASET_NAME, token=HF_TOKEN)
 
         return f"✅ Submitted! ID: {new_entry['id']}"
-
     except HfHubHTTPError as e:
-        code = e.response.status_code if getattr(e, "response", None) else "?"
-        return f"❌ Hub Error ({code}): {e}"
+        # خطاهای هاب را خواناتر کن
+        return (
+            "❌ Error while pushing to Hub:\n"
+            f"{e}\n\n"
+            "راهنما: اگر 403 می‌بینی، توکن باید Org Write برای 'ailabs-itrc' داشته باشد "
+            "یا DATASET_NAME را موقتاً به فضای شخصی خودت ببری."
+        )
     except Exception as e:
         return f"❌ Error: {e}"
+
+# import os, uuid
+# from datetime import datetime
+# import pytz
+# from datasets import load_dataset, Dataset
+# from huggingface_hub import HfApi
+# from huggingface_hub.utils import HfHubHTTPError
+
+# HF_TOKEN = os.environ.get("HF_TOKEN")
+# DATASET_NAME = "ailabs-itrc/requests"  # یا از env بخون
+
+# def submit_request(
+#     model_name, revision, precision, weight_type,
+#     model_type, params, license_str, private_bool
+# ):
+#     try:
+#         if not HF_TOKEN:
+#             return "❌ Error: Secret HF_TOKEN not found in Space."
+
+#         api = HfApi(token=HF_TOKEN)
+
+#         # 🔍 اول: چک کن مدل روی Hub وجود داره یا نه
+#         try:
+#             api.model_info(model_name)  # اگر نبود، خطا میده
+#         except HfHubHTTPError as e:
+#             code = e.response.status_code if getattr(e, "response", None) else "?"
+#             if code == 404:
+#                 return f"❌ Error: Model '{model_name}' not found on Hugging Face Hub."
+#             return f"❌ Error while checking model on Hub: {e}"
+
+#         # 📂 دوم: دیتاست صف باید وجود داشته باشه
+#         try:
+#             api.repo_info(repo_id=DATASET_NAME, repo_type="dataset")
+#         except HfHubHTTPError as e:
+#             code = e.response.status_code if getattr(e, "response", None) else "?"
+#             if code == 404:
+#                 return f"❌ Error: Dataset '{DATASET_NAME}' not found."
+#             if code == 403:
+#                 return f"❌ Error: No write access to '{DATASET_NAME}'."
+#             raise
+
+#         # 📥 سوم: دیتاست رو بخون
+#         try:
+#             dataset = load_dataset(DATASET_NAME, split="train", token=HF_TOKEN)
+#         except Exception:
+#             dataset = Dataset.from_list([])
+
+#         # ⛔ چهارم: جلوگیری از رکورد تکراری
+#         existing_models = [entry.get("model") for entry in dataset]
+#         if model_name in existing_models:
+#             return f"⚠️ Model '{model_name}' already exists in dataset."
+
+#         # 🆕 پنجم: رکورد جدید
+#         tehran = pytz.timezone("Asia/Tehran")
+#         now = datetime.now(tehran).strftime("%Y-%m-%dT%H:%M:%S")
+
+#         new_entry = {
+#             "id": str(uuid.uuid4()),
+#             "model": model_name,
+#             "revision": revision,
+#             "precision": precision,
+#             "weight_type": weight_type,
+#             "submitted_time": now,
+#             "model_type": model_type,
+#             "params": float(params) if (params not in [None, ""]) else None,
+#             "license": license_str,
+#             "private": bool(private_bool),
+#             "status": "⏳ pending"
+#         }
+
+#         dataset = dataset.add_item(new_entry)
+#         dataset.push_to_hub(DATASET_NAME, token=HF_TOKEN)
+
+#         return f"✅ Submitted! ID: {new_entry['id']}"
+
+#     except HfHubHTTPError as e:
+#         code = e.response.status_code if getattr(e, "response", None) else "?"
+#         return f"❌ Hub Error ({code}): {e}"
+#     except Exception as e:
+#         return f"❌ Error: {e}"
 
