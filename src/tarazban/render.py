@@ -1,3 +1,4 @@
+import pandas as pd
 # ---------------- Style ----------------
 HTML_STYLE = """
 <style>
