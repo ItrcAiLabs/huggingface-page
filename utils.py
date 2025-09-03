@@ -259,6 +259,8 @@ def filter_table(search: str, tasks: list, df: pd.DataFrame, table_id: str = "le
 
 from huggingface_hub import HfApi
 from huggingface_hub.utils import HfHubHTTPError
+DATASET_NAME = "ailabs-itrc/requests"
+HF_TOKEN = os.environ.get("HF_TOKEN")
 
 def submit_request(model_name, revision, precision, weight_type,
                    model_type, params, license_str, private_bool):
