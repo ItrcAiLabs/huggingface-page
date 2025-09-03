@@ -1,5 +1,5 @@
 import pandas as pd
-from src/tarazban.render import df_to_styled_html
+from .render import df_to_styled_html
 SMALL_PARAMS_B = 9
 
 def ctx_to_int(x):
