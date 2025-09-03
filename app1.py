@@ -9,6 +9,11 @@ from src.tarazban.filters import filter_table,apply_quick_filters,make_pipeline_
 
 with open("static/styles.css", "r", encoding="utf-8") as f:
     CUSTOM_CSS = f.read()
+dfs = load_all_data("data/")
+df_sbu = dfs["SBU"]
+df_uq  = dfs["UQ"]
+df_aut = dfs["AUT"]
+
 
 # ---------------- Gradio App ----------------
 with gr.Blocks(css=CUSTOM_CSS) as demo:
