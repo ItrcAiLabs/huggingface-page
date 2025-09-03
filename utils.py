@@ -389,9 +389,11 @@ def submit_request(
     model_name, revision, precision, weight_type,
     model_type, params, license_str, private_bool
 ):
+    model_name= model_name.strip()
+    model_name = model_name.strip(' "".,.،؛؟!…'')
     try:
-        if not HF_TOKEN:
-            return "❌ Error: Secret HF_TOKEN not found in Space."
+        # if not HF_TOKEN:
+        #     return "❌ Error: Secret HF_TOKEN not found in Space."
 
         # # 1) مطمئن شو دیتاست وجود دارد (و پرایوت است)
         # ensure_private_dataset(DATASET_NAME, HF_TOKEN)
