@@ -491,4 +491,34 @@ def submit_request(
         # ⛔ چهارم: جلوگیری از رکورد تکراری
         existing_models = [entry.get("model") for entry in dataset]
         if model_name in existing_models:
+            return f"⚠️ Model '{model_name}' already exists in dataset."
+
+        # 🆕 پنجم: رکورد جدید
+        tehran = pytz.timezone("Asia/Tehran")
+        now = datetime.now(tehran).strftime("%Y-%m-%dT%H:%M:%S")
+
+        new_entry = {
+            "id": str(uuid.uuid4()),
+            "model": model_name,
+            "revision": revision,
+            "precision": precision,
+            "weight_type": weight_type,
+            "submitted_time": now,
+            "model_type": model_type,
+            "params": float(params) if (params not in [None, ""]) else None,
+            "license": license_str,
+            "private": bool(private_bool),
+            "status": "⏳ pending"
+        }
+
+        dataset = dataset.add_item(new_entry)
+        dataset.push_to_hub(DATASET_NAME, token=HF_TOKEN)
+
+        return f"✅ Submitted! ID: {new_entry['id']}"
+
+    except HfHubHTTPError as e:
+        code = e.response.status_code if getattr(e, "response", None) else "?"
+        return f"❌ Hub Error ({code}): {e}"
+    except Exception as e:
+        return f"❌ Error: {e}"
 
