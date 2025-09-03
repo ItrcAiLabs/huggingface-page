@@ -1,15 +1,15 @@
 import gradio as gr
-# from utils1 import submit_request, load_all_data, df_to_styled_html, TASK_GROUPS, filter_table,CUSTOM_CSS,make_brand_chip_css_by_id,SMALL_PARAMS_B,make_pipeline_filter,collect_brands,apply_quick_filters,make_sort_func,df_sbu,df_uq,df_aut
-import pandas as pd
-import gradio as gr
-from src.tarazban.hf_submission import submit_request
-from src.tarazban.dataio import load_all_data, TASK_GROUPS
-from src.tarazban.render import df_to_styled_html
-from src.tarazban.filters import filter_table,apply_quick_filters,make_pipeline_filter,SMALL_PARAMS_B
-from src.tarazban.brands import  make_brand_chip_css_by_id, collect_brands
-from src.tarazban.sort import make_sort_func
-with open("static/styles.css", "r", encoding="utf-8") as f:
-    CUSTOM_CSS = f.read()
+from utils1 import submit_request, load_all_data, df_to_styled_html, TASK_GROUPS, filter_table,CUSTOM_CSS,make_brand_chip_css_by_id,SMALL_PARAMS_B,make_pipeline_filter,collect_brands,apply_quick_filters,make_sort_func,df_sbu,df_uq,df_aut
+# import pandas as pd
+# import gradio as gr
+# from src.tarazban.hf_submission import submit_request
+# from src.tarazban.dataio import load_all_data, TASK_GROUPS
+# from src.tarazban.render import df_to_styled_html
+# from src.tarazban.filters import filter_table,apply_quick_filters,make_pipeline_filter,SMALL_PARAMS_B
+# from src.tarazban.brands import  make_brand_chip_css_by_id, collect_brands
+# from src.tarazban.sort import make_sort_func
+# with open("static/styles.css", "r", encoding="utf-8") as f:
+#     CUSTOM_CSS = f.read()
 dfs = load_all_data("data/")
 df_sbu = dfs["SBU"]
 df_uq  = dfs["UQ"]
