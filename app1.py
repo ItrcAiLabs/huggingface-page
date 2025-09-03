@@ -5,7 +5,7 @@ import gradio as gr
 from src.tarazban.hf_submission import submit_request
 from src.tarazban.dataio import load_all_data, TASK_GROUPS
 from src.tarazban.render import df_to_styled_html
-from src.tarazban.filters import filter_table
+from src.tarazban.filters import filter_table,apply_quick_filters,make_pipeline_filter
 
 with open("static/styles.css", "r", encoding="utf-8") as f:
     CUSTOM_CSS = f.read()
