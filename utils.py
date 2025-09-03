@@ -402,9 +402,9 @@ def submit_request(
             api.model_info(model_name)  # اگر نبود، خطا میده
         except HfHubHTTPError as e:
             code = e.response.status_code if getattr(e, "response", None) else "?"
-            if code == 404:
-                return f"❌ Error: Model '{model_name}' not found on Hugging Face Hub."
-            return f"❌ Error while checking model on Hub: {e}"
+            # if code == 404:
+            return f"❌ Error: Model '{model_name}' not found on Hugging Face Hub."
+            # return f"❌ Error while checking model on Hub: {e}"
         # 2) دیتاست را بخوان (اگر خالی بود، از لیست خالی شروع می‌کنیم)
         try:
             dataset = load_dataset(DATASET_NAME, split="train", token=HF_TOKEN)
