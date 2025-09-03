@@ -304,7 +304,9 @@ from datetime import datetime
 import pytz
 import pandas as pd
 from datasets import load_dataset, Dataset
-from huggingface_hub import HfApi, HfHubHTTPError
+from huggingface_hub import HfApi
+from huggingface_hub.utils import HfHubHTTPError
+
 
 HF_TOKEN = os.environ.get("HF_TOKEN")
 DATASET_NAME = "ailabs-itrc/requests"   # یا your-username/requests
