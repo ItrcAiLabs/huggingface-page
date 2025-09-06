@@ -303,3 +303,44 @@ body, .gradio-container {
   background: inherit !important;
   background-color: inherit !important;
 }
+
+
+/* ===== KEEP inline gradients from Python (append at the VERY end) ===== */
+
+/* 1) نابودگر inline فقط برای مواردی که گرادیان نیستند */
+.table-wrapper :is(tr, th, td)[style*="background"]:not([style*="linear-gradient"]) {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+.table-wrapper :is(tr, th, td)[style*="color"]:not([style*="linear-gradient"]) {
+  color: var(--tb-text) !important;
+}
+
+/* 2) Zebra/Hover فقط روی سلول‌هایی که گرادیان ندارند */
+.table-wrapper tbody tr:nth-child(odd)  > td:not([style*="linear-gradient"]) { background-color: var(--tb-row) !important; }
+.table-wrapper tbody tr:nth-child(even) > td:not([style*="linear-gradient"]) { background-color: var(--tb-row-alt) !important; }
+.table-wrapper tbody tr:hover           > td:not([style*="linear-gradient"]) { background-color: var(--tb-row-hover) !important; }
+.table-wrapper tr.selected > td:not([style*="linear-gradient"]),
+.table-wrapper tr.active   > td:not([style*="linear-gradient"]) { background-color: var(--tb-row-focus) !important; }
+
+/* 3) خوانایی گرادیان‌ها در تم‌ها */
+:root .table-wrapper td[style*="linear-gradient"] {
+  color: #111827 !important; /* روشن */
+  background-clip: padding-box !important;
+}
+[data-theme="dark"] .table-wrapper td[style*="linear-gradient"],
+.dark .table-wrapper td[style*="linear-gradient"] {
+  /* لایه‌ی تیرهٔ ملایم + blend تا گرادیان با تم تیره هماهنگ شود */
+  background-color: rgba(15,23,42,0.28) !important;
+  background-blend-mode: multiply !important;
+  color: #e5e7eb !important; /* متن روشن در تیره */
+}
+
+/* 4) هنگام هاور، گرادیان دست‌نخورده بماند */
+.table-wrapper tbody tr:hover > td[style*="linear-gradient"] {
+  background-color: rgba(15,23,42,0.18) !important; /* فقط تاکید ملایم */
+  background-blend-mode: multiply !important;
+}
+
+/* 5) مرزها ثابت بمانند */
+.table-wrapper td { border-bottom: 1px solid var(--tb-border-soft) !important; }
