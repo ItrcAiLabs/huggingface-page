@@ -32,7 +32,7 @@ def ensure_private_dataset(repo_id: str, token: str):
         )
 
 def submit_request(
-    model_name, revision, precision, weight_type,
+    model_name,email, revision, precision, weight_type,
     model_type, params, license_str, private_bool
 ):
     TRIM_CHARS = ' \t\n\r"\'`.,:;!؟،؛…«»()[]{}|/\\'
@@ -72,6 +72,7 @@ def submit_request(
         new_entry = {
             "id": str(uuid.uuid4()),
             "model": model_name,
+            "email" : email,
             "revision": revision,
             "precision": precision,
             "weight_type": weight_type,
