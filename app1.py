@@ -38,39 +38,47 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
     gr.HTML(make_brand_chip_css_by_id())   # ← لوگوهای بدون JS و بدون :has()
 
     # ===== Navbar =====
+    # gr.HTML("""
+    #     <div class="hero">
+    #       <div class="title-wrap">
+    #         <h1 class="main-title">
+    #           <span class="title-accent">Tarazban</span> Leaderboard
+    #         </h1>
+    #         <p class="subtitle">
+    #           Interactive Persian NLP Leaderboard — <span>Compare models across multiple benchmarks</span>
+    #         </p>
+    #       </div>
+    #     </div>
+    #     """)
     gr.HTML("""
-        <div class="hero">
-          <div class="title-wrap">
-            <h1 class="main-title">
-              <span class="title-accent">Tarazban</span> Leaderboard
-            </h1>
-            <p class="subtitle">
-              Interactive Persian NLP Leaderboard — <span>Compare models across multiple benchmarks</span>
-            </p>
-          </div>
-        </div>
-        """)
-
-    # with gr.Tab("📊 Benchmarks"):
-    #     # # 🏆 Title
-    #     # gr.HTML("<h1 class='main-title'>Tarazban Leaderboard</h1>")
-    #     # gr.HTML("""
-    #     # <div style='text-align:center; margin-bottom:30px; font-family:"Vazirmatn",sans-serif;'>
-    #     #     <p style='font-size:16px; color:#555;'>Interactive Persian NLP Leaderboard — Compare models across multiple benchmarks</p>
-            
-    #     # </div>
-    #     # """)
-    with gr.Tab("📊 Benchmarks"):
-        gr.HTML("""
-            <div style='text-align:center; margin-bottom:30px; font-family:"Vazirmatn",sans-serif;'>
-                <h1 class='main-title'>
-                    Tarazban Leaderboard<br>
-                    <span style='font-size:16px; color:#555; font-weight:400;'>
-                        Interactive Persian NLP Leaderboard — Compare models across multiple benchmarks
-                    </span>
+            <div class="hero">
+              <div class="title-wrap">
+                <h1 class="main-title">
+                  <span class="title-accent">Tarazban</span> Leaderboard
                 </h1>
+                <div class="subtitle-wrap">
+                  <p class="subtitle">
+                    Interactive Persian NLP Leaderboard
+                  </p>
+                  <p class="subtitle">
+                    Compare models across multiple benchmarks
+                  </p>
+                </div>
+              </div>
             </div>
-        """)
+            """)
+            
+
+    with gr.Tab("📊 Benchmarks"):
+        # # 🏆 Title
+        # gr.HTML("<h1 class='main-title'>Tarazban Leaderboard</h1>")
+        # gr.HTML("""
+        # <div style='text-align:center; margin-bottom:30px; font-family:"Vazirmatn",sans-serif;'>
+        #     <p style='font-size:16px; color:#555;'>Interactive Persian NLP Leaderboard — Compare models across multiple benchmarks</p>
+            
+        # </div>
+        # """)
+    
 
 
         # 🔍 Search bar
