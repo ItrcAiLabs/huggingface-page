@@ -344,3 +344,5 @@ body, .gradio-container {
 
 /* 5) مرزها ثابت بمانند */
 .table-wrapper td { border-bottom: 1px solid var(--tb-border-soft) !important; }
+
+.table-wrapper td[style*="linear-gradient"] { outline: 1px dashed #22c55e; }
