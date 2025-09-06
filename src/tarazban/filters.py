@@ -1,6 +1,55 @@
 import pandas as pd
-from .render import df_to_styled_html
 SMALL_PARAMS_B = 9
+from render import df_to_styled_html
+def add_organization_column(df: pd.DataFrame) -> pd.DataFrame:
+    if "Organization" not in df.columns:
+        df["Organization"] = df["Model"].apply(
+            lambda m: str(m).split("/")[0].lower() if "/" in str(m) else str(m).lower()
+        )
+        df["Brand"] = df["Organization"].map(lambda o: ORG_TO_BRAND.get(o, o.title()))
+        df["OpenSource"] = df["Organization"].map(lambda o: OPEN_ORGS.get(o, False))
+    return df
+ORG_TO_BRAND = {
+    "openai": "OpenAI",
+    "anthropic": "Anthropic",
+    "google": "Google",
+    "gemma": "Google",        # بعضی مدل‌ها فقط gemma دارن
+    "meta": "Meta",
+    "meta-llama": "Meta",
+    "nousresearch": "Meta",   # چون Llama هست
+    "qwen": "Qwen",
+    "mistral": "Mistral",
+    "deepseek": "DeepSeek",
+    "xai": "xAI",
+    "coherelabs": "Cohere",
+    "cohereforai": "Cohere",
+    "microsoft": "Microsoft",
+    "ibm-granite": "IBM",
+    "frameai": "FrameAI",
+    "mehdihosseinimoghadam": "Independent",
+    "maralgpt": "Independent",
+}
+
+OPEN_ORGS = {
+    "openai": False,        # بسته
+    "anthropic": False,     # بسته
+    "google": False,        # gemini بسته است
+    "gemma": True,          # gemma اوپن‌سورس
+    "meta": True,           # llama اوپن‌سورس
+    "meta-llama": True,
+    "nousresearch": True,   # روی llama سوار شده
+    "qwen": True,
+    "mistral": True,
+    "deepseek": True,
+    "xai": False,
+    "coherelabs": True,    # بسته
+    "cohereforai": True,    # aya اوپن
+    "microsoft": True,      # phi اوپن
+    "ibm-granite": True,
+    "frameai": True,
+    "mehdihosseinimoghadam": True,
+    "maralgpt": True,
+}
 
 def ctx_to_int(x):
     if pd.isna(x):
