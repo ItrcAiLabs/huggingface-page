@@ -198,7 +198,7 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
 
     with gr.Tab("🚀 Submit Model"):
         model_name = gr.Textbox(label="Model Name", placeholder="Enter model name")
-        Email = 
+        Email = gr.Textbox(label="Email", placeholder="Enter model name")
         revision = gr.Dropdown(["main"], label="Revision")
         precision = gr.Dropdown(["fp16", "bf16", "int8", "int4"], label="Precision")
         weight_type = gr.Dropdown(["Original"], label="Weight Type")
@@ -211,7 +211,7 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
 
         submit_btn.click(
             fn=submit_request,
-            inputs=[model_name, revision, precision, weight_type, model_type, params, license_str, private_bool],
+            inputs=[model_name,Email, revision, precision, weight_type, model_type, params, license_str, private_bool],
             outputs=output_status,
         )
 
