@@ -51,15 +51,27 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
         </div>
         """)
 
-    with gr.Tab("📊 Benchmarks"):
-        # # 🏆 Title
-        # gr.HTML("<h1 class='main-title'>Tarazban Leaderboard</h1>")
-        # gr.HTML("""
-        # <div style='text-align:center; margin-bottom:30px; font-family:"Vazirmatn",sans-serif;'>
-        #     <p style='font-size:16px; color:#555;'>Interactive Persian NLP Leaderboard — Compare models across multiple benchmarks</p>
+    # with gr.Tab("📊 Benchmarks"):
+    #     # # 🏆 Title
+    #     # gr.HTML("<h1 class='main-title'>Tarazban Leaderboard</h1>")
+    #     # gr.HTML("""
+    #     # <div style='text-align:center; margin-bottom:30px; font-family:"Vazirmatn",sans-serif;'>
+    #     #     <p style='font-size:16px; color:#555;'>Interactive Persian NLP Leaderboard — Compare models across multiple benchmarks</p>
             
-        # </div>
-        # """)
+    #     # </div>
+    #     # """)
+    with gr.Tab("📊 Benchmarks"):
+    gr.HTML("""
+        <div style='text-align:center; margin-bottom:30px; font-family:"Vazirmatn",sans-serif;'>
+            <h1 class='main-title'>
+                Tarazban Leaderboard<br>
+                <span style='font-size:16px; color:#555; font-weight:400;'>
+                    Interactive Persian NLP Leaderboard — Compare models across multiple benchmarks
+                </span>
+            </h1>
+        </div>
+    """)
+
 
         # 🔍 Search bar
         gr.Markdown("<div class='section-title'>🔍 Search Models</div>")
@@ -186,6 +198,7 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
 
     with gr.Tab("🚀 Submit Model"):
         model_name = gr.Textbox(label="Model Name", placeholder="Enter model name")
+        Email = 
         revision = gr.Dropdown(["main"], label="Revision")
         precision = gr.Dropdown(["fp16", "bf16", "int8", "int4"], label="Precision")
         weight_type = gr.Dropdown(["Original"], label="Weight Type")
