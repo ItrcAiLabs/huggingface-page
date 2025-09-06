@@ -15,6 +15,22 @@ df_sbu = dfs["SBU"]
 df_uq  = dfs["UQ"]
 df_aut = dfs["AUT"]
 
+# ---------------- Load leaderboard data ----------------
+dfs = load_all_data("data/")
+df_sbu = add_organization_column(dfs["SBU"])
+df_uq  = add_organization_column(dfs["UQ"])
+df_aut = add_organization_column(dfs["AUT"])
+
+def _keep_rows_with_any_scores(df: pd.DataFrame, group: str) -> pd.DataFrame:
+    cols = [c for c in TASK_GROUPS[group] if c in df.columns]
+    if cols:
+        return df.loc[df[cols].notna().any(axis=1)]
+    return df
+
+df_sbu = _keep_rows_with_any_scores(df_sbu, "SBU")
+df_uq  = _keep_rows_with_any_scores(df_uq,  "UQ")
+df_aut = _keep_rows_with_any_scores(df_aut, "AUT")
+
 
 # ---------------- Gradio App ----------------
 with gr.Blocks(css=CUSTOM_CSS) as demo:
