@@ -396,7 +396,6 @@ body, .gradio-container {
   color: #1d4ed8 !important;        /* آبی پررنگ‌تر برای انتخاب */
   font-weight: 600 !important;
 }
-/* === NEW === */
 /* ===== Dark Mode Overrides (place at the very end) ===== */
 :root { color-scheme: light dark; }
 
@@ -571,6 +570,111 @@ body[data-theme="dark"],
 [data-theme="dark"] ::-webkit-scrollbar,
 .dark ::-webkit-scrollbar { display: none !important; }
 
+
+html[data-theme="dark"], body[data-theme="dark"], [data-theme="dark"], .dark {
+  --tb-row: #0f172a;        /* رنگ پایهٔ ردیف */
+  --tb-row-alt: #101a2c;    /* رنگ راه‌راه */
+  --tb-row-hover: #1a2336;  /* هاور ردیف */
+  --tb-row-focus: #223049;  /* ردیف انتخاب‌شده/فعال */
+  --tb-filter-dim: #0d1526; /* ردیف‌هایی که فیلتر/کم‌رنگ شده‌اند */
+  --tb-text: #e5e7eb;
+  --tb-muted: #9aa8bd;
+  --tb-border: #263244;
+  --tb-border-soft: #1b2533;
+}
+
+/* ——— Zebra striping (راه‌راه) ——— */
+[data-theme="dark"] .table-wrapper tbody tr:nth-child(odd),
+[data-theme="dark"] #leaderboard_sbu tbody tr:nth-child(odd),
+[data-theme="dark"] #leaderboard_uq  tbody tr:nth-child(odd),
+[data-theme="dark"] #leaderboard_aut tbody tr:nth-child(odd),
+.dark .table-wrapper tbody tr:nth-child(odd) {
+  background: var(--tb-row) !important;
+  color: var(--tb-text) !important;
+}
+[data-theme="dark"] .table-wrapper tbody tr:nth-child(even),
+[data-theme="dark"] #leaderboard_sbu tbody tr:nth-child(even),
+[data-theme="dark"] #leaderboard_uq  tbody tr:nth-child(even),
+[data-theme="dark"] #leaderboard_aut tbody tr:nth-child(even),
+.dark .table-wrapper tbody tr:nth-child(even) {
+  background: var(--tb-row-alt) !important;
+  color: var(--tb-text) !important;
+}
+
+/* ——— Hover row (هاور) ——— */
+[data-theme="dark"] .table-wrapper tbody tr:hover,
+[data-theme="dark"] #leaderboard_sbu tbody tr:hover,
+[data-theme="dark"] #leaderboard_uq  tbody tr:hover,
+[data-theme="dark"] #leaderboard_aut tbody tr:hover,
+.dark .table-wrapper tbody tr:hover {
+  background: var(--tb-row-hover) !important;
+  color: var(--tb-text) !important;
+}
+
+/* برخی تمپلیت‌ها رنگِ هاور را روی <td> می‌گذارند */
+[data-theme="dark"] .table-wrapper tbody tr:hover > td,
+.dark .table-wrapper tbody tr:hover > td {
+  background: transparent !important; /* رنگ را از خودِ <tr> بگیرند */
+}
+
+/* ——— Borders ——— */
+[data-theme="dark"] .table-wrapper th,
+[data-theme="dark"] .table-wrapper td,
+.dark .table-wrapper th,
+.dark .table-wrapper td {
+  border-bottom: 1px solid var(--tb-border-soft) !important;
+}
+
+/* ——— Inline backgrounds از Pandas/Gradio را هم خنثی کن ——— */
+[data-theme="dark"] .table-wrapper tr[style*="background"],
+[data-theme="dark"] .table-wrapper td[style*="background"],
+.dark .table-wrapper tr[style*="background"],
+.dark .table-wrapper td[style*="background"] {
+  background: transparent !important; /* یا var(--tb-row) اگر لازم داری */
+  color: var(--tb-text) !important;
+}
+
+/* ——— ردیف‌های فیلترشده/کم‌رنگ ———
+   پوشش کلاس‌های رایج: .filtered, .is-filtered, .dim, .dimmed, .muted-row, .inactive */
+[data-theme="dark"] .table-wrapper tr.filtered,
+[data-theme="dark"] .table-wrapper tr.is-filtered,
+[data-theme="dark"] .table-wrapper tr.dim,
+[data-theme="dark"] .table-wrapper tr.dimmed,
+[data-theme="dark"] .table-wrapper tr.muted-row,
+[data-theme="dark"] .table-wrapper tr.inactive,
+.dark .table-wrapper tr.filtered,
+.dark .table-wrapper tr.is-filtered,
+.dark .table-wrapper tr.dim,
+.dark .table-wrapper tr.dimmed,
+.dark .table-wrapper tr.muted-row,
+.dark .table-wrapper tr.inactive {
+  background: var(--tb-filter-dim) !important;
+  color: var(--tb-muted) !important;
+  /* به‌جای opacity که متن را هم کم‌رنگِ مضاعف می‌کند */
+  filter: none !important;
+}
+
+/* اگر «انتخاب‌شده/هایلایت‌شده» داری */
+[data-theme="dark"] .table-wrapper tr.selected,
+[data-theme="dark"] .table-wrapper tr.active,
+.dark .table-wrapper tr.selected,
+.dark .table-wrapper tr.active {
+  background: var(--tb-row-focus) !important;
+  color: var(--tb-text) !important;
+}
+
+/* لینک/مدل داخل ردیف */
+[data-theme="dark"] .table-wrapper .model-col,
+.dark .table-wrapper .model-col {
+  color: #93c5fd !important;
+}
+
+/* اگر zebra را با .styled-table یا .dataframe رندر می‌کنی، این‌ها هم پوشش داده شوند */
+[data-theme="dark"] .styled-table tbody tr:nth-child(odd),
+[data-theme="dark"] .dataframe tbody tr:nth-child(odd) { background: var(--tb-row) !important; }
+[data-theme="dark"] .styled-table tbody tr:nth-child(even),
+[data-theme="dark"] .dataframe tbody tr:nth-child(even) { background: var(--tb-row-alt) !important; }
+[data-theme="dark"] .dataframe tbody tr:hover { background: var(--tb-row-hover) !important; }
 
 
 """
