@@ -396,4 +396,181 @@ body, .gradio-container {
   color: #1d4ed8 !important;        /* آبی پررنگ‌تر برای انتخاب */
   font-weight: 600 !important;
 }
+/* === NEW === */
+/* ===== Dark Mode Overrides (place at the very end) ===== */
+:root { color-scheme: light dark; }
+
+/* پوشش همه حالت‌های تم تیره در Gradio/HF */
+html[data-theme="dark"],
+body[data-theme="dark"],
+[data-theme="dark"],
+.dark,
+.dark .gradio-container {
+  /* رنگ‌های پایه */
+  --tb-bg: #0b1220;          /* پس‌زمینه صفحه */
+  --tb-panel: #0f172a;       /* پنل/کارت/جدول */
+  --tb-text: #e5e7eb;        /* متن اصلی */
+  --tb-muted: #94a3b8;       /* متن کم‌رنگ */
+  --tb-border: #263244;      /* مرزها */
+  --tb-border-soft: #1b2533; /* مرز ملایم‌تر */
+  --tb-chip: #1f2937;        /* چیپ غیرفعال */
+  --tb-chip-border: #334155; 
+  --tb-chip-text: #e2e8f0;
+  --tb-chip-active: #4f46e5; /* چیپ فعال */
+  --tb-link: #93c5fd;
+}
+
+/* پس‌زمینه و متن کلی */
+html[data-theme="dark"] body,
+body[data-theme="dark"],
+[data-theme="dark"] .gradio-container,
+.dark .gradio-container {
+  background: var(--tb-bg) !important;
+  color: var(--tb-text) !important;
+}
+
+/* هدرها و تیترها */
+[data-theme="dark"] .main-title,
+.dark .main-title,
+[data-theme="dark"] .hero .main-title,
+.dark .hero .main-title {
+  color: #f8fafc !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+}
+
+/* زیرتیتر */
+[data-theme="dark"] .hero .subtitle,
+.dark .hero .subtitle {
+  color: var(--tb-muted) !important;
+}
+
+/* نوار بالا (اگر نمایش داده شود) */
+[data-theme="dark"] .navbar,
+.dark .navbar {
+  background: linear-gradient(90deg, #0f172a, #111827) !important;
+  border-bottom-color: var(--tb-border) !important;
+}
+
+/* جعبه جستجو */
+[data-theme="dark"] .search-box input,
+.dark .search-box input {
+  background: #0b1220 !important;
+  color: var(--tb-text) !important;
+  border-color: #334155 !important;
+}
+[data-theme="dark"] .search-box input::placeholder,
+.dark .search-box input::placeholder {
+  color: var(--tb-muted) !important;
+}
+[data-theme="dark"] .search-box input:focus,
+.dark .search-box input:focus {
+  border-color: #475569 !important;
+  box-shadow: 0 0 8px rgba(30,58,138,0.25) !important;
+}
+
+/* باکس کلی فیلترها */
+[data-theme="dark"] .filters-box,
+.dark .filters-box,
+[data-theme="dark"] .all-filters-box,
+.dark .all-filters-box {
+  background: var(--tb-panel) !important;
+  border-color: var(--tb-border) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.35) !important;
+}
+
+/* چیپ‌های چک‌باکسی (Quick + Brand) – حالت عادی */
+[data-theme="dark"] .gr-checkbox-group label,
+.dark .gr-checkbox-group label {
+  background: var(--tb-chip) !important;
+  color: var(--tb-chip-text) !important;
+  border-color: var(--tb-chip-border) !important;
+}
+[data-theme="dark"] .gr-checkbox-group label:hover,
+.dark .gr-checkbox-group label:hover {
+  background: #293241 !important;
+  border-color: #3b4a5e !important;
+}
+/* چیپ‌های فعال */
+[data-theme="dark"] .gr-checkbox-group input:checked + label,
+.dark .gr-checkbox-group input:checked + label,
+[data-theme="dark"] [id^="brand_"] input:checked + label,
+.dark [id^="brand_"] input:checked + label {
+  background: var(--tb-chip-active) !important;
+  border-color: var(--tb-chip-active) !important;
+  color: #fff !important;
+  box-shadow: 0 0 0 2px rgba(79,70,229,.25) inset !important;
+}
+
+/* دراپ‌دان کانتکست */
+[data-theme="dark"] .ctx-dd select,
+[data-theme="dark"] .ctx-dd button,
+[data-theme="dark"] .ctx-dd .wrap-inner,
+.dark .ctx-dd select,
+.dark .ctx-dd button,
+.dark .ctx-dd .wrap-inner {
+  background: #0b1220 !important;
+  color: var(--tb-text) !important;
+  border-color: var(--tb-border) !important;
+}
+
+/* جدول‌ها و رپپر */
+[data-theme="dark"] .table-wrapper,
+.dark .table-wrapper {
+  background: var(--tb-panel) !important;
+  border-color: var(--tb-border) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.35) !important;
+}
+[data-theme="dark"] .table-wrapper th,
+[data-theme="dark"] #leaderboard_sbu th,
+[data-theme="dark"] #leaderboard_uq th,
+[data-theme="dark"] #leaderboard_aut th,
+.dark .table-wrapper th,
+.dark #leaderboard_sbu th,
+.dark #leaderboard_uq th,
+.dark #leaderboard_aut th {
+  color: var(--tb-text) !important;
+  border-bottom: 1px solid var(--tb-border) !important;
+  background: transparent !important;
+}
+[data-theme="dark"] .table-wrapper td,
+[data-theme="dark"] #leaderboard_sbu td,
+[data-theme="dark"] #leaderboard_uq td,
+[data-theme="dark"] #leaderboard_aut td,
+.dark .table-wrapper td,
+.dark #leaderboard_sbu td,
+.dark #leaderboard_uq td,
+.dark #leaderboard_aut td {
+  color: var(--tb-text) !important;
+  border-bottom: 1px solid var(--tb-border-soft) !important;
+}
+
+/* ستون مدل */
+[data-theme="dark"] .model-col,
+.dark .model-col {
+  color: #93c5fd !important;
+  font-weight: 700 !important;
+}
+
+/* تب‌ها */
+[data-theme="dark"] .tabs.svelte-1tcem6n button[role="tab"],
+.dark .tabs.svelte-1tcem6n button[role="tab"] {
+  color: var(--tb-muted) !important;
+}
+[data-theme="dark"] .tabs.svelte-1tcem6n button[role="tab"]:hover,
+.dark .tabs.svelte-1tcem6n button[role="tab"]:hover {
+  color: #93c5fd !important;
+}
+[data-theme="dark"] .tabs.svelte-1tcem6n button[role="tab"].selected,
+.dark .tabs.svelte-1tcem6n button[role="tab"].selected {
+  color: #bfdbfe !important;
+  font-weight: 700 !important;
+}
+
+/* اسکرول‌بار – در حالت تیره هم مخفی بماند (اختیاری) */
+[data-theme="dark"] ::-webkit-scrollbar,
+.dark ::-webkit-scrollbar { display: none !important; }
+
+
+
 """
