@@ -61,16 +61,16 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
     #     # </div>
     #     # """)
     with gr.Tab("📊 Benchmarks"):
-    gr.HTML("""
-        <div style='text-align:center; margin-bottom:30px; font-family:"Vazirmatn",sans-serif;'>
-            <h1 class='main-title'>
-                Tarazban Leaderboard<br>
-                <span style='font-size:16px; color:#555; font-weight:400;'>
-                    Interactive Persian NLP Leaderboard — Compare models across multiple benchmarks
-                </span>
-            </h1>
-        </div>
-    """)
+        gr.HTML("""
+            <div style='text-align:center; margin-bottom:30px; font-family:"Vazirmatn",sans-serif;'>
+                <h1 class='main-title'>
+                    Tarazban Leaderboard<br>
+                    <span style='font-size:16px; color:#555; font-weight:400;'>
+                        Interactive Persian NLP Leaderboard — Compare models across multiple benchmarks
+                    </span>
+                </h1>
+            </div>
+        """)
 
 
         # 🔍 Search bar
