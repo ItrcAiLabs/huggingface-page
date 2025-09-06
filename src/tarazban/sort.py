@@ -1,3 +1,4 @@
+import pandas as pd
 def make_sort_func(col, df, table_id, ascending):
     def _ctx_to_int(x):
         if pd.isna(x):
