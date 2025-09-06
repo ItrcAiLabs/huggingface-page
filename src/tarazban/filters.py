@@ -1,5 +1,5 @@
 import pandas as pd
-SMALL_PARAMS_B = 9
+SMALL_PARAMS_B = 14
 from .render import df_to_styled_html
 def add_organization_column(df: pd.DataFrame) -> pd.DataFrame:
     if "Organization" not in df.columns:
