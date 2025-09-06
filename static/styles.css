@@ -263,3 +263,43 @@ body, .gradio-container {
 
 /* ===== Anim helpers ===== */
 .main-title { margin-top: 24px !important; }
+
+/* انتظار: روی هر <td> که عدد دارد کلاس heat-cell و style="--val:0.00..1.00" بگذاریم */
+
+.table-wrapper td.heat-cell {
+  /* مقدار نرمال‌شده بین 0 و 1 */
+  --val: 0;
+
+  /* تم روشن: قرمز → سبز */
+  background: color-mix(
+    in oklab,
+    #ef4444 calc((1 - var(--val)) * 100%),
+    #22c55e calc(var(--val) * 100%)
+  ) !important;
+
+  color: #111827 !important;           /* کنتراست متن در روشن */
+}
+
+/* تم تیره: تون‌های تیره‌تر برای چشم */
+[data-theme="dark"] .table-wrapper td.heat-cell,
+.dark .table-wrapper td.heat-cell {
+  /* کمی ادغام با پنل برای نرمی */
+  background:
+    color-mix(
+      in oklab,
+      #0f172a 30%,
+      color-mix(in oklab, #7f1d1d calc((1 - var(--val)) * 100%), #14532d calc(var(--val) * 100%))
+    ) !important;
+
+  color: #e5e7eb !important;           /* کنتراست متن در تیره */
+}
+
+/* مطمئن شو zebra/hover ردیف‌ها روی heat-cell غلبه نکنند */
+.table-wrapper tbody tr:hover > td.heat-cell { background: inherit !important; }
+.table-wrapper td.heat-cell { background-clip: padding-box !important; }
+
+/* اگر جایی استایل inline روشن مانده بود، برای heat-cell بی‌اثر کن */
+.table-wrapper td.heat-cell[style*="background"] {
+  background: inherit !important;
+  background-color: inherit !important;
+}
