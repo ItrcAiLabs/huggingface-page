@@ -346,3 +346,45 @@ body, .gradio-container {
 .table-wrapper td { border-bottom: 1px solid var(--tb-border-soft) !important; }
 
 .table-wrapper td[style*="linear-gradient"] { outline: 1px dashed #22c55e; }
+
+
+/* 0) هیچ رنگی روی TR نَمُونَد که بتونه روی سلول‌ها بیفته */
+.table-wrapper tbody tr { background: transparent !important; background-color: transparent !important; }
+
+/* 1) هر سلولی که گرادیان اینلاین دارد، دست‌نخورده بماند و خوانا شود (selector مقاوم) */
+.table-wrapper td[style*="linear-gradient" i],
+.table-wrapper td[style*="background-image" i] {
+  /* اگر جای دیگری background روی td ست شده، این‌ها رو خوانا می‌کنیم */
+  background-blend-mode: multiply !important;
+  color: var(--tb-text) !important;
+}
+
+/* 2) «پاک‌کنِ اینلاین» فقط background-color را خنثی کند (نه shorthand) و نه روی گرادیانی‌ها */
+.table-wrapper :is(tr, th, td)[style*="background-color" i]:not([style*="linear-gradient" i]):not([style*="background-image" i]) {
+  background-color: transparent !important;
+}
+/* متن‌های اینلاین روشن هم، فقط وقتی گرادیان نیستند، تم‌پذیر شوند */
+.table-wrapper :is(tr, th, td)[style*="color" i]:not([style*="linear-gradient" i]):not([style*="background-image" i]) {
+  color: var(--tb-text) !important;
+}
+
+/* 3) zebra/hover فقط برای سلول‌های غیرگرادیانی اعمال شود (تا گرادیان پوشانده نشود) */
+.table-wrapper tbody tr:nth-child(odd)  > td:not([style*="linear-gradient" i]):not([style*="background-image" i]) { background-color: var(--tb-row) !important; }
+.table-wrapper tbody tr:nth-child(even) > td:not([style*="linear-gradient" i]):not([style*="background-image" i]) { background-color: var(--tb-row-alt) !important; }
+.table-wrapper tbody tr:hover           > td:not([style*="linear-gradient" i]):not([style*="background-image" i]) { background-color: var(--tb-row-hover) !important; }
+.table-wrapper tr.selected > td:not([style*="linear-gradient" i]):not([style*="background-image" i]),
+.table-wrapper tr.active   > td:not([style*="linear-gradient" i]):not([style*="background-image" i]) { background-color: var(--tb-row-focus) !important; }
+
+/* 4) خوانایی بهتر در تم تیره برای سلول‌های گرادیانی */
+[data-theme="dark"] .table-wrapper td[style*="linear-gradient" i],
+[data-theme="dark"] .table-wrapper td[style*="background-image" i],
+.dark .table-wrapper td[style*="linear-gradient" i],
+.dark .table-wrapper td[style*="background-image" i] {
+  background-color: rgba(15,23,42,0.28) !important; /* لایه‌ی ملایم برای هماهنگی با تیره */
+  background-blend-mode: multiply !important;
+  color: #e5e7eb !important;
+}
+
+/* 5) تستِ موقت: اگر این خط‌چین سبز را دیدی یعنی سلکتور گرادیان درست match شده (بعداً حذفش کن) */
+.table-wrapper td[style*="linear-gradient" i],
+.table-wrapper td[style*="background-image" i] { outline: 1px dashed #22c55e; }
