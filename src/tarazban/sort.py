@@ -1,4 +1,7 @@
 import pandas as pd
+from .render import df_to_styled_html
+
+
 def make_sort_func(col, df, table_id, ascending):
     def _ctx_to_int(x):
         if pd.isna(x):
