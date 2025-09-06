@@ -14,11 +14,6 @@ def ctx_to_int(x):
         return int(float(s))
     except:
         return -1
-def make_pipeline_filter(current_df: pd.DataFrame, table_id: str):
-    def _fn(search_text: str, task_cols: list, quick: list, brands: list, ctx_range: str | None):
-        df1 = apply_quick_filters(current_df, quick or [], brands or [], ctx_range)
-        return filter_table(search_text, task_cols, df1, table_id=table_id)
-    return _fn
 def apply_quick_filters(df: pd.DataFrame, quick: list, brands: list, ctx_range: str | None = None) -> pd.DataFrame:
     out = df.copy()
 
@@ -54,6 +49,12 @@ def apply_quick_filters(df: pd.DataFrame, quick: list, brands: list, ctx_range: 
             elif ctx_range == "500K+":
                 out = out[(v >= 500_000)]
     return out
+def make_pipeline_filter(current_df: pd.DataFrame, table_id: str):
+    def _fn(search_text: str, task_cols: list, quick: list, brands: list, ctx_range: str | None):
+        df1 = apply_quick_filters(current_df, quick or [], brands or [], ctx_range)
+        return filter_table(search_text, task_cols, df1, table_id=table_id)
+    return _fn
+
 # ---------------- Filter ----------------
 def filter_table(search: str, tasks: list, df: pd.DataFrame, table_id: str = "leaderboard") -> str:
     """Filter DataFrame by search term and selected tasks."""
