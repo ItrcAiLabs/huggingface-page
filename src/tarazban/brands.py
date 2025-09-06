@@ -1,7 +1,9 @@
 from pathlib import Path
 import base64, mimetypes
 
-BRANDS_DIR = Path(__file__).parent / "static" / "brands"
+# BRANDS_DIR = Path(__file__).parent / "static" / "brands"
+BRANDS_DIR = Path(__file__).resolve().parents[2] / "static" / "brands"
+
 
 BRAND_ICONS = {
     "OpenAI":    "openai.svg",
