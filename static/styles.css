@@ -1,390 +1,402 @@
-/* ===================== Tarazban – Themeable CSS (Light/Dark) ===================== */
-/* فونت و پایه */
-:root {
-  --tb-bg: #f9fafb;
-  --tb-text: #111827;
-  --tb-muted: #475569;
-
-  --tb-panel: #ffffff;
-  --tb-border: #e5e7eb;
-  --tb-border-soft: #f0f0f0;
-
-  --tb-row: #ffffff;         /* zebra odd */
-  --tb-row-alt: #fbfbfc;     /* zebra even */
-  --tb-row-hover: #f3f6fb;   /* hover */
-  --tb-row-focus: #eaf1ff;   /* selected/active */
-
-  --tb-chip: #f3f4f6;
-  --tb-chip-border: #e5e7eb;
-  --tb-chip-text: #1e293b;
-  --tb-chip-active: #4f46e5;
-
-  --tb-link: #2563eb;
-  --tb-accent-1: #1e3a8a;
-  --tb-accent-2: #3b82f6;
-
-  color-scheme: light;
-}
-
-html[data-theme="dark"],
-body[data-theme="dark"],
-[data-theme="dark"],
-.dark,
-.dark .gradio-container {
-  --tb-bg: #0b1220;
-  --tb-text: #e5e7eb;
-  --tb-muted: #94a3b8;
-
-  --tb-panel: #0f172a;
-  --tb-border: #263244;
-  --tb-border-soft: #1b2533;
-
-  --tb-row: #0f172a;         /* zebra odd */
-  --tb-row-alt: #101a2c;     /* zebra even */
-  --tb-row-hover: #1a2336;   /* hover */
-  --tb-row-focus: #223049;   /* selected/active */
-
-  --tb-chip: #1f2937;
-  --tb-chip-border: #334155;
-  --tb-chip-text: #e2e8f0;
-  --tb-chip-active: #4f46e5;
-
-  --tb-link: #93c5fd;
-  --tb-accent-1: #93c5fd;
-  --tb-accent-2: #60a5fa;
-
-  color-scheme: dark;
-}
-
-/* اگر Gradio/HF data-theme نگذاشت، از ترجیح سیستم استفاده کن */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    color-scheme: dark;
-  }
-}
-
-/* ===== Global ===== */
+# ---------------- Custom CSS ----------------
+CUSTOM_CSS = """
+/* ====== Global ====== */
 body, .gradio-container {
   font-family: 'Raleway','Vazirmatn',sans-serif !important;
-  background: var(--tb-bg) !important;
-  color: var(--tb-text) !important;
-}
-.gradio-container { padding-top: 0 !important; }
-::-webkit-scrollbar { display: none; }
-
-/* ===== Navbar (اختیاری: پنهان) ===== */
-.navbar { display: none !important; }
+  background: #f9fafb !important;
+  color: #111827; }
+/* ====== Navbar ====== */
 .navbar {
-  background: linear-gradient(90deg, var(--tb-accent-1), var(--tb-accent-2));
+  background: linear-gradient(90deg, #1e40af, #2563eb);
   padding: 14px 30px;
-  color: #fff;
-  display: flex; justify-content: space-between; align-items: center;
-  border-bottom: 2px solid var(--tb-accent-1);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; border-bottom: 2px solid #1e3a8a; 
+} 
+.navbar-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+} 
+.navbar-links a {
+  color: white;
+  margin: 0 12px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+} .navbar-links a:hover {
+  text-decoration: underline;
 }
-.navbar-title { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
-.navbar-links a { color: #fff; margin: 0 12px; font-size: 15px; font-weight: 600; text-decoration: none; }
-.navbar-links a:hover { text-decoration: underline; }
-
-/* ===== Titles ===== */
+/* ====== Titles ====== */
 .main-title {
-  text-align: center; font-size: 48px; font-weight: 900; letter-spacing: 1.5px;
-  background: linear-gradient(90deg, var(--tb-accent-1), var(--tb-accent-2));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  margin: 30px 0 10px 0; animation: fadeInDown 1s ease;
-}
-.hero .main-title {
-  font-size: 46px; font-weight: 600; text-align: center; margin: 20px 0 10px 0;
-  font-family: 'Raleway','Vazirmatn',sans-serif; letter-spacing: .5px;
-  color: var(--tb-text) !important; background: none !important;
-  -webkit-background-clip: initial !important; -webkit-text-fill-color: initial !important;
-  animation: fadeInDown 1s ease-out;
+  text-align: center;
+  font-size: 48px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 30px 0 10px 0;
+  animation: fadeInDown 1s ease;
+} @keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .section-title {
-  font-size: 20px !important; font-weight: 600 !important;
-  color: var(--tb-accent-1) !important; margin: 20px 0 10px 0;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: #1e3a8a !important;
+  margin: 20px 0 10px 0;
 }
-.hero .subtitle {
-  font-size: 18px; font-weight: 500; color: var(--tb-muted);
-  text-align: center; margin-top: 12px; line-height: 1.6;
-  font-family: 'Raleway','Vazirmatn',sans-serif;
-  max-width: 700px; margin-left: auto; margin-right: auto;
-  white-space: normal; word-wrap: break-word; letter-spacing: .3px;
-  animation: fadeInUp 1s ease-out;
-}
-@keyframes fadeInDown { from {opacity:0; transform: translateY(-10px);} to {opacity:1; transform: translateY(0);} }
-@keyframes fadeInUp   { from {opacity:0; transform: translateY(10px);}  to {opacity:1; transform: translateY(0);} }
-@keyframes fadeIn     { from {opacity:0; transform: translateY(6px);}   to {opacity:1; transform: translateY(0);} }
-
-/* ===== Search Box ===== */
+/* ====== Search Box ====== */
 .search-box input {
-  background: var(--tb-panel) !important;
-  color: var(--tb-text) !important;
-  border: 2px solid var(--tb-accent-2) !important;
+  border: 2px solid #3b82f6 !important;
   border-radius: 12px !important;
-  padding: 10px 14px !important; font-size: 15px !important;
-  transition: all .25s ease;
+  padding: 10px 14px !important;
+  font-size: 15px !important;
+  transition: all 0.25s ease;
 }
-.search-box input::placeholder { color: var(--tb-muted) !important; }
 .search-box input:focus {
-  border-color: var(--tb-accent-1) !important;
+  border-color: #1e3a8a !important;
   box-shadow: 0 0 8px rgba(30,58,138,0.3);
 }
-
-/* ===== Task Selector / Filters Container ===== */
-.task-box label,
+/* ====== Task Selector ====== */
+.task-box label {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  border-radius: 10px !important;
+  padding: 6px 12px !important;
+  background: #f3f4f6 !important;
+  border: 1px solid #e5e7eb !important;
+  transition: all 0.2s ease;
+} 
+.task-box label:hover {
+  background: #e0e7ff !important;
+  border-color: #3b82f6 !important;
+}
+/* ====== Table ====== */
+.table-wrapper {
+  border: 1px solid #e9ecef !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important;
+  background: #fff !important;
+} 
+.table-wrapper table[border], .table-wrapper table[style*="border"] {
+  border: none !important;
+}
+.table-wrapper table, .table-wrapper thead, .table-wrapper tbody, .table-wrapper tr, .table-wrapper th, .table-wrapper td {
+  border: 0 !important;
+  border-color: #e5e7eb !important;
+}
+.table-wrapper th {
+  border-bottom: 1px solid #e5e7eb !important;
+}
+.table-wrapper td {
+  border-bottom: 1px solid #f0f0f0 !important;
+}
+#leaderboard_sbu, #leaderboard_uq, #leaderboard_aut {
+  border: none !important;
+}
+#leaderboard_sbu th, #leaderboard_uq th, #leaderboard_aut th {
+  border-bottom: 1px solid #e5e7eb !important;
+} 
+#leaderboard_sbu td, #leaderboard_uq td, #leaderboard_aut td {
+  border-bottom: 1px solid #f0f0f0 !important; 
+} 
+.model-col {
+  font-weight: 600; color: #2563eb; 
+} 
+.navbar {
+  display: none !important;
+} 
+.gradio-container {
+  padding-top: 0 !important;
+} 
+.main-title {
+  margin-top: 24px !important;
+}
+.gradio-container [style*="resize"], .gradio-container .svelte-1ipelgc, .gradio-container .svelte-drgfj1 {
+  resize: none !important;
+  overflow: hidden !important;
+} 
+::-webkit-scrollbar {
+  display: none;
+} 
+/* ====== Animation ====== */
+@keyframes fadeIn {
+  from {opacity:0; transform: translateY(6px);}
+  to {opacity:1; transform: translateY(0);}
+}
+/* ===== Quick Filters Container ===== */
+.quick-filters-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 8px 0 12px;
+}
+/* ====== Container: All filters in one box ====== */
+.all-filters-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+/* ====== Pills (Quick + Brand filters) ====== */
+.gr-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.gr-checkbox-group input {
+  display: none;
+}
 .gr-checkbox-group label {
-  font-size: 14px !important; font-weight: 600 !important;
-  border-radius: 10px !important; padding: 6px 12px !important;
-  background: var(--tb-chip) !important; border: 1px solid var(--tb-chip-border) !important;
-  color: var(--tb-chip-text) !important; transition: all .2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: #f3f4f6;
+  color: #1e293b;
+  border: 1px solid #e5e7eb;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all .2s;
+} 
+.gr-checkbox-group label:hover {
+  background: #e0e7ff;
+  border-color: #93c5fd;
 }
-.task-box label:hover,
-.gr-checkbox-group label:hover { background: #e0e7ff22 !important; border-color: var(--tb-accent-2) !important; }
-
-.gr-checkbox-group { display:flex; flex-wrap:wrap; gap:8px; }
-.gr-checkbox-group input { display: none; }
 .gr-checkbox-group input:checked + label {
-  background: var(--tb-chip-active) !important; color: #fff !important; border-color: var(--tb-chip-active) !important;
-  box-shadow: 0 0 0 2px rgba(79,70,229,.25) inset !important;
+  background: #4f46e5;
+  color: #fff;
+  border-color: #4f46e5; 
 }
-
-.quick-filters-wrap { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:8px 0 12px; }
-
-.all-filters-box,
-.filters-box {
-  display:flex; flex-wrap:wrap; gap:10px; padding:12px;
-  border:1px solid var(--tb-border); border-radius:12px;
-  background: var(--tb-panel); box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+/* ====== Context pill (label + dropdown) ====== */ 
+.ctx-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  background: #f9fafb;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  height: 32px;
+} 
+.mini-chip {
+  font-weight: 600;
+  font-size: 12px;
+  color: #334155;
 }
-.filters-box { flex-direction:column; gap:12px; }
-
-/* ===== Brand chips ===== */
-.brand-row { display:flex !important; flex-wrap:wrap !important; gap:6px !important; row-gap:6px !important; margin:0 !important; padding:0 !important; }
-.brand-row > div { margin:0 !important; padding:0 !important; flex:0 0 auto !important; }
-
-[id^="brand_"] input[type="checkbox"] { position:absolute !important; opacity:0 !important; pointer-events:none !important; }
-
+.ctx-range select, .ctx-range button, .ctx-range .wrap-inner {
+  border: none !important
+  background: transparent !important;
+  font-size: 13px !important;
+  height: 26px !important;
+  cursor: pointer !important;
+}
+/* همه‌ی فیلترها داخل یک باکس */ 
+/* باکس کلی فیلترها */
+.filters-box{
+  display:flex;
+  flex-direction:column;
+  /* ستون: ردیف بالا + ردیف پایین */
+  gap:12px;
+  padding:12px;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  background:#fff;
+  box-shadow:0 1px 3px rgba(0,0,0,.04);
+} 
+/* چیپ‌های چک‌باکسی (Quick + Brand) */
+.gr-checkbox-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.gr-checkbox-group input{
+  display:none;
+}
+.gr-checkbox-group label{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 12px;
+  border-radius:9999px;
+  background:#eef2ff;
+  color:#1e293b;
+  border:1px solid #e5e7eb;
+  font-weight:600;
+  font-size:13px;
+  cursor:pointer;
+  transition:.2s;
+} 
+.gr-checkbox-group label:hover{
+  background:#e0e7ff;
+  border-color:#93c5fd;
+}
+.gr-checkbox-group input:checked+label{
+  background:#4f46e5;
+  color:#fff;
+  border-color:#4f46e5;
+}
+/* استایل لیبل Dropdown کانتکست */
+.ctx-dd label{
+  font-weight:600;
+  font-size:13px;
+  color:#334155;
+  margin-bottom:2px;
+}
+.ctx-dd select, .ctx-dd button, .ctx-dd .wrap-inner{
+  border:1px solid #e5e7eb !important;
+  border-radius:8px !important;
+  padding:4px 8px !important;
+  font-size:13px !important;
+  background:#f9fafb !important; 
+  cursor:pointer !important;
+} 
+/* ==== Brand chips (Clean) ==== */
+/* ردیف برندها کنار هم */
+.brand-row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  row-gap: 6px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.brand-row > div {
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 0 0 auto !important;
+}
+/* مخفی کردن مربع چک‌باکس پیش‌فرض */
+[id^="brand_"] input[type="checkbox"] {
+  position: absolute !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+/* ظاهر پایهٔ چیپ */ 
 [id^="brand_"] label {
-  position: relative !important; display:inline-flex !important; align-items:center !important; gap:6px !important;
-  padding: 6px 10px 6px 42px !important; border-radius: 9999px !important;
-  background: #e0f2fe !important; color:#0369a1 !important; border:1px solid #bae6fd !important;
-  font-weight:600 !important; font-size:13px !important; cursor:pointer !important;
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 6px 10px 6px 42px !important;
+  /* جا برای لوگو سمت چپ */ 
+  border-radius: 9999px !important;
+  background: #e0f2fe !important;
+  color: #0369a1 !important;
+  border: 1px solid #bae6fd !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
   transition: background .2s, border-color .2s, color .2s, box-shadow .2s !important;
 }
-[id^="brand_"] label:hover { background:#bae6fd !important; border-color:#7dd3fc !important; }
+[id^="brand_"] label:hover {
+  background: #bae6fd !important;
+  border-color: #7dd3fc !important;
+}
+/* جای لوگو (خودِ تصویر در make_brand_chip_css_by_id() ست می‌شود) */
 [id^="brand_"] label::before {
-  content:"" !important; position:absolute !important; left:12px !important; top:50% !important; transform:translateY(-50%) !important;
-  width:20px !important; height:20px !important; background-size:contain !important; background-repeat:no-repeat !important; background-position:center !important;
+  content: "" !important;
+  position: absolute !important;
+  left: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 20px !important;
+  height: 20px !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
 }
-[id^="brand_"] input:checked + label {
-  background:#0ea5e9 !important; color:#fff !important; border-color:#0284c7 !important;
-  box-shadow: 0 0 0 2px rgba(2,132,199,.25) inset !important;
+/* حالت انتخاب‌شده — رنگ چیپ پررنگ شود */ 
+[id^="brand_"] label:has(input:checked) {
+  background: #0ea5e9 !important
+  color: #fff !important;
+border-color: #0284c7 !important;
+box-shadow: 0 0 0 2px rgba(2,132,199,.25) inset !important;
 }
-/* لوگوها در تم تیره کمی متعادل شوند */
-[data-theme="dark"] [id^="brand_"] label::before { filter: brightness(.95) contrast(1.05); }
-
-/* ===== Tabs ===== */
+/* === Main Title (مشکی ساده با انیمیشن) === */
+.hero .main-title {
+  font-size: 46px;
+  font-weight: 600
+  text-align: center;
+  margin: 20px 0 10px 0;
+  font-family: 'Raleway','Vazirmatn',sans-serif;
+  letter-spacing: 0.5px;
+  color: #000 !important;
+  /* سیاه کامل */ 
+  background: none !important;
+  /* گرادیان قبلی حذف بشه */
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+  animation: fadeInDown 1s ease-out;
+}
+/* === Subtitle (خاکستری، دو خطه با انیمیشن) === */
+.hero .subtitle {
+  font-size: 18px;
+  font-weight: 500;
+  color: #4b5563;
+  /* خاکستری مدرن */ 
+  text-align: center;
+  margin-top: 12px;
+  line-height: 1.6;
+  font-family: 'Raleway','Vazirmatn',sans-serif; max-width: 700px;
+  /* محدود کردن عرض برای شکستن به خط دوم */
+  margin-left: auto;
+  margin-right: auto;
+  white-space: normal;
+  word-wrap: break-word;
+  letter-spacing: 0.3px;
+  animation: fadeInUp 1s ease-out;
+}
+/* ==== انیمیشن‌ها ==== */ 
+@keyframes fadeInDown {
+  from {opacity: 0; transform: translateY(-10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+@keyframes fadeInUp {
+  from {opacity: 0; transform: translateY(10px);} 
+  to {opacity: 1; transform: translateY(0);}
+}
+/* ===== Tabs Styling (Minimal Elegant, No underline) ===== */ 
 .tabs.svelte-1tcem6n {
-  display:flex !important; justify-content:center !important; gap:20px !important; margin:20px 0 !important; border:none !important;
-}
-.tabs.svelte-1tcem6n button[role="tab"] {
-  font-family:'Vazirmatn','Raleway',sans-serif !important; font-size:15px !important; font-weight:500 !important;
-  padding:8px 4px !important; background:transparent !important; color:var(--tb-muted) !important;
-  border:none !important; border-radius:0 !important; cursor:pointer !important; transition: color .2s ease;
-}
-.tabs.svelte-1tcem6n button[role="tab"]:hover { color: var(--tb-link) !important; }
-.tabs.svelte-1tcem6n button[role="tab"].selected { color: var(--tb-link) !important; font-weight:700 !important; }
-
-/* ===== Table ===== */
-.table-wrapper {
-  border: 1px solid var(--tb-border) !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important;
-  background: var(--tb-panel) !important; border-radius: 10px;
-  overflow: hidden;
-}
-/* حذف مرزهای سخت */
-.table-wrapper table[border],
-.table-wrapper table[style*="border"] { border: none !important; }
-/* یکدست‌سازی رنگ و مرز */
-.table-wrapper table,
-.table-wrapper thead,
-.table-wrapper tbody,
-.table-wrapper tr,
-.table-wrapper th,
-.table-wrapper td {
-  border: 0 !important; color: var(--tb-text) !important;
-}
-.table-wrapper th { border-bottom: 1px solid var(--tb-border) !important; background: transparent !important; }
-.table-wrapper td { border-bottom: 1px solid var(--tb-border-soft) !important; }
-
-/* لیست‌های شناسه‌دار */
-#leaderboard_sbu, #leaderboard_uq, #leaderboard_aut { border: none !important; }
-#leaderboard_sbu th, #leaderboard_uq th, #leaderboard_aut th { border-bottom: 1px solid var(--tb-border) !important; }
-#leaderboard_sbu td, #leaderboard_uq td, #leaderboard_aut td { border-bottom: 1px solid var(--tb-border-soft) !important; }
-
-/* ستون مدل */
-.model-col { font-weight: 700; color: var(--tb-link) !important; }
-
-/* ===== Zebra, Hover, Selected ===== */
-.table-wrapper tbody tr:nth-child(odd)  { background: var(--tb-row) !important; }
-.table-wrapper tbody tr:nth-child(even) { background: var(--tb-row-alt) !important; }
-.table-wrapper tbody tr:hover           { background: var(--tb-row-hover) !important; }
-.table-wrapper tbody tr:hover > td      { background: transparent !important; } /* رنگ از <tr> بیاید */
-
-/* سطر انتخاب‌شده/فعال */
-.table-wrapper tr.selected,
-.table-wrapper tr.active { background: var(--tb-row-focus) !important; }
-
-/* ===== نابودگر استایل‌های inline روشن از Pandas/Gradio ===== */
-.table-wrapper :is(table, thead, tbody, tr, th, td)[style*="background"] {
-  background: transparent !important; background-color: transparent !important;
-}
-.table-wrapper :is(tr, th, td)[style*="color"] { color: var(--tb-text) !important; }
-
-/* ===== ردیف‌های فیلتر/کم‌رنگ شده ===== */
-.table-wrapper tr.filtered,
-.table-wrapper tr.is-filtered,
-.table-wrapper tr.dim,
-.table-wrapper tr.dimmed,
-.table-wrapper tr.muted-row,
-.table-wrapper tr.inactive,
-.table-wrapper tr[data-state="filtered"] {
-  background: color-mix(in oklab, var(--tb-row) 70%, black 30%) !important;
-  color: var(--tb-muted) !important;
-  opacity: 1 !important; filter: none !important;
-}
-
-/* ===== Misc ===== */
-.gradio-container [style*="resize"],
-.gradio-container .svelte-1ipelgc,
-.gradio-container .svelte-drgfj1 {
-  resize: none !important; overflow: hidden !important;
-}
-
-/* ===== Anim helpers ===== */
-.main-title { margin-top: 24px !important; }
-
-/* انتظار: روی هر <td> که عدد دارد کلاس heat-cell و style="--val:0.00..1.00" بگذاریم */
-
-.table-wrapper td.heat-cell {
-  /* مقدار نرمال‌شده بین 0 و 1 */
-  --val: 0;
-
-  /* تم روشن: قرمز → سبز */
-  background: color-mix(
-    in oklab,
-    #ef4444 calc((1 - var(--val)) * 100%),
-    #22c55e calc(var(--val) * 100%)
-  ) !important;
-
-  color: #111827 !important;           /* کنتراست متن در روشن */
-}
-
-/* تم تیره: تون‌های تیره‌تر برای چشم */
-[data-theme="dark"] .table-wrapper td.heat-cell,
-.dark .table-wrapper td.heat-cell {
-  /* کمی ادغام با پنل برای نرمی */
-  background:
-    color-mix(
-      in oklab,
-      #0f172a 30%,
-      color-mix(in oklab, #7f1d1d calc((1 - var(--val)) * 100%), #14532d calc(var(--val) * 100%))
-    ) !important;
-
-  color: #e5e7eb !important;           /* کنتراست متن در تیره */
-}
-
-/* مطمئن شو zebra/hover ردیف‌ها روی heat-cell غلبه نکنند */
-.table-wrapper tbody tr:hover > td.heat-cell { background: inherit !important; }
-.table-wrapper td.heat-cell { background-clip: padding-box !important; }
-
-/* اگر جایی استایل inline روشن مانده بود، برای heat-cell بی‌اثر کن */
-.table-wrapper td.heat-cell[style*="background"] {
-  background: inherit !important;
-  background-color: inherit !important;
-}
-
-
-/* ===== KEEP inline gradients from Python (append at the VERY end) ===== */
-
-/* 1) نابودگر inline فقط برای مواردی که گرادیان نیستند */
-.table-wrapper :is(tr, th, td)[style*="background"]:not([style*="linear-gradient"]) {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 20px !important;
+  margin: 20px 0 !important;
+  border: none !important;
+  /* بدون خط زیر تب‌ها */
+} 
+.tabs.svelte-1tcem6n button[role="tab"] { 
+  font-family: 'Vazirmatn','Raleway',sans-serif !important; 
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  padding: 8px 4px !important;
   background: transparent !important;
-  background-color: transparent !important;
+  color: #374151 !important;
+  /* خاکستری تیره */
+  border: none !important;
+  border-radius: 0 !important; 
+  cursor: pointer !important;
+  transition: color .2s ease;
 }
-.table-wrapper :is(tr, th, td)[style*="color"]:not([style*="linear-gradient"]) {
-  color: var(--tb-text) !important;
-}
-
-/* 2) Zebra/Hover فقط روی سلول‌هایی که گرادیان ندارند */
-.table-wrapper tbody tr:nth-child(odd)  > td:not([style*="linear-gradient"]) { background-color: var(--tb-row) !important; }
-.table-wrapper tbody tr:nth-child(even) > td:not([style*="linear-gradient"]) { background-color: var(--tb-row-alt) !important; }
-.table-wrapper tbody tr:hover           > td:not([style*="linear-gradient"]) { background-color: var(--tb-row-hover) !important; }
-.table-wrapper tr.selected > td:not([style*="linear-gradient"]),
-.table-wrapper tr.active   > td:not([style*="linear-gradient"]) { background-color: var(--tb-row-focus) !important; }
-
-/* 3) خوانایی گرادیان‌ها در تم‌ها */
-:root .table-wrapper td[style*="linear-gradient"] {
-  color: #111827 !important; /* روشن */
-  background-clip: padding-box !important;
-}
-[data-theme="dark"] .table-wrapper td[style*="linear-gradient"],
-.dark .table-wrapper td[style*="linear-gradient"] {
-  /* لایه‌ی تیرهٔ ملایم + blend تا گرادیان با تم تیره هماهنگ شود */
-  background-color: rgba(15,23,42,0.28) !important;
-  background-blend-mode: multiply !important;
-  color: #e5e7eb !important; /* متن روشن در تیره */
-}
-
-/* 4) هنگام هاور، گرادیان دست‌نخورده بماند */
-.table-wrapper tbody tr:hover > td[style*="linear-gradient"] {
-  background-color: rgba(15,23,42,0.18) !important; /* فقط تاکید ملایم */
-  background-blend-mode: multiply !important;
-}
-
-/* 5) مرزها ثابت بمانند */
-.table-wrapper td { border-bottom: 1px solid var(--tb-border-soft) !important; }
-
-.table-wrapper td[style*="linear-gradient"] { outline: 1px dashed #22c55e; }
-
-
-/* 0) هیچ رنگی روی TR نَمُونَد که بتونه روی سلول‌ها بیفته */
-.table-wrapper tbody tr { background: transparent !important; background-color: transparent !important; }
-
-/* 1) هر سلولی که گرادیان اینلاین دارد، دست‌نخورده بماند و خوانا شود (selector مقاوم) */
-.table-wrapper td[style*="linear-gradient" i],
-.table-wrapper td[style*="background-image" i] {
-  /* اگر جای دیگری background روی td ست شده، این‌ها رو خوانا می‌کنیم */
-  background-blend-mode: multiply !important;
-  color: var(--tb-text) !important;
-}
-
-/* 2) «پاک‌کنِ اینلاین» فقط background-color را خنثی کند (نه shorthand) و نه روی گرادیانی‌ها */
-.table-wrapper :is(tr, th, td)[style*="background-color" i]:not([style*="linear-gradient" i]):not([style*="background-image" i]) {
-  background-color: transparent !important;
-}
-/* متن‌های اینلاین روشن هم، فقط وقتی گرادیان نیستند، تم‌پذیر شوند */
-.table-wrapper :is(tr, th, td)[style*="color" i]:not([style*="linear-gradient" i]):not([style*="background-image" i]) {
-  color: var(--tb-text) !important;
-}
-
-/* 3) zebra/hover فقط برای سلول‌های غیرگرادیانی اعمال شود (تا گرادیان پوشانده نشود) */
-.table-wrapper tbody tr:nth-child(odd)  > td:not([style*="linear-gradient" i]):not([style*="background-image" i]) { background-color: var(--tb-row) !important; }
-.table-wrapper tbody tr:nth-child(even) > td:not([style*="linear-gradient" i]):not([style*="background-image" i]) { background-color: var(--tb-row-alt) !important; }
-.table-wrapper tbody tr:hover           > td:not([style*="linear-gradient" i]):not([style*="background-image" i]) { background-color: var(--tb-row-hover) !important; }
-.table-wrapper tr.selected > td:not([style*="linear-gradient" i]):not([style*="background-image" i]),
-.table-wrapper tr.active   > td:not([style*="linear-gradient" i]):not([style*="background-image" i]) { background-color: var(--tb-row-focus) !important; }
-
-/* 4) خوانایی بهتر در تم تیره برای سلول‌های گرادیانی */
-[data-theme="dark"] .table-wrapper td[style*="linear-gradient" i],
-[data-theme="dark"] .table-wrapper td[style*="background-image" i],
-.dark .table-wrapper td[style*="linear-gradient" i],
-.dark .table-wrapper td[style*="background-image" i] {
-  background-color: rgba(15,23,42,0.28) !important; /* لایه‌ی ملایم برای هماهنگی با تیره */
-  background-blend-mode: multiply !important;
-  color: #e5e7eb !important;
-}
-
-/* 5) تستِ موقت: اگر این خط‌چین سبز را دیدی یعنی سلکتور گرادیان درست match شده (بعداً حذفش کن) */
-.table-wrapper td[style*="linear-gradient" i],
-.table-wrapper td[style*="background-image" i] { outline: 1px dashed #22c55e; }
+/* هاور */
+.tabs.svelte-1tcem6n button[role="tab"]:hover { 
+  color: #2563eb !important;
+  /* آبی ملایم هنگام هاور */ }
+/* تب فعال */ 
+.tabs.svelte-1tcem6n button[role="tab"].selected {
+  color: #1d4ed8 !important;
+  /* آبی پررنگ‌تر برای انتخاب */
+  font-weight: 600 !important; 
+} 
+"""
