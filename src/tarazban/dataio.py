@@ -37,7 +37,9 @@ TASK_GROUPS = {
         "ARC_easy",
         "ARC_challenge",
     ],
-    "AUT": []
+    "AUT": [
+        "AUT_squad"
+    ]
 }
 # ---------------- Load Data ----------------
 def load_all_data(path: str):
