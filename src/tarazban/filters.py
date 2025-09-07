@@ -1,14 +1,31 @@
 import pandas as pd
 SMALL_PARAMS_B = 14
 from .render import df_to_styled_html
+# def add_organization_column(df: pd.DataFrame) -> pd.DataFrame:
+#     if "Organization" not in df.columns:
+#         df["Organization"] = df["Model"].apply(
+#             lambda m: str(m).split("/")[0].lower() if "/" in str(m) else str(m).lower()
+#         )
+#         df["Brand"] = df["Organization"].map(lambda o: ORG_TO_BRAND.get(o, o.title()))
+#         df["OpenSource"] = df["Organization"].map(lambda o: OPEN_ORGS.get(o, False))
+#     return df
+
 def add_organization_column(df: pd.DataFrame) -> pd.DataFrame:
     if "Organization" not in df.columns:
-        df["Organization"] = df["Model"].apply(
-            lambda m: str(m).split("/")[0].lower() if "/" in str(m) else str(m).lower()
-        )
+        def detect_org(m):
+            m = str(m).lower()
+            if "/" in m:
+                org, rest = m.split("/", 1)
+                if "gemma" in rest:   # 👈 اگر مدل از گوگل باشه ولی اسمش gemma داشته باشه
+                    return "gemma"    # سازمان رو gemma در نظر بگیر
+                return org
+            return m
+
+        df["Organization"] = df["Model"].apply(detect_org)
         df["Brand"] = df["Organization"].map(lambda o: ORG_TO_BRAND.get(o, o.title()))
         df["OpenSource"] = df["Organization"].map(lambda o: OPEN_ORGS.get(o, False))
     return df
+
 ORG_TO_BRAND = {
     "openai": "OpenAI",
     "anthropic": "Anthropic",
