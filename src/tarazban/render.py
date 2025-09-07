@@ -152,7 +152,7 @@ def df_to_styled_html(
                     html += f"<td>{int(value)}</td>"
                 else:
                     bg = value_to_gradient_range(value)
-                    html += f"<td style='background:{bg} !important;'>{value:.1f}</td>"
+                    html += f"<td style='background:{bg};'>{value:.1f}</td>"
             else:
                 if col == "Model":
                     html += f"<td class='model-col'>{value}</td>"
