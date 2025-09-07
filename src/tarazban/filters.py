@@ -48,7 +48,7 @@ ORG_TO_BRAND = {
     "tiiuae" : "Falcon",
     "01-ai" : "Yi",
     "mistralai" :"Mistral AI",
-    "PartAI"     : "Part DP AI"
+    "partai"     : "Part DP AI"
 }
 
 OPEN_ORGS = {
@@ -73,7 +73,7 @@ OPEN_ORGS = {
     "tiiuae" : True,
     "01-ai" : True,
     "mistralai" :True,
-    "PartAI"     : True
+    "partai"     : True
 }
 
 def ctx_to_int(x):
