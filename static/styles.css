@@ -39,7 +39,8 @@ body, .gradio-container {
   -webkit-text-fill-color: transparent;
   margin: 30px 0 10px 0;
   animation: fadeInDown 1s ease;
-} @keyframes fadeInDown {
+} 
+@keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
 }
@@ -206,8 +207,7 @@ body, .gradio-container {
 /* باکس کلی فیلترها */
 .filters-box{
   display:flex;
-  flex-direction:column;
-  /* ستون: ردیف بالا + ردیف پایین */
+  flex-direction:column; /* ستون: ردیف بالا + ردیف پایین */
   gap:12px;
   padding:12px;
   border:1px solid #e5e7eb;
@@ -289,8 +289,7 @@ body, .gradio-container {
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
-  padding: 6px 10px 6px 42px !important;
-  /* جا برای لوگو سمت چپ */ 
+  padding: 6px 10px 6px 42px !important; /* جا برای لوگو سمت چپ */ 
   border-radius: 9999px !important;
   background: #e0f2fe !important;
   color: #0369a1 !important;
@@ -332,10 +331,8 @@ box-shadow: 0 0 0 2px rgba(2,132,199,.25) inset !important;
   margin: 20px 0 10px 0;
   font-family: 'Raleway','Vazirmatn',sans-serif;
   letter-spacing: 0.5px;
-  color: #000 !important;
-  /* سیاه کامل */ 
-  background: none !important;
-  /* گرادیان قبلی حذف بشه */
+  color: #000 !important; /* سیاه کامل */ 
+  background: none !important; /* گرادیان قبلی حذف بشه */
   -webkit-background-clip: initial !important;
   -webkit-text-fill-color: initial !important;
   animation: fadeInDown 1s ease-out;
@@ -344,13 +341,11 @@ box-shadow: 0 0 0 2px rgba(2,132,199,.25) inset !important;
 .hero .subtitle {
   font-size: 18px;
   font-weight: 500;
-  color: #4b5563;
-  /* خاکستری مدرن */ 
+  color: #4b5563; /* خاکستری مدرن */ 
   text-align: center;
   margin-top: 12px;
   line-height: 1.6;
-  font-family: 'Raleway','Vazirmatn',sans-serif; max-width: 700px;
-  /* محدود کردن عرض برای شکستن به خط دوم */
+  font-family: 'Raleway','Vazirmatn',sans-serif; max-width: 700px; /* محدود کردن عرض برای شکستن به خط دوم */
   margin-left: auto;
   margin-right: auto;
   white-space: normal;
@@ -373,8 +368,7 @@ box-shadow: 0 0 0 2px rgba(2,132,199,.25) inset !important;
   justify-content: center !important;
   gap: 20px !important;
   margin: 20px 0 !important;
-  border: none !important;
-  /* بدون خط زیر تب‌ها */
+  border: none !important; /* بدون خط زیر تب‌ها */
 } 
 .tabs.svelte-1tcem6n button[role="tab"] { 
   font-family: 'Vazirmatn','Raleway',sans-serif !important; 
@@ -382,8 +376,7 @@ box-shadow: 0 0 0 2px rgba(2,132,199,.25) inset !important;
   font-weight: 500 !important;
   padding: 8px 4px !important;
   background: transparent !important;
-  color: #374151 !important;
-  /* خاکستری تیره */
+  color: #374151 !important; /* خاکستری تیره */
   border: none !important;
   border-radius: 0 !important; 
   cursor: pointer !important;
