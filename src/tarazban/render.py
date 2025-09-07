@@ -139,7 +139,7 @@ def df_to_styled_html(
     if "Model" in df.columns:
         def linkify(m):
             if isinstance(m, str) and "/" in m:
-                if m.lower().startswith(("openai/", "anthropic/", "google/")):
+                if m.lower().startswith(("openai/", "anthropic/", "google/gemini")):
                     return str(m)
                 return f"<a href='https://huggingface.co/{m}' target='_blank'>{m}</a>"
             return str(m)
