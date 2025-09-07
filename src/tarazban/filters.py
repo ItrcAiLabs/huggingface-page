@@ -46,8 +46,8 @@ ORG_TO_BRAND = {
     "mehdihosseinimoghadam": "Independent",
     "maralgpt": "Independent",
     "tiiuae" : "Falcon",
-    "01-ai" : "Yi"
-    "mistralai" :"Mistral AI"
+    "01-ai" : "Yi",
+    "mistralai" :"Mistral AI",
     "PartAI"     : "Part DP AI"
 }
 
