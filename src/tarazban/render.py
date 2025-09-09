@@ -298,13 +298,13 @@ def df_to_styled_html(
     df = df.dropna(how="all", subset=task_columns)
     df = df[~df[task_columns].apply(lambda row: all(str(v) in ["--", "nan", "NaN"] for v in row), axis=1)]
 
-    hidden_cols = ["Organization", "Open Source", "Brand"]
+    hidden_cols = ["Organization", "OpenSource", "Brand"]
     df = df[[c for c in df.columns if c not in hidden_cols]]
     
     if "Model" in df.columns:
         def linkify(m):
             if isinstance(m, str) and "/" in m:
-                if m.lower().startswith(("openai/", "anthropic/", "google/")):
+                if m.lower().startswith(("openai/", "anthropic/", "google/gemma")):
                     return str(m)
                 return f"<a href='https://huggingface.co/{m}' target='_blank'>{m}</a>"
             return str(m)
