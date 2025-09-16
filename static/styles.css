@@ -1,27 +1,207 @@
-# ---------------- Custom CSS ----------------
 CUSTOM_CSS = """
-/* ====== Global ====== */
-body, .gradio-container {
-  font-family: 'Raleway','Vazirmatn',sans-serif !important;
-  background: #f9fafb !important;
-  color: #111827; 
-} 
+/* ---------------- Theme variables (light = default) ---------------- */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&family=Vazirmatn:wght@400;600&family=Poppins:wght@500;700&display=swap');
 
-/* ====== Navbar ====== */
+:root {
+  /* Typography & global */
+  --font-family: 'Raleway','Vazirmatn',sans-serif;
+  --bg: #f9fafb;
+  --text: #111827;
+
+  /* Primary / accents */
+  --primary-500: #2563eb;
+  --primary-600: #1e40af;
+  --primary-400: #3b82f6;
+  --primary-300: #93c5fd;
+  --primary-700: #1e3a8a;
+
+  /* Neutral / surfaces */
+  --surface-100: #ffffff;
+  --surface-200: #f3f4f6;
+  --muted-border: #e5e7eb;
+  --muted-border-2: #e9ecef;
+  --row-divider: #f0f0f0;
+  --muted-text: #334155;
+  --muted-text-2: #4b5563;
+  --chip-bg: #eef2ff;
+
+  /* Brand chips */
+  --brand-chip-bg: #e0f2fe;
+  --brand-chip-border: #bae6fd;
+  --brand-chip-color: #0369a1;
+  --brand-chip-selected-bg: #0ea5e9;
+  --brand-chip-selected-border: #0284c7;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-subtle: 0 1px 2px rgba(0,0,0,0.04);
+
+  /* Navbar */
+  --navbar-gradient-start: var(--primary-600);
+  --navbar-gradient-end: var(--primary-500);
+  --navbar-border: var(--primary-700);
+}
+
+/* ---------------- Dark theme overrides (use by adding .theme-dark on body) ---------------- */
+.theme-dark {
+  --bg: #0b1220;
+  --text: #e6eef8;
+
+  --primary-500: #60a5fa;
+  --primary-600: #3b82f6;
+  --primary-400: #93c5fd;
+  --primary-300: #bfdbfe;
+  --primary-700: #1e3a8a;
+
+  --surface-100: #0f1724;
+  --surface-200: #071022;
+  --muted-border: #1f2937;
+  --muted-border-2: #111827;
+  --row-divider: #172033;
+  --muted-text: #cbd5e1;
+  --muted-text-2: #94a3b8;
+  --chip-bg: #0b1624;
+
+  --brand-chip-bg: #062b3f;
+  --brand-chip-border: #074b67;
+  --brand-chip-color: #9ad8f5;
+  --brand-chip-selected-bg: #0891b2;
+  --brand-chip-selected-border: #036977;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.6);
+  --shadow-subtle: 0 1px 2px rgba(0,0,0,0.6);
+
+  --navbar-gradient-start: #0f1724;
+  --navbar-gradient-end: #08203a;
+  --navbar-border: #031024;
+}
+
+html.theme-dark,
+body.theme-dark,
+html.theme-dark .gradio-container,
+body.theme-dark .gradio-container,
+.theme-dark .gradio-container {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+html.theme-dark,
+body.theme-dark {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+.theme-dark .hero .main-title {
+  color: var(--text) !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+}
+.theme-dark .hero .subtitle {
+  color: var(--muted-text) !important;
+}
+
+.theme-dark .tabs.svelte-1tcem6n button[role="tab"] {
+  color: var(--muted-text) !important;
+}
+.theme-dark .tabs.svelte-1tcem6n button[role="tab"]:hover {
+  color: var(--primary-300) !important;
+}
+.theme-dark .tabs.svelte-1tcem6n button[role="tab"].selected {
+  color: var(--primary-500) !important;
+}
+
+.theme-dark .gr-checkbox-group label {
+  background: transparent !important;
+  color: var(--muted-text) !important;
+  border-color: var(--muted-border) !important;
+  box-shadow: none !important;
+}
+.theme-dark .gr-checkbox-group label:hover {
+  background: rgba(99,102,241,0.08) !important; /* subtle bluish hover */
+  border-color: var(--primary-300) !important;
+}
+.theme-dark .gr-checkbox-group input:checked + label {
+  background: #4f46e5 !important; /* keep selected visual consistent */
+  color: #fff !important;
+  border-color: #4f46e5 !important;
+}
+
+.theme-dark [id^="brand_"] label {
+  background: var(--brand-chip-bg) !important;
+  color: var(--brand-chip-color) !important;
+  border-color: var(--brand-chip-border) !important;
+}
+.theme-dark [id^="brand_"] label:hover {
+  background: var(--brand-chip-border) !important;
+}
+.theme-dark [id^="brand_"] label:has(input:checked) {
+  background: var(--brand-chip-selected-bg) !important;
+  color: #fff !important;
+  border-color: var(--brand-chip-selected-border) !important;
+}
+
+.theme-dark .all-filters-box,
+.theme-dark .filters-box,
+.theme-dark .table-wrapper {
+  background: var(--surface-100) !important;
+  border: 1px solid var(--muted-border) !important;
+  box-shadow: var(--shadow-sm) !important;
+  color: var(--text) !important;
+}
+
+.theme-dark .table-wrapper th {
+  border-bottom: 1px solid var(--muted-border) !important;
+}
+.theme-dark .table-wrapper td {
+  border-bottom: 1px solid var(--row-divider) !important;
+}
+
+.theme-dark .search-box input,
+.theme-dark .ctx-dd select,
+.theme-dark .ctx-dd button,
+.theme-dark .ctx-dd .wrap-inner {
+  background: var(--surface-200) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--muted-border) !important;
+}
+
+.theme-dark .ctx-filter-pill,
+.theme-dark .mini-chip {
+  color: var(--muted-text) !important;
+}
+
+.theme-dark .model-col {
+  color: var(--primary-300) !important;
+}
+
+.theme-dark .navbar { color: white !important; }
+
+.theme-dark ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); }
+.theme-dark ::-webkit-scrollbar-track { background: transparent; }
+
+/* ---------------- Global ---------------- */
+body, .gradio-container {
+  font-family: var(--font-family) !important;
+  background: var(--bg) !important;
+  color: var(--text);
+}
+
+/* ---------------- Navbar ---------------- */
 .navbar {
-  background: linear-gradient(90deg, #1e40af, #2563eb);
+  background: linear-gradient(90deg, var(--navbar-gradient-start), var(--navbar-gradient-end));
   padding: 14px 30px;
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid #1e3a8a;
+  border-bottom: 2px solid var(--navbar-border);
 }
 .navbar-title {
   font-size: 22px;
   font-weight: 700;
   letter-spacing: 1px;
-} 
+}
 .navbar-links a {
   color: white;
   margin: 0 12px;
@@ -29,17 +209,15 @@ body, .gradio-container {
   font-weight: 600;
   text-decoration: none;
 }
-.navbar-links a:hover {
-  text-decoration: underline;
-}
+.navbar-links a:hover { text-decoration: underline; }
 
-/* ====== Titles ====== */
+/* ---------------- Titles ---------------- */
 .main-title {
   text-align: center;
   font-size: 48px;
   font-weight: 900;
   letter-spacing: 1.5px;
-  background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+  background: linear-gradient(90deg, var(--primary-700), var(--primary-400));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin: 30px 0 10px 0;
@@ -47,99 +225,85 @@ body, .gradio-container {
 }
 @keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
-} 
+  to   { opacity: 1; transform: translateY(0); }
+}
 .section-title {
   font-size: 20px !important;
   font-weight: 600 !important;
-  color: #1e3a8a !important;
+  color: var(--primary-700) !important;
   margin: 20px 0 10px 0;
 }
 
-/* ====== Search Box ====== */ 
+/* ---------------- Search Box ---------------- */
 .search-box input {
-  border: 2px solid #3b82f6 !important;
+  border: 2px solid var(--primary-400) !important;
   border-radius: 12px !important;
   padding: 10px 14px !important;
   font-size: 15px !important;
   transition: all 0.25s ease;
 }
 .search-box input:focus {
-  border-color: #1e3a8a !important;
+  border-color: var(--primary-700) !important;
   box-shadow: 0 0 8px rgba(30,58,138,0.3);
 }
 
-/* ====== Task Selector ====== */ 
+/* ---------------- Task Selector ---------------- */
 .task-box label {
   font-size: 14px !important;
   font-weight: 500 !important;
   border-radius: 10px !important;
   padding: 6px 12px !important;
-  background: #f3f4f6 !important;
-  border: 1px solid #e5e7eb !important;
+  background: var(--surface-200) !important;
+  border: 1px solid var(--muted-border) !important;
   transition: all 0.2s ease;
 }
-.task-box label:hover { 
-  background: #e0e7ff !important;
-  border-color: #3b82f6 !important;
+.task-box label:hover {
+  background: var(--primary-300) !important;
+  border-color: var(--primary-400) !important;
 }
 
-/* ====== Table ====== */ 
+/* ---------------- Table ---------------- */
 .table-wrapper {
-  border: 1px solid #e9ecef !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important;
-  background: #fff !important;
-} 
-.table-wrapper table[border], .table-wrapper table[style*="border"] {
-  border: none !important;
+  border: 1px solid var(--muted-border-2) !important;
+  box-shadow: var(--shadow-sm) !important;
+  background: var(--surface-100) !important;
 }
+.table-wrapper table[border], .table-wrapper table[style*="border"] { border: none !important; }
 .table-wrapper table, .table-wrapper thead, .table-wrapper tbody, .table-wrapper tr, .table-wrapper th, .table-wrapper td {
   border: 0 !important;
-  border-color: #e5e7eb !important;
+  border-color: var(--muted-border) !important;
 }
-.table-wrapper th {
-  border-bottom: 1px solid #e5e7eb !important;
+.table-wrapper th { border-bottom: 1px solid var(--muted-border) !important; }
+.table-wrapper td { border-bottom: 1px solid var(--row-divider) !important; }
+
+#leaderboard_sbu, #leaderboard_uq, #leaderboard_aut { border: none !important; }
+#leaderboard_sbu th, #leaderboard_uq th, #leaderboard_aut th { border-bottom: 1px solid var(--muted-border) !important; }
+#leaderboard_sbu td,  #leaderboard_uq td,  #leaderboard_aut td  { border-bottom: 1px solid var(--row-divider) !important; }
+
+.model-col {
+  font-weight: 600;
+  color: var(--primary-500);
 }
-.table-wrapper td {
-  border-bottom: 1px solid #f0f0f0 !important;
-}
-#leaderboard_sbu, #leaderboard_uq, #leaderboard_aut {
-  border: none !important;
-}
-#leaderboard_sbu th, #leaderboard_uq th, #leaderboard_aut th {
-  border-bottom: 1px solid #e5e7eb !important;
-}
-#leaderboard_sbu td, #leaderboard_uq td, #leaderboard_aut td {
-  border-bottom: 1px solid #f0f0f0 !important;
-}
-.model-col { 
-  font-weight: 600; 
-  color: #2563eb;
-}
-.navbar {
-  display: none !important;
-} 
-.gradio-container {
-  padding-top: 0 !important;
-}
-.main-title {
-  margin-top: 24px !important;
-}
+
+/* preserve existing overrides */
+.navbar { display: none !important; }
+.gradio-container { padding-top: 0 !important; }
+.main-title { margin-top: 24px !important; }
+
+/* prevent resizable UI elements */
 .gradio-container [style*="resize"], .gradio-container .svelte-1ipelgc, .gradio-container .svelte-drgfj1 {
   resize: none !important;
   overflow: hidden !important;
 }
-::-webkit-scrollbar {
-  display: none;
-}
+::-webkit-scrollbar { display: none; }
 
-/* ====== Animation ====== */ 
+/* ---------------- Animations ---------------- */
 @keyframes fadeIn {
-  from {opacity:0; transform: translateY(6px);}
-  to {opacity:1; transform: translateY(0);}
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== Quick Filters Container ===== */ 
+/* ---------------- Quick Filters ---------------- */
 .quick-filters-wrap {
   display: flex;
   flex-wrap: wrap;
@@ -148,44 +312,42 @@ body, .gradio-container {
   margin: 8px 0 12px;
 }
 
-/* ====== Container: All filters in one box ====== */
+/* All filters box */
 .all-filters-box {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   padding: 12px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--muted-border);
   border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-} 
+  background: var(--surface-100);
+  box-shadow: var(--shadow-sm);
+}
 
-/* ====== Pills (Quick + Brand filters) ====== */
+/* Pills (Quick + Brand filters) */
 .gr-checkbox-group {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-} 
-.gr-checkbox-group input {
-  display: none;
-} 
+}
+.gr-checkbox-group input { display: none; }
 .gr-checkbox-group label {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
   border-radius: 9999px;
-  background: #f3f4f6;
+  background: var(--surface-200);
   color: #1e293b;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--muted-border);
   font-weight: 600;
   font-size: 13px;
   cursor: pointer;
   transition: all .2s;
-} 
+}
 .gr-checkbox-group label:hover {
-  background: #e0e7ff;
-  border-color: #93c5fd;
+  background: var(--primary-300);
+  border-color: var(--primary-300);
 }
 .gr-checkbox-group input:checked + label {
   background: #4f46e5;
@@ -193,87 +355,91 @@ body, .gradio-container {
   border-color: #4f46e5;
 }
 
-/* ====== Context pill (label + dropdown) ====== */ 
+/* Context pill (label + dropdown) */
 .ctx-filter-pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 2px 8px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--muted-border);
   border-radius: 9999px;
-  background: #f9fafb;
-  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  background: var(--bg);
+  box-shadow: var(--shadow-subtle);
   height: 32px;
 }
 .mini-chip {
   font-weight: 600;
   font-size: 12px;
-  color: #334155;
+  color: var(--muted-text);
 }
 .ctx-range select, .ctx-range button, .ctx-range .wrap-inner {
-  border: none !important background: transparent !important;
-font-size: 13px !important;
-height: 26px !important;
-cursor: pointer !important;
-}
-/* همه‌ی فیلترها داخل یک باکس */
-/* باکس کلی فیلترها */
-.filters-box {
-  display:flex;
-  flex-direction:column; /* ستون: ردیف بالا + ردیف پایین */ 
-  gap:12px; padding:12px;
-  border:1px solid #e5e7eb;
-  border-radius:12px;
-  background:#fff;
-  box-shadow:0 1px 3px rgba(0,0,0,.04);
-} /* چیپ‌های چک‌باکسی (Quick + Brand) */ 
-.gr-checkbox-group {
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-}
-.gr-checkbox-group input {
-  display:none;
-}
-.gr-checkbox-group label {
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:6px 12px;
-  border-radius:9999px;
-  background:#eef2ff;
-  color:#1e293b;
-  border:1px solid #e5e7eb;
-  font-weight:600;
-  font-size:13px;
-  cursor:pointer;
-  transition:.2s;
-}
-.gr-checkbox-group label:hover {
-  background:#e0e7ff;
-  border-color:#93c5fd;
-} 
-.gr-checkbox-group input:checked+label {
-  background:#4f46e5;
-  color:#fff;
-  border-color:#4f46e5;
-} /* استایل لیبل Dropdown کانتکست */ 
-.ctx-dd label {
-  font-weight:600;
-  font-size:13px;
-  color:#334155;
-  margin-bottom:2px;
-} 
-.ctx-dd select, .ctx-dd button, .ctx-dd .wrap-inner {
-  border:1px solid #e5e7eb !important;
-  border-radius:8px !important;
-  padding:4px 8px !important;
-  font-size:13px !important;
-  background:#f9fafb !important;
-  cursor:pointer !important;
+  border: none !important;
+  background: transparent !important;
+  font-size: 13px !important;
+  height: 26px !important;
+  cursor: pointer !important;
 }
 
-/* ==== Brand chips (Clean) ==== */ /* ردیف برندها کنار هم */ 
+/* Filters box (detailed) */
+.filters-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--muted-border);
+  border-radius: 12px;
+  background: var(--surface-100);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Re-declared gr-checkbox-group styles (kept for compatibility) */
+.gr-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.gr-checkbox-group input { display: none; }
+.gr-checkbox-group label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: var(--chip-bg);
+  color: #1e293b;
+  border: 1px solid var(--muted-border);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: .2s;
+}
+.gr-checkbox-group label:hover {
+  background: var(--primary-300);
+  border-color: var(--primary-300);
+}
+.gr-checkbox-group input:checked + label {
+  background: #4f46e5;
+  color: #fff;
+  border-color: #4f46e5;
+}
+
+/* Context dropdown label */
+.ctx-dd label {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--muted-text);
+  margin-bottom: 2px;
+}
+.ctx-dd select, .ctx-dd button, .ctx-dd .wrap-inner {
+  border: 1px solid var(--muted-border) !important;
+  border-radius: 8px !important;
+  padding: 4px 8px !important;
+  font-size: 13px !important;
+  background: var(--bg) !important;
+  cursor: pointer !important;
+}
+
+/* ---------------- Brand chips (Clean) ---------------- */
 .brand-row {
   display: flex !important;
   flex-wrap: wrap !important;
@@ -282,35 +448,37 @@ cursor: pointer !important;
   margin: 0 !important;
   padding: 0 !important;
 }
-.brand-row > div {
-  margin: 0 !important;
-  padding: 0 !important;
-  flex: 0 0 auto !important;
-} /* مخفی کردن مربع چک‌باکس پیش‌فرض */
+.brand-row > div { margin: 0 !important; padding: 0 !important; flex: 0 0 auto !important; }
+
+/* hide native checkbox square */
 [id^="brand_"] input[type="checkbox"] {
   position: absolute !important;
   opacity: 0 !important;
   pointer-events: none !important;
-} /* ظاهر پایهٔ چیپ */
+}
+
+/* base appearance for chip */
 [id^="brand_"] label {
   position: relative !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
-  padding: 6px 10px 6px 42px !important; /* جا برای لوگو سمت چپ */
+  padding: 6px 10px 6px 42px !important;
   border-radius: 9999px !important;
-  background: #e0f2fe !important;
-  color: #0369a1 !important;
-  border: 1px solid #bae6fd !important;
+  background: var(--brand-chip-bg) !important;
+  color: var(--brand-chip-color) !important;
+  border: 1px solid var(--brand-chip-border) !important;
   font-weight: 600 !important;
   font-size: 13px !important;
   cursor: pointer !important;
   transition: background .2s, border-color .2s, color .2s, box-shadow .2s !important;
 }
 [id^="brand_"] label:hover {
-  background: #bae6fd !important;
+  background: var(--brand-chip-border) !important;
   border-color: #7dd3fc !important;
-} /* جای لوگو (خودِ تصویر در make_brand_chip_css_by_id() ست می‌شود) */ 
+}
+
+/* placeholder for logo: actual background-image set elsewhere */
 [id^="brand_"] label::before {
   content: "" !important;
   position: absolute !important;
@@ -322,80 +490,76 @@ cursor: pointer !important;
   background-size: contain !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
-} /* حالت انتخاب‌شده — رنگ چیپ پررنگ شود */ 
+}
+
+/* selected brand chip */
 [id^="brand_"] label:has(input:checked) {
-  background: #0ea5e9 !important color: #fff !important;
-border-color: #0284c7 !important;
-box-shadow: 0 0 0 2px rgba(2,132,199,.25) inset !important;
-} /* === Main Title (مشکی ساده با انیمیشن) === */ 
+  background: var(--brand-chip-selected-bg) !important;
+  color: #fff !important;
+  border-color: var(--brand-chip-selected-border) !important;
+  box-shadow: 0 0 0 2px rgba(2,132,199,.25) inset !important;
+}
+
+/* ---------------- Hero title & subtitle (theme-aware) ---------------- */
 .hero .main-title {
   font-size: 46px;
-  font-weight: 600 text-align: center;
-  margin: 20px 0 10px 0; font-family: 'Raleway','Vazirmatn',sans-serif;
+  font-weight: 600;
+  text-align: center;
+  margin: 20px 0 10px 0;
+  font-family: var(--font-family);
   letter-spacing: 0.5px;
-  color: #000 !important; /* سیاه کامل */ 
-  background: none !important; /* گرادیان قبلی حذف بشه */
+  color: var(--text) !important;
+  background: none !important;
   -webkit-background-clip: initial !important;
   -webkit-text-fill-color: initial !important;
-  animation: fadeInDown 1s ease-out; 
-} /* === Subtitle (خاکستری، دو خطه با انیمیشن) === */
+  animation: fadeInDown 1s ease-out;
+}
 .hero .subtitle {
   font-size: 18px;
   font-weight: 500;
-  color: #4b5563; /* خاکستری مدرن */ 
+  color: var(--muted-text-2);
   text-align: center;
   margin-top: 12px;
   line-height: 1.6;
-  font-family: 'Raleway','Vazirmatn',sans-serif; 
-  max-width: 700px; /* محدود کردن عرض برای شکستن به خط دوم */
+  font-family: var(--font-family);
+  max-width: 700px;
   margin-left: auto;
   margin-right: auto;
   white-space: normal;
   word-wrap: break-word;
-  letter-spacing: 0.3px; 
+  letter-spacing: 0.3px;
   animation: fadeInUp 1s ease-out;
 }
 
-/* ==== انیمیشن‌ها ==== */
-@keyframes fadeInDown {
-  from {opacity: 0; transform: translateY(-10px);}
-  to {opacity: 1; transform: translateY(0);}
-}
+/* alternate animation keys (kept for compatibility) */
 @keyframes fadeInUp {
-  from {opacity: 0; transform: translateY(10px);}
-  to {opacity: 1; transform: translateY(0);}
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== Tabs Styling (Minimal Elegant, No underline) ===== */ 
-.tabs.svelte-1tcem6n { 
-  display: flex !important; 
+/* ---------------- Tabs (Minimal Elegant) ---------------- */
+.tabs.svelte-1tcem6n {
+  display: flex !important;
   justify-content: center !important;
   gap: 20px !important;
   margin: 20px 0 !important;
-  border: none !important; /* بدون خط زیر تب‌ها */
+  border: none !important;
 }
-.tabs.svelte-1tcem6n button[role="tab"] { 
-  font-family: 'Vazirmatn','Raleway',sans-serif !important; 
-  font-size: 15px !important; 
-  font-weight: 500 !important;
-  padding: 8px 4px !important; 
-  background: transparent !important;
-  color: #374151 !important; /* خاکستری تیره */
-  border: none !important; 
-  border-radius: 0 !important; 
-  cursor: pointer !important;
-  transition: color .2s ease; 
-}
-
-/* هاور */
-.tabs.svelte-1tcem6n button[role="tab"]:hover { 
-  color: #2563eb !important; /* آبی ملایم هنگام هاور */ 
-}
-
-/* تب فعال */ 
-.tabs.svelte-1tcem6n button[role="tab"].selected {
-  color: #1d4ed8 !important; /* آبی پررنگ‌تر برای انتخاب */ 
+.tabs.svelte-1tcem6n button[role="tab"] {
+  font-family: 'Vazirmatn','Raleway',sans-serif !important;
+  font-size: 20px !important;
   font-weight: 600 !important;
-} 
-
+  padding: 12px 12px !important;
+  background: transparent !important;
+  color: #374151 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  cursor: pointer !important;
+  transition: color .2s ease;
+}
+.tabs.svelte-1tcem6n button[role="tab"]:hover { color: var(--primary-500) !important; }
+.tabs.svelte-1tcem6n button[role="tab"].selected {
+  color: #1d4ed8 !important;
+  font-weight: 600 !important;
+}
 """

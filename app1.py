@@ -34,6 +34,52 @@ df_aut = _keep_rows_with_any_scores(df_aut, "AUT")
 
 # ---------------- Gradio App ----------------
 with gr.Blocks(css=CUSTOM_CSS) as demo:
+    # --- ADDED: force-load fonts (link tag) and safe theme initializer ---
+    # (These are intentionally minimal and non-destructive — they only inject a link tag
+    #  and a tiny initializer that sets .theme-dark when ?__theme=dark is present.)
+    gr.HTML("""
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&family=Vazirmatn:wght@400;600&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+    """)
+    gr.HTML(r"""
+    <div style="width:0;height:0;overflow:hidden;position:absolute;">
+      <img src="invalid" onerror="
+        (function(){
+          try{
+            // don't override if already set
+            if(document.documentElement.classList.contains('theme-dark') || document.body.classList.contains('theme-dark')) return;
+            const params = new URLSearchParams(window.location.search);
+            const q = params.get('__theme');
+            if (q === 'dark') {
+              document.documentElement.classList.add('theme-dark');
+              document.body.classList.add('theme-dark');
+              localStorage.setItem('site-theme','dark');
+              return;
+            } else if (q === 'light') {
+              document.documentElement.classList.remove('theme-dark');
+              document.body.classList.remove('theme-dark');
+              localStorage.setItem('site-theme','light');
+              return;
+            }
+            const saved = localStorage.getItem('site-theme');
+            if (saved === 'dark') {
+              document.documentElement.classList.add('theme-dark');
+              document.body.classList.add('theme-dark');
+              return;
+            } else if (saved === 'light') {
+              document.documentElement.classList.remove('theme-dark');
+              document.body.classList.remove('theme-dark');
+              return;
+            }
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+              document.documentElement.classList.add('theme-dark');
+              document.body.classList.add('theme-dark');
+            }
+          }catch(e){ console.warn('theme init err', e); }
+        })();
+      " />
+    </div>
+    """)
+
     # gr.HTML(make_brand_icon_css())
     gr.HTML(make_brand_chip_css_by_id())   # ← لوگوهای بدون JS و بدون :has()
 
@@ -78,7 +124,7 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
             
         # </div>
         # """)
-    
+
 
 
         # 🔍 Search bar
@@ -130,7 +176,6 @@ with gr.Blocks(css=CUSTOM_CSS) as demo:
                         cb_mistral   = gr.Checkbox(label="Mistral",   value=False, elem_id="brand_mistral")
                         cb_deepseek  = gr.Checkbox(label="DeepSeek",  value=False, elem_id="brand_deepseek")
                         cb_xai       = gr.Checkbox(label="xAI",       value=False, elem_id="brand_xai")
-
 
         
 #---------------------------------------------------------------------------------------------------------------------

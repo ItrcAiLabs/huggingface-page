@@ -203,84 +203,186 @@ import pandas as pd
 # ---------------- Style ----------------
 HTML_STYLE = """
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600&family=Poppins:wght@500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&family=Vazirmatn:wght@400;600&family=Poppins:wght@500;700&display=swap');
+    body, table {
+        font-family: 'Raleway', 'Vazirmatn', 'Poppins', sans-serif;
+    }
+    :root{
+      --bg: #ffffff;
+      --text: #222222;
+      --muted: #4b5563;
+      --table-border: #f5f5f5;
+      --thead-bg: #fafafa;
+      --cell-border: #f3f3f3;
+      --link: #0066cc;
+      --hover-row: #f1f7ff;
+    }
+
+    /* dark overrides when .theme-dark is on document root or body */
+    .theme-dark, body.theme-dark, html.theme-dark {
+      --bg: #0b1220;
+      --text: #f9fafb;
+      --muted: #94a3b8;
+      --table-border: #374151;
+      --thead-bg: #374151;
+      --cell-border: #374151;
+      --link: #93c5fd;
+      --hover-row: rgba(37,99,235,0.2);
+    }
+
     body, table {
         font-family: 'Vazirmatn', 'Poppins', sans-serif;
+        background: var(--bg);
+        color: var(--text);
     }
+
     .main-title {
-    font-family: 'Poppins', 'Vazirmatn', sans-serif;
-    font-size: 34px;
-    font-weight: 500;
-    color: #222;
-    text-align: center;
-    margin: 10px 0 20px 0;
-}
+        font-family: 'Poppins', 'Vazirmatn', sans-serif;
+        font-size: 34px;
+        font-weight: 500;
+        color: var(--text);
+        text-align: center;
+        margin: 10px 0 20px 0;
+    }
+
     .styled-table {
         width: 100%;
         border-collapse: collapse;
         font-size: 13px;
-        border: 1px solid #f5f5f5;
+        border: 1px solid var(--table-border);
+        background: transparent;
+        color: var(--text);
     }
     .styled-table th {
-        background-color: #fafafa;
+        background-color: var(--thead-bg);
         font-weight: 600;
         padding: 8px 10px;
-        border: 1px solid #f3f3f3;
+        border: 1px solid var(--cell-border);
         text-align: center;
         font-size: 12px;
+        color: var(--text);
     }
     .styled-table td {
         padding: 6px 8px;
-        border: 1px solid #f3f3f3;
+        border: 1px solid var(--cell-border);
         font-size: 12px;
-        color: #222;
+        color: var(--text);
         text-align: center;
         background-repeat: no-repeat;
         background-size: 100% 100%;
     }
     .styled-table tr:nth-child(even) {
-        background-color: #fcfcfc;
+        background-color: rgba(0,0,0,0); /* leave to gradients or default */
     }
     .styled-table tr:hover {
-        background-color: #f1f7ff;
+        background-color: var(--hover-row);
     }
     .model-col a {
-        color: #0066cc;
+        color: var(--link);
         text-decoration: none;
         font-weight: 500;
     }
-    .model-col a:hover {
-        text-decoration: underline;
+    .model-col a:hover { text-decoration: underline; }
+
+    /* make sure inline gradient cells remain readable in dark (script will toggle) */
+    .styled-table td[data-bg-dark] {
+      transition: background .18s ease;
     }
 </style>
 """
 # ---------------- Gradient ----------------
-def value_to_gradient_range(value: float, min_val: float = 0, max_val: float = 100) -> str:
+# def value_to_gradient_range(value: float, min_val: float = 0, max_val: float = 100):
+#     """
+#     Map value (0-100) to two gradients: (light_theme_gradient, dark_theme_gradient).
+#     Return tuple of CSS gradient strings.
+#     """
+#     ratio = (value - min_val) / (max_val - min_val)
+#     ratio = max(0, min(1, ratio))
+
+#     # light theme colors: pink -> yellow -> green (pastel)
+#     l_start = (255, 179, 186)   # pink
+#     l_mid   = (255, 245, 186)   # yellow
+#     l_end   = (186, 255, 201)   # green
+
+#     # dark theme colors: purple -> blue -> green (soft)
+#     d_start = (147, 51, 234)    # purple
+#     d_mid   = (56, 189, 248)    # blue
+#     d_end   = (34, 197, 94)     # green
+
+#     def interp(a, b, t):
+#         return int(a + t * (b - a))
+
+#     if ratio < 0.5:
+#         t = ratio / 0.5
+#         lr = interp(l_start[0], l_mid[0], t)
+#         lg = interp(l_start[1], l_mid[1], t)
+#         lb = interp(l_start[2], l_mid[2], t)
+
+#         dr = interp(d_start[0], d_mid[0], t)
+#         dg = interp(d_start[1], d_mid[1], t)
+#         db = interp(d_start[2], d_mid[2], t)
+#     else:
+#         t = (ratio - 0.5) / 0.5
+#         lr = interp(l_mid[0], l_end[0], t)
+#         lg = interp(l_mid[1], l_end[1], t)
+#         lb = interp(l_mid[2], l_end[2], t)
+
+#         dr = interp(d_mid[0], d_end[0], t)
+#         dg = interp(d_mid[1], d_end[1], t)
+#         db = interp(d_mid[2], d_end[2], t)
+
+#     light = f"linear-gradient(90deg, rgba({lr},{lg},{lb},0.4), rgba({lr},{lg},{lb},0.9))"
+#     dark  = f"linear-gradient(90deg, rgba({dr},{dg},{db},0.28), rgba({dr},{dg},{db},0.76))"
+#     return light, dark
+def value_to_gradient_range(value: float, min_val: float = 0, max_val: float = 100):
     """
-    Map value (0-100) to a pastel gradient background.
-    Colors: pink → yellow → green (pastel).
+    Map value (0-100) to two variants:
+      - light: pastel gradient (as before)
+      - dark: single solid color with moderate alpha (no gradient)
+    Return tuple: (light_css, dark_css)
     """
     ratio = (value - min_val) / (max_val - min_val)
     ratio = max(0, min(1, ratio))
 
-    pink = (255, 179, 186)   # #ffb3ba
-    yellow = (255, 245, 186) # #fff5ba
-    green = (186, 255, 201)  # #baffc9
+    # light theme colors: pink -> yellow -> green (pastel)
+    l_start = (255, 179, 186)   # pink
+    l_mid   = (255, 245, 186)   # yellow
+    l_end   = (186, 255, 201)   # green
+
+    # dark theme colors (for solid color): purple -> blue -> green
+    d_start = (147, 51, 234)    # purple
+    d_mid   = (56, 189, 248)    # blue
+    d_end   = (34, 197, 94)     # green
+
+    def interp(a, b, t):
+        return int(a + t * (b - a))
 
     if ratio < 0.5:
-        # Pink → Yellow
         t = ratio / 0.5
-        r = int(pink[0] + t * (yellow[0] - pink[0]))
-        g = int(pink[1] + t * (yellow[1] - pink[1]))
-        b = int(pink[2] + t * (yellow[2] - pink[2]))
-    else:
-        # Yellow → Green
-        t = (ratio - 0.5) / 0.5
-        r = int(yellow[0] + t * (green[0] - yellow[0]))
-        g = int(yellow[1] + t * (green[1] - yellow[1]))
-        b = int(yellow[2] + t * (green[2] - yellow[2]))
+        lr = interp(l_start[0], l_mid[0], t)
+        lg = interp(l_start[1], l_mid[1], t)
+        lb = interp(l_start[2], l_mid[2], t)
 
-    return f"linear-gradient(90deg, rgba({r},{g},{b},0.4), rgba({r},{g},{b},0.9))"
+        dr = interp(d_start[0], d_mid[0], t)
+        dg = interp(d_start[1], d_mid[1], t)
+        db = interp(d_start[2], d_mid[2], t)
+    else:
+        t = (ratio - 0.5) / 0.5
+        lr = interp(l_mid[0], l_end[0], t)
+        lg = interp(l_mid[1], l_end[1], t)
+        lb = interp(l_mid[2], l_end[2], t)
+
+        dr = interp(d_mid[0], d_end[0], t)
+        dg = interp(d_mid[1], d_end[1], t)
+        db = interp(d_mid[2], d_end[2], t)
+
+    # light: keep the gradient visual
+    light = f"linear-gradient(90deg, rgba({lr},{lg},{lb},0.4), rgba({lr},{lg},{lb},0.9))"
+    # dark: use a single solid color with alpha for subtle background,
+    # choose slightly stronger alpha for readability on dark surface
+    dark  = f"rgba({dr},{dg},{db},0.28)"  # no gradient, just a tint
+
+    return light, dark
 
 # ---------------- Table Renderer ----------------
 # def df_to_styled_html(df: pd.DataFrame, table_id: str = "leaderboard") -> str:
@@ -353,8 +455,11 @@ def df_to_styled_html(
                 if col == "#Params (B)":
                     html += f"<td>{int(value)}</td>"
                 else:
-                    bg = value_to_gradient_range(value)
-                    html += f"<td style='background:{bg};'>{value:.1f}</td>"
+                    bg_light, bg_dark = value_to_gradient_range(float(value))
+                    html += (
+                        f"<td data-bg-light=\"{bg_light}\" data-bg-dark=\"{bg_dark}\" "
+                        f"style='background:{bg_light};'>{value:.1f}</td>"
+                    )
             else:
                 if col == "Model":
                     html += f"<td class='model-col'>{value}</td>"
@@ -363,6 +468,31 @@ def df_to_styled_html(
         html += "</tr>"
 
     html += "</tbody></table>"
+
+    # ... بعد از ساخت جدول (قبل از return)
+
+    html += """
+    <script>
+    (function(){
+      function applyGradients(){
+        var isDark = document.body.classList.contains('theme-dark') || document.documentElement.classList.contains('theme-dark');
+        document.querySelectorAll('[data-bg-dark]').forEach(function(td){
+          var light = td.getAttribute('data-bg-light');
+          var dark  = td.getAttribute('data-bg-dark');
+          td.style.background = isDark ? dark : light;
+        });
+      }
+      // initial
+      applyGradients();
+      // observe class changes on root to respond to theme toggle
+      new MutationObserver(function(){ applyGradients(); })
+        .observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+      new MutationObserver(function(){ applyGradients(); })
+        .observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    })();
+    </script>
+    """
+
     # return html
     return f"<div class='table-wrapper'>{html}</div>"
 
