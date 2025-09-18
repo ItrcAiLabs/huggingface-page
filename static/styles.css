@@ -492,6 +492,23 @@ body, .gradio-container {
   background-position: center !important;
 }
 
+/* ---- Only change: make selected brand-chip text dark (targeted) ---- */
+
+/* Modern: if browser supports :has() — target label that contains a checked input */
+[id^="brand_"] label.svelte-1a15wmk:has(input[type="checkbox"]:checked) span.svelte-1a15wmk {
+  color: #061226 !important;   /* تیره و خوانا */
+}
+
+/* Fallback: input + span structure seen in your HTML */
+[id^="brand_"] input[type="checkbox"]:checked + span.svelte-1a15wmk {
+  color: #061226 !important;
+}
+
+/* Make sure unselected stay their normal color (no bg changes here) */
+[id^="brand_"] span.svelte-1a15wmk {
+  /* nothing forced here — نگه داشتن رنگ پیش‌فرض مگر اینکه انتخاب شده باشد */
+}
+
 /* selected brand chip */
 [id^="brand_"] label:has(input:checked) {
   background: var(--brand-chip-selected-bg) !important;
